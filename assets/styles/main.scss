@@ -1,0 +1,37 @@
+@use "@picocss/pico/scss/pico";
+@use "@picocss/pico/scss/colors" as *;
+@use "variables" as *;
+
+.main-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  width: 100vw;
+}
+
+main {
+  background: $grey-150;
+  flex: 1 1 75%;
+}
+
+footer {
+  background: $grey-250;
+  height: $footer-height;
+}
+
+header {
+  background: $grey-250;
+  height: $header-height;
+}
+aside {
+  background: $grey-100;
+  flex: 1 1 25%;
+}
+
+.content-wrap {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  padding: 0;
+}
