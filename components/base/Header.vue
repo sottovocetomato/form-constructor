@@ -1,5 +1,5 @@
 <template>
-  <header class="container-fluid pico-background-grey-250"></header>
+  <header class="container-fluid"></header>
 </template>
 
 <script>

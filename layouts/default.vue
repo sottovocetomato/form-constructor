@@ -1,13 +1,12 @@
 <template xmlns="">
-  <div class="main-wrap">
+  <div class="page-wrap">
     <Header />
     <div class="container-fluid content-wrap">
       <main class="">
-        <div class="">
+        <div class="main-section-wrap">
           <slot />
         </div>
       </main>
-      <aside></aside>
     </div>
     <Footer />
   </div>
