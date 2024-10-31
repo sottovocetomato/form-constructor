@@ -37,17 +37,14 @@
 <script setup lang="ts">
 import BaseInput from "../components/base/BaseInput.vue";
 import type { Component } from "@vue/runtime-core";
+import { ComponentsMap } from "#build/types";
 
-const componentsMap = {
+const componentsMap: ComponentsMap = {
   BaseInput: BaseInput,
 };
+
 const items = ref<string[]>([]);
-const instance = getCurrentInstance();
-console.log(instance);
-// const isComponentExist = (name) => {
-//   console.log(instance?.appContext.components[name]);
-//   return instance?.appContext.components[name];
-// };
+
 function startDrag(evt): void {
   evt.dataTransfer.dropEffect = "move";
   evt.dataTransfer.effectAllowed = "move";
@@ -56,7 +53,7 @@ function startDrag(evt): void {
 function onDrop(evt): void {
   const itemID = evt.dataTransfer.getData("itemID");
   items.value.push(itemID);
-  console.log(itemID, "itemID");
+
   evt.target.classList.remove("active");
 }
 function onDragEnter(evt): void {
