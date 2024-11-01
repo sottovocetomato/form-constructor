@@ -51,6 +51,9 @@ aside {
   &.active {
     background-color: $blue-300;
   }
+
+  &__component {
+  }
 }
 
 .dragable-object {
@@ -61,4 +64,10 @@ aside {
   &:hover {
     cursor: pointer;
   }
+}
+
+#drop-insert-place {
+  height: 20px;
+  width: 100%;
+  background-color: $grey-300;
 }
