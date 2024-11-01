@@ -13,9 +13,7 @@
         v-for="(item, index) in items"
         :is="componentsMap[item]"
         :key="`${item}-${index}`"
-        @dragover.prevent
-        @dragenter="onComponentDragEnter"
-        @dragleave="onComponentDragLeave"
+        @dragover="onComponentDragLeave"
       />
     </div>
   </div>
@@ -85,6 +83,7 @@ function onComponentDragEnter(e): void {
       prependZone = document.createElement("div");
       prependZone.id = "drop-insert-place";
       //привязать drag эвенты, смотреть, куда уходим, отталкиваться от этого
+
       // console.log(prependZone);
       // console.log(e.target, "e.target");
       constructorArea.value.insertBefore(prependZone, e.target);
@@ -94,10 +93,25 @@ function onComponentDragEnter(e): void {
 function onComponentDragLeave(e): void {
   //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
   if (process.client) {
-    e.preventDefault();
+    const checkDirection =
+      e.target.getBoundingClientRect().bottom -
+        e.target.getBoundingClientRect().height / 2 >
+      e.clientY
+        ? "up"
+        : "down";
+    console.log(checkDirection, "checkDirection");
+    // console.log(e.clientY);
+    // console.log(e.target.getBoundingClientRect());
     let prependZone = document.querySelector("#drop-insert-place");
-    if (!prependZone) return;
-    prependZone.remove();
+    if (!prependZone) {
+      prependZone = document.createElement("div");
+      prependZone.id = "drop-insert-place";
+    }
+    if (checkDirection === "down") {
+      constructorArea.value.insertBefore(prependZone, e.target.nextSibling);
+    } else {
+      constructorArea.value.insertBefore(prependZone, e.target);
+    }
   }
 }
 </script>
