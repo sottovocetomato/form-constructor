@@ -14,7 +14,7 @@
         :is="componentsMap[item]"
         :key="`${item}-${index}`"
         @dragover.prevent
-        @dragover="onComponentDragEnter"
+        @dragenter="onComponentDragEnter"
         @dragleave="onComponentDragLeave"
       />
     </div>
@@ -77,13 +77,14 @@ function onDragLeave(evt): void {
 }
 
 function onComponentDragEnter(e): void {
-  console.log("enter");
   if (process.client) {
     e.preventDefault();
+    //если prependZone уже есть, но мы на другом элементе (выше/ниже основного компонента), нужно убирать старый препенд и добавлять новый
     let prependZone = document.querySelector("#drop-insert-place");
     if (!prependZone) {
       prependZone = document.createElement("div");
       prependZone.id = "drop-insert-place";
+      //привязать drag эвенты, смотреть, куда уходим, отталкиваться от этого
       // console.log(prependZone);
       // console.log(e.target, "e.target");
       constructorArea.value.insertBefore(prependZone, e.target);
@@ -91,7 +92,7 @@ function onComponentDragEnter(e): void {
   }
 }
 function onComponentDragLeave(e): void {
-  console.log("leave");
+  //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
   if (process.client) {
     e.preventDefault();
     let prependZone = document.querySelector("#drop-insert-place");
