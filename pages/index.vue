@@ -17,7 +17,6 @@
         :key="`${item}-${index}`"
         @drop="onDrop($event)"
         @dragover="onComponentDragOver"
-        @dragleave="onComponentDragLeave"
       />
     </div>
   </div>
@@ -25,6 +24,7 @@
     <div
       class="dragable-object"
       @dragstart="startDrag($event)"
+      @drag="onDrag"
       draggable="true"
       id="BaseInput"
     >
@@ -56,6 +56,23 @@ const componentsMap: ComponentsMap = {
 const items = ref<string[]>([]);
 const constructorArea = ref<HTMLDivElement>(null);
 
+function onDrag(e): void {
+  console.log(e.clientX, "onDrag");
+  console.log(e.clientY, "onDrag");
+  const { bottom, top, left, right } =
+    constructorArea.value.getBoundingClientRect();
+  const isOutOfBounds =
+    e.clientY > bottom ||
+    e.clientY < top ||
+    e.clientX < left ||
+    e.clientX > right;
+
+  if (isOutOfBounds) {
+    let prependZone = document.querySelector("#drop-insert-place");
+    if (!prependZone) return;
+    prependZone.remove();
+  }
+}
 function startDrag(evt): void {
   evt.dataTransfer.dropEffect = "move";
   evt.dataTransfer.effectAllowed = "move";
@@ -105,20 +122,20 @@ function onComponentDragEnter(e): void {
     }
   }
 }
-function onComponentDragLeave(e): void {
-  console.log(e.target.getBoundingClientRect(), "leave");
-  const { bottom, top, right, left } = e.target.getBoundingClientRect();
-  console.log(e.clientX, e.clientY, "leave");
-  const isVerticalLeave =
-    Math.floor(bottom) - e.clientY <= 1 || Math.floor(top) - e.clientY >= 1;
-  const isHorizontalLeave =
-    Math.floor(right) - e.clientX <= 1 || Math.floor(left) - e.clientX >= 1;
-  if (isHorizontalLeave) {
-    let prependZone = document.querySelector("#drop-insert-place");
-    if (!prependZone) return;
-    prependZone.remove();
-  }
-}
+// function onComponentDragLeave(e): void {
+//   console.log(e.target.getBoundingClientRect(), "leave");
+//   const { bottom, top, right, left } = e.target.getBoundingClientRect();
+//   console.log(e.clientX, e.clientY, "leave");
+//   const isVerticalLeave =
+//     Math.floor(bottom) - e.clientY <= 1 || Math.floor(top) - e.clientY >= 1;
+//   const isHorizontalLeave =
+//     Math.floor(right) - e.clientX <= 1 || Math.floor(left) - e.clientX >= 1;
+//   if (isHorizontalLeave) {
+//     let prependZone = document.querySelector("#drop-insert-place");
+//     if (!prependZone) return;
+//     prependZone.remove();
+//   }
+// }
 function onComponentDragOver(e): void {
   e.preventDefault();
   //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
