@@ -2,10 +2,6 @@
   <header class="container-fluid"></header>
 </template>
 
-<script>
-export default {
-  name: "Header",
-};
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

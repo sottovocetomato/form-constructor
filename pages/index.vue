@@ -2,6 +2,7 @@
   <div class="constructor-area-wrap">
     <div
       class="constructor-area"
+      id="constructor-drop"
       ref="constructorArea"
       @drop="onDrop($event)"
       @dragover.prevent
@@ -11,9 +12,12 @@
       <component
         class="constructor-area__component"
         v-for="(item, index) in items"
+        :data-index="index"
         :is="componentsMap[item]"
         :key="`${item}-${index}`"
-        @dragover="onComponentDragLeave"
+        @drop="onDrop($event)"
+        @dragover="onComponentDragOver"
+        @dragleave="onComponentDragLeave"
       />
     </div>
   </div>
@@ -39,11 +43,14 @@
 
 <script setup lang="ts">
 import BaseInput from "../components/base/BaseInput.vue";
+import Header from "../components/base/Header.vue";
+
 import type { Component } from "@vue/runtime-core";
 import { ComponentsMap } from "#build/types";
 
 const componentsMap: ComponentsMap = {
   BaseInput: BaseInput,
+  Header: Header,
 };
 
 const items = ref<string[]>([]);
@@ -55,12 +62,20 @@ function startDrag(evt): void {
   evt.dataTransfer.setData("itemID", evt.target?.id);
 }
 function onDrop(evt): void {
+  console.log(evt.target, "dropping");
+  evt.stopImmediatePropagation();
   let prependZone = document.querySelector("#drop-insert-place");
-  if (prependZone) return;
+  // if (prependZone) return;
   const itemID = evt.dataTransfer.getData("itemID");
-  items.value.push(itemID);
-
-  evt.target.classList.remove("active");
+  console.log(evt.target.id);
+  if (evt.target.id === "constructor-drop") {
+    items.value.push(itemID);
+    evt.target.classList.remove("active");
+  } else {
+    const ind = evt.target.dataset.index;
+    console.log(ind);
+    items.value.splice(ind, 0, itemID);
+  }
 }
 function onDragEnter(evt): void {
   let prependZone = document.querySelector("#drop-insert-place");
@@ -91,24 +106,53 @@ function onComponentDragEnter(e): void {
   }
 }
 function onComponentDragLeave(e): void {
+  console.log(e.target.getBoundingClientRect(), "leave");
+  const { bottom, top, right, left } = e.target.getBoundingClientRect();
+  console.log(e.clientX, e.clientY, "leave");
+  const isVerticalLeave =
+    Math.floor(bottom) - e.clientY <= 1 || Math.floor(top) - e.clientY >= 1;
+  const isHorizontalLeave =
+    Math.floor(right) - e.clientX <= 1 || Math.floor(left) - e.clientX >= 1;
+  if (isHorizontalLeave) {
+    let prependZone = document.querySelector("#drop-insert-place");
+    if (!prependZone) return;
+    prependZone.remove();
+  }
+}
+function onComponentDragOver(e): void {
+  e.preventDefault();
   //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
   if (process.client) {
-    const checkDirection =
+    const checkDirectionVertical =
       e.target.getBoundingClientRect().bottom -
         e.target.getBoundingClientRect().height / 2 >
       e.clientY
         ? "up"
         : "down";
-    console.log(checkDirection, "checkDirection");
+    const isOutHotizontally =
+      e.target.getBoundingClientRect().left > e.clientX ||
+      e.target.getBoundingClientRect().right < e.clientX;
+
     // console.log(e.clientY);
-    // console.log(e.target.getBoundingClientRect());
+    console.log(e.target.getBoundingClientRect());
+    console.log(e.clientX);
     let prependZone = document.querySelector("#drop-insert-place");
     if (!prependZone) {
       prependZone = document.createElement("div");
       prependZone.id = "drop-insert-place";
     }
-    if (checkDirection === "down") {
-      constructorArea.value.insertBefore(prependZone, e.target.nextSibling);
+    if (isOutHotizontally) {
+      prependZone.remove();
+      return;
+    }
+    if (checkDirectionVertical === "down") {
+      console.log(e.target.nextSibling, "e.target.nextSibling");
+      if (
+        e.target.nextSibling &&
+        e.target.nextSibling.classList?.contains("constructor-area__component")
+      ) {
+        constructorArea.value.insertBefore(prependZone, e.target.nextSibling);
+      }
     } else {
       constructorArea.value.insertBefore(prependZone, e.target);
     }
