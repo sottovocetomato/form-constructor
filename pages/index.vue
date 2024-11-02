@@ -33,6 +33,7 @@
     <div
       class="dragable-object"
       @dragstart="startDrag($event)"
+      @drag="onDrag"
       draggable="true"
       id="Header"
     >
@@ -59,6 +60,7 @@ const constructorArea = ref<HTMLDivElement>(null);
 function onDrag(e): void {
   console.log(e.clientX, "onDrag");
   console.log(e.clientY, "onDrag");
+
   const { bottom, top, left, right } =
     constructorArea.value.getBoundingClientRect();
   const isOutOfBounds =
@@ -79,12 +81,9 @@ function startDrag(evt): void {
   evt.dataTransfer.setData("itemID", evt.target?.id);
 }
 function onDrop(evt): void {
-  console.log(evt.target, "dropping");
   evt.stopImmediatePropagation();
-  let prependZone = document.querySelector("#drop-insert-place");
-  // if (prependZone) return;
   const itemID = evt.dataTransfer.getData("itemID");
-  console.log(evt.target.id);
+
   if (evt.target.id === "constructor-drop") {
     items.value.push(itemID);
     evt.target.classList.remove("active");
@@ -163,12 +162,20 @@ function onComponentDragOver(e): void {
       return;
     }
     if (checkDirectionVertical === "down") {
-      console.log(e.target.nextSibling, "e.target.nextSibling");
+      console.log(e.target.nextElementSibling, "e.target.nextSibling");
       if (
-        e.target.nextSibling &&
-        e.target.nextSibling.classList?.contains("constructor-area__component")
+        e.target.nextElementSibling &&
+        e.target.nextElementSibling.classList?.contains(
+          "constructor-area__component"
+        )
       ) {
-        constructorArea.value.insertBefore(prependZone, e.target.nextSibling);
+        constructorArea.value.insertBefore(
+          prependZone,
+          e.target.nextElementSibling
+        );
+      } else if (!e.target.nextElementSibling) {
+        if (prependZone) prependZone.remove();
+        constructorArea.value.classList.add("active");
       }
     } else {
       constructorArea.value.insertBefore(prependZone, e.target);
