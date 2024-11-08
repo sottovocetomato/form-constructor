@@ -1,14 +1,14 @@
 export const useFormDrop = ({
   constructorAreaSelector = "",
-  customDropZoneSelector = "",
+  customMarkerSelector = "",
 }: {
   constructorAreaSelector: string;
-  customDropZoneSelector: string;
+  customMarkerSelector: string;
 }) => {
-  const elDropZoneSelector = customDropZoneSelector || "#drop-insert-place";
+  const dropMarkerSelector = customMarkerSelector || "drop-insert-marker";
   let constructorArea;
 
-  let elDropZone: HTMLDivElement | null = null;
+  let dropMarker: Element | null = null;
 
   const formItems = useState<string[]>("formItems", () => []);
 
@@ -24,15 +24,15 @@ export const useFormDrop = ({
   }
   setConstructorArea();
 
-  function getElDropZone() {
+  function getDropMarker() {
     if (process.client) {
-      elDropZone = document.querySelector(elDropZoneSelector);
+      dropMarker = document.getElementById(dropMarkerSelector);
     }
   }
-  function createDropZoneEl() {
+  function createDropMarker() {
     if (process.client) {
-      elDropZone = document.createElement("div");
-      elDropZone.id = "drop-insert-place";
+      dropMarker = document.createElement("div");
+      dropMarker.id = dropMarkerSelector;
     }
   }
   function onDrag(e): void {
@@ -49,9 +49,9 @@ export const useFormDrop = ({
       e.clientX > right;
 
     if (isOutOfBounds) {
-      getElDropZone();
-      if (!elDropZone) return;
-      elDropZone?.remove();
+      getDropMarker();
+      if (!dropMarker) return;
+      dropMarker?.remove();
     }
   }
   function startDrag(evt): void {
@@ -62,21 +62,22 @@ export const useFormDrop = ({
   function onDrop(e): void {
     e.stopImmediatePropagation();
     const itemID = e.dataTransfer.getData("itemID");
-
-    if (e.target.id === "constructor-drop") {
-      formItems.value.push(itemID);
-      e.target.classList.remove("active");
-    } else {
-      getElDropZone();
-      const ind = elDropZone?.dataset?.index;
+    console.log(e.target.id, "e.target.id");
+    getDropMarker();
+    const siblingElement = dropMarker?.nextElementSibling;
+    if (siblingElement instanceof HTMLElement) {
+      const ind = siblingElement?.dataset?.index;
       console.log(ind);
-      elDropZone?.remove();
+      dropMarker?.remove();
       formItems.value.splice(ind, 0, itemID);
+    } else {
+      formItems.value.push(itemID);
+      constructorArea.classList.remove("active");
     }
   }
   function onConstructorAreaDragEnter(e): void {
-    getElDropZone();
-    if (elDropZone) return;
+    getDropMarker();
+    if (dropMarker) return;
     e.target.classList.add("active");
   }
 
@@ -89,10 +90,10 @@ export const useFormDrop = ({
   function onComponentDragEnter(e): void {
     if (process.client) {
       e.preventDefault();
-      getElDropZone();
-      if (!elDropZone) {
-        createDropZoneEl();
-        constructorArea?.insertBefore(elDropZone as HTMLElement, e.target);
+      getDropMarker();
+      if (!dropMarker) {
+        createDropMarker();
+        constructorArea?.insertBefore(dropMarker as HTMLElement, e.target);
       }
     }
   }
@@ -127,12 +128,13 @@ export const useFormDrop = ({
       // console.log(e.clientY);
       console.log(e.target.getBoundingClientRect());
       console.log(e.clientX);
-      getElDropZone();
-      if (!elDropZone) {
-        createDropZoneEl();
+      getDropMarker();
+      console.log(dropMarker, "dropMarker");
+      if (!dropMarker) {
+        createDropMarker();
       }
       if (isOutHotizontally) {
-        elDropZone?.remove();
+        dropMarker?.remove();
         return;
       }
       if (checkDirectionVertical === "down") {
@@ -144,15 +146,15 @@ export const useFormDrop = ({
           )
         ) {
           constructorArea?.insertBefore(
-            elDropZone as HTMLElement,
+            dropMarker as HTMLElement,
             e.target.nextElementSibling
           );
         } else if (!e.target.nextElementSibling) {
-          if (elDropZone) elDropZone.remove();
+          if (dropMarker) dropMarker.remove();
           constructorArea?.classList.add("active");
         }
       } else {
-        constructorArea?.insertBefore(elDropZone as HTMLElement, e.target);
+        constructorArea?.insertBefore(dropMarker as HTMLElement, e.target);
       }
     }
   }
