@@ -11,21 +11,22 @@
 }
 
 main {
-  background: $grey-150;
+  background: $white;
   flex: 1 1 0;
 }
 
 footer {
-  background: $grey-250;
+  background: $blue-950;
   height: $footer-height;
 }
 
 header {
-  background: $grey-250;
+  background: $blue-950;
   height: $header-height;
 }
 aside {
-  background: $grey-100;
+  background: $grey-50;
+  padding: 10px;
   flex: 1 1 25%;
 }
 .main-section-wrap {
@@ -41,27 +42,37 @@ aside {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1 1 75%;
+  flex: 1 1 55%;
   min-height: calc(100vh - $header-height - $footer-height);
+  flex-direction: column;
   height: auto;
 }
 .constructor-area {
-  width: 90%;
+  width: 70%;
+  padding: 15px;
   min-height: calc(95vh - $header-height - $footer-height);
   height: auto;
-  border: 2px dashed $blue-250;
-  &.active {
-    background-color: $blue-300;
-  }
+  background: white;
+  box-shadow: -2px 3px 10px #b2b0b0;
 
   &__component {
   }
 }
-
+#constructor-drop {
+  width: 100%;
+  height: auto;
+  &.active {
+    background-color: $grey-50;
+  }
+}
 .dragable-object {
-  width: 350px;
-  height: 50px;
-  background-color: $grey-350;
+  width: 250px;
+  height: 45px;
+  margin-bottom: 10px;
+  background-color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   &:hover {
     cursor: pointer;
@@ -69,7 +80,10 @@ aside {
 }
 
 #drop-insert-marker {
-  height: 20px;
+  height: 50px;
+  margin: 5px 0;
   width: 100%;
-  background-color: $grey-300;
+
+  padding: 10px;
+  border: 2px dashed $grey-100;
 }

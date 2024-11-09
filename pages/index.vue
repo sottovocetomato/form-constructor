@@ -1,14 +1,6 @@
 <template>
   <div class="constructor-area-wrap">
-    <div
-      class="constructor-area"
-      id="constructor-drop"
-      ref="constructorArea"
-      @drop="onDrop($event)"
-      @dragover.prevent
-      @dragenter="onConstructorAreaDragEnter"
-      @dragleave="onConstructorAreaDragLeave"
-    >
+    <div class="constructor-area">
       <component
         class="constructor-area__component"
         v-for="(item, index) in formItems"
@@ -18,6 +10,14 @@
         @drop="onDrop($event)"
         @dragover="onComponentDragOver"
       />
+      <div
+        id="constructor-drop"
+        ref="constructorArea"
+        @drop="onDrop($event)"
+        @dragover.prevent
+        @dragenter="onConstructorAreaDragEnter"
+        @dragleave="onConstructorAreaDragLeave"
+      ></div>
     </div>
   </div>
   <aside>
@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseInput from "../components/base/BaseInput.vue";
+import BaseInput from "../components/base/forms/BaseInput.vue";
 import Header from "../components/base/Header.vue";
 
 import type { Component } from "@vue/runtime-core";

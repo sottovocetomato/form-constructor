@@ -8,6 +8,8 @@ export const useFormDrop = ({
   const dropMarkerSelector = customMarkerSelector || "drop-insert-marker";
   let constructorArea;
 
+  let constructorWrap;
+
   let dropMarker: Element | null = null;
 
   const formItems = useState<string[]>("formItems", () => []);
@@ -20,6 +22,7 @@ export const useFormDrop = ({
         constructorAreaSelector,
         "setting constrArea"
       );
+      constructorWrap = document.querySelector(".constructor-area");
     }
   }
   setConstructorArea();
@@ -146,7 +149,7 @@ export const useFormDrop = ({
           )
         ) {
           constructorArea?.insertBefore(
-            dropMarker as HTMLElement,
+            dropMarker,
             e.target.nextElementSibling
           );
         } else if (!e.target.nextElementSibling) {
@@ -154,7 +157,7 @@ export const useFormDrop = ({
           constructorArea?.classList.add("active");
         }
       } else {
-        constructorArea?.insertBefore(dropMarker as HTMLElement, e.target);
+        constructorWrap?.insertBefore(dropMarker, e.target);
       }
     }
   }
