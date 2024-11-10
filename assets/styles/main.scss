@@ -48,19 +48,23 @@ aside {
   height: auto;
 }
 .constructor-area {
+  display: flex;
+  flex-direction: column;
   width: 70%;
   padding: 15px;
   min-height: calc(95vh - $header-height - $footer-height);
   height: auto;
   background: white;
   box-shadow: -2px 3px 10px #b2b0b0;
-
+  &__form {
+    flex: 1 1 0;
+  }
   &__component {
   }
 }
-#constructor-drop {
+#constructor-free-drop {
   width: 100%;
-  height: auto;
+  flex: 1 1 20px;
   &.active {
     background-color: $grey-50;
   }

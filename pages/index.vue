@@ -1,17 +1,19 @@
 <template>
   <div class="constructor-area-wrap">
     <div class="constructor-area">
-      <component
-        class="constructor-area__component"
-        v-for="(item, index) in formItems"
-        :data-index="index"
-        :is="componentsMap[item]"
-        :key="`${item}-${index}`"
-        @drop="onDrop($event)"
-        @dragover="onComponentDragOver"
-      />
+      <div class="counstructor-area_form">
+        <component
+          class="constructor-area__component"
+          v-for="(item, index) in formItems"
+          :data-index="index"
+          :is="componentsMap[item]"
+          :key="`${item}-${index}`"
+          @drop="onDrop($event)"
+          @dragover="onComponentDragOver"
+        />
+      </div>
       <div
-        id="constructor-drop"
+        id="constructor-free-drop"
         ref="constructorArea"
         @drop="onDrop($event)"
         @dragover.prevent
@@ -63,7 +65,7 @@ const {
   onConstructorAreaDragEnter,
   onConstructorAreaDragLeave,
   onDrag,
-} = useFormDrop({ constructorAreaSelector: "#constructor-drop" });
+} = useFormDrop({ constructorAreaSelector: "#constructor-free-drop" });
 </script>
 
 <style scoped></style>

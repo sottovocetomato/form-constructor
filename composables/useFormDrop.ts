@@ -6,9 +6,9 @@ export const useFormDrop = ({
   customMarkerSelector: string;
 }) => {
   const dropMarkerSelector = customMarkerSelector || "drop-insert-marker";
-  let constructorArea;
+  let constructorFreeDropZone;
 
-  let constructorWrap;
+  let constructorAreaForm;
 
   let dropMarker: Element | null = null;
 
@@ -16,13 +16,13 @@ export const useFormDrop = ({
 
   function setConstructorArea() {
     if (process.client) {
-      constructorArea = document.querySelector(constructorAreaSelector);
+      constructorFreeDropZone = document.querySelector(constructorAreaSelector);
       console.log(
-        constructorArea,
+        constructorFreeDropZone,
         constructorAreaSelector,
         "setting constrArea"
       );
-      constructorWrap = document.querySelector(".constructor-area");
+      constructorAreaForm = document.querySelector(".counstructor-area_form");
     }
   }
   setConstructorArea();
@@ -39,12 +39,12 @@ export const useFormDrop = ({
     }
   }
   function onDrag(e): void {
-    console.log(constructorArea, "constructorArea");
+    console.log(constructorFreeDropZone, "constructorArea");
     console.log(e.clientX, "onDrag");
     console.log(e.clientY, "onDrag");
 
     const { bottom, top, left, right } =
-      constructorArea?.getBoundingClientRect();
+      constructorAreaForm?.getBoundingClientRect();
     const isOutOfBounds =
       e.clientY > bottom ||
       e.clientY < top ||
@@ -75,7 +75,7 @@ export const useFormDrop = ({
       formItems.value.splice(ind, 0, itemID);
     } else {
       formItems.value.push(itemID);
-      constructorArea.classList.remove("active");
+      constructorFreeDropZone.classList.remove("active");
     }
   }
   function onConstructorAreaDragEnter(e): void {
@@ -96,7 +96,10 @@ export const useFormDrop = ({
       getDropMarker();
       if (!dropMarker) {
         createDropMarker();
-        constructorArea?.insertBefore(dropMarker as HTMLElement, e.target);
+        constructorFreeDropZone?.insertBefore(
+          dropMarker as HTMLElement,
+          e.target
+        );
       }
     }
   }
@@ -148,16 +151,19 @@ export const useFormDrop = ({
             "constructor-area__component"
           )
         ) {
-          constructorArea?.insertBefore(
+          constructorAreaForm?.insertBefore(
             dropMarker,
             e.target.nextElementSibling
           );
         } else if (!e.target.nextElementSibling) {
           if (dropMarker) dropMarker.remove();
-          constructorArea?.classList.add("active");
+          constructorFreeDropZone?.classList.add("active");
         }
       } else {
-        constructorWrap?.insertBefore(dropMarker, e.target);
+        if (constructorFreeDropZone?.classList.contains("active")) {
+          constructorFreeDropZone?.classList.remove("active");
+        }
+        constructorAreaForm?.insertBefore(dropMarker, e.target);
       }
     }
   }
