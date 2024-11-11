@@ -10,7 +10,7 @@ export const useFormDrop = ({
 
   let constructorAreaForm;
 
-  let dropMarker: Element | null = null;
+  let dropMarker: HTMLElement | null = null;
 
   const formItems = useState<string[]>("formItems", () => []);
 
@@ -35,7 +35,22 @@ export const useFormDrop = ({
   function createDropMarker() {
     if (process.client) {
       dropMarker = document.createElement("div");
-      dropMarker.id = dropMarkerSelector;
+      if (dropMarker instanceof HTMLElement) {
+        dropMarker.id = dropMarkerSelector;
+
+        dropMarker?.addEventListener("drop", onDrop);
+        dropMarker?.addEventListener("dragover", onComponentDragOver);
+      }
+    }
+  }
+  function removeDropMarker() {
+    if (process.client) {
+      if (!dropMarker) return;
+      if (dropMarker instanceof HTMLElement) {
+        dropMarker?.removeEventListener("drop", onDrop);
+        dropMarker?.removeEventListener("dragover", onComponentDragOver);
+        dropMarker.remove();
+      }
     }
   }
   function onDrag(e): void {
@@ -54,8 +69,7 @@ export const useFormDrop = ({
 
     if (isOutOfBounds) {
       getDropMarker();
-      if (!dropMarker) return;
-      dropMarker?.remove();
+      removeDropMarker();
     }
   }
   function startDrag(evt): void {
@@ -72,7 +86,7 @@ export const useFormDrop = ({
     if (siblingElement instanceof HTMLElement) {
       const ind = siblingElement?.dataset?.index;
       console.log(ind);
-      dropMarker?.remove();
+      removeDropMarker();
       formItems.value.splice(ind, 0, itemID);
     } else {
       formItems.value.push(itemID);
@@ -122,7 +136,7 @@ export const useFormDrop = ({
     console.log(e.target, "onComponentDragOver");
     e.preventDefault();
     //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
-    // if (!e.target.classList.contains("constructor-area__component")) return;
+    if (!e.target.classList.contains("constructor-area__component")) return;
     if (process.client) {
       const checkDirectionVertical =
         e.target.getBoundingClientRect().bottom -
@@ -144,7 +158,7 @@ export const useFormDrop = ({
         createDropMarker();
       }
       if (isOutHotizontally) {
-        dropMarker?.remove();
+        removeDropMarker();
         return;
       }
       if (checkDirectionVertical === "down") {
@@ -160,7 +174,7 @@ export const useFormDrop = ({
             e.target.nextElementSibling
           );
         } else if (!e.target.nextElementSibling) {
-          if (dropMarker) dropMarker.remove();
+          removeDropMarker();
           constructorFreeDropZone?.classList.add("active");
         }
       } else {
