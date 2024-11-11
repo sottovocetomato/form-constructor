@@ -91,3 +91,12 @@ aside {
   padding: 10px;
   border: 2px dashed $grey-100;
 }
+
+.sidebar-wrap {
+  width: 40vw;
+  border-right: 1px solid $blue-850;
+  transform: translateX(-100%);
+  &.active {
+    transform: translateX(100%);
+  }
+}

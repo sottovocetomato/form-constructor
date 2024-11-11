@@ -22,7 +22,7 @@ export const useFormDrop = ({
         constructorAreaSelector,
         "setting constrArea"
       );
-      constructorAreaForm = document.querySelector(".counstructor-area_form");
+      constructorAreaForm = document.querySelector(".constructor-area_form");
     }
   }
   setConstructorArea();
@@ -39,7 +39,8 @@ export const useFormDrop = ({
     }
   }
   function onDrag(e): void {
-    console.log(constructorFreeDropZone, "constructorArea");
+    // console.log(constructorFreeDropZone, "constructorArea");
+    console.log(e.target, "e.target onDrag");
     console.log(e.clientX, "onDrag");
     console.log(e.clientY, "onDrag");
 
@@ -118,6 +119,7 @@ export const useFormDrop = ({
   //   }
   // }
   function onComponentDragOver(e): void {
+    console.log(e.target, "onComponentDragOver");
     e.preventDefault();
     //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
     if (process.client) {
@@ -132,6 +134,7 @@ export const useFormDrop = ({
         e.target.getBoundingClientRect().right < e.clientX;
 
       // console.log(e.clientY);
+      console.log(e.target, "onComponentDragOver");
       console.log(e.target.getBoundingClientRect());
       console.log(e.clientX);
       getDropMarker();

@@ -1,15 +1,17 @@
 <template>
   <div class="constructor-area-wrap">
     <div class="constructor-area">
-      <div class="counstructor-area_form">
+      <div
+        class="constructor-area_form"
+        @drop="onDrop($event)"
+        @dragover="onComponentDragOver"
+      >
         <component
           class="constructor-area__component"
           v-for="(item, index) in formItems"
           :data-index="index"
           :is="componentsMap[item]"
           :key="`${item}-${index}`"
-          @drop="onDrop($event)"
-          @dragover="onComponentDragOver"
         />
       </div>
       <div
