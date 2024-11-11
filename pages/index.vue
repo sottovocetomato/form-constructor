@@ -1,4 +1,5 @@
 <template>
+  <BaseSideBar />
   <div class="constructor-area-wrap">
     <div class="constructor-area">
       <div class="constructor-area_form">
@@ -9,6 +10,7 @@
           :data-index="index"
           @drop="onDrop($event)"
           @dragover.capture="onComponentDragOver"
+          @click="toggleActive"
         >
           <component :is="componentsMap[item]" />
         </div>
@@ -51,7 +53,7 @@ import Header from "../components/base/Header.vue";
 
 import type { Component } from "@vue/runtime-core";
 import { ComponentsMap } from "@/types";
-import { useFormDrop } from "@/composables/useFormDrop";
+
 const componentsMap: ComponentsMap = {
   BaseInput: BaseInput,
   Header: Header,
@@ -67,6 +69,8 @@ const {
   onConstructorAreaDragLeave,
   onDrag,
 } = useFormDrop({ constructorAreaSelector: "#constructor-free-drop" });
+
+const { toggleActive } = useSidebar();
 </script>
 
 <style scoped></style>
