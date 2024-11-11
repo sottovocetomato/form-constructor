@@ -40,9 +40,9 @@ export const useFormDrop = ({
   }
   function onDrag(e): void {
     // console.log(constructorFreeDropZone, "constructorArea");
-    console.log(e.target, "e.target onDrag");
-    console.log(e.clientX, "onDrag");
-    console.log(e.clientY, "onDrag");
+    // console.log(e.target, "e.target onDrag");
+    // console.log(e.clientX, "onDrag");
+    // console.log(e.clientY, "onDrag");
 
     const { bottom, top, left, right } =
       constructorAreaForm?.getBoundingClientRect();
@@ -122,6 +122,7 @@ export const useFormDrop = ({
     console.log(e.target, "onComponentDragOver");
     e.preventDefault();
     //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
+    // if (!e.target.classList.contains("constructor-area__component")) return;
     if (process.client) {
       const checkDirectionVertical =
         e.target.getBoundingClientRect().bottom -

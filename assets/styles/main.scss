@@ -60,6 +60,10 @@ aside {
     flex: 1 1 0;
   }
   &__component {
+    display: block;
+    div {
+      pointer-events: none;
+    }
   }
 }
 #constructor-free-drop {
