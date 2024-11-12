@@ -17,20 +17,7 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
-  type: string;
-  name?: string;
-  id?: string;
-  placeholder?: string;
-  ariaLabel?: string;
-  ariaInvalid?: boolean | null;
-  customWrapClass?: string;
-  customClass?: string;
-  required?: boolean;
-  readonly?: boolean;
-  disabled?: boolean;
-}
-
+import { InputProps } from "@/types/interfaces/props";
 const {
   type = "text",
   name = "input",
@@ -43,7 +30,7 @@ const {
   customClass = "",
   placeholder = "Your text",
   id = "",
-} = defineProps<Props>();
+} = defineProps<InputProps>();
 </script>
 
 <style scoped></style>

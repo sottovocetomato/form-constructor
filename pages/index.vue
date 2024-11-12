@@ -12,7 +12,7 @@
           @dragover.capture="onComponentDragOver"
           @click="toggleActive"
         >
-          <component :is="componentsMap[item]" />
+          <component :is="componentsMap[item.component]" :props="item.props" />
         </div>
       </div>
       <div
