@@ -11,3 +11,21 @@ export interface InputProps {
   readonly?: boolean;
   disabled?: boolean;
 }
+
+export interface DynamicFormProps {
+  fields: DynamicFormFields[];
+  data: {}[];
+  mainWrapClass?: string;
+}
+
+export interface DynamicFormFields {
+  component: string;
+  props: {
+    customClass?: string;
+    id?: string;
+    type?: string;
+    placeholder?: string;
+    label?: string;
+    storeField?: string;
+  };
+}
