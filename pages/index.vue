@@ -56,6 +56,7 @@ import Header from "../components/base/Header.vue";
 
 import type { Component } from "@vue/runtime-core";
 import { ComponentsMap } from "@/types";
+import { elementsMap } from "@/helpers/formSettingsMap";
 
 const componentsMap: ComponentsMap = {
   BaseInput: BaseInput,
@@ -78,53 +79,12 @@ const settingsFieldSet = ref("");
 const { toggleActive } = useSidebar();
 
 function openSidebar(e) {
-  if (e.target.dataset?.name == "BaseInput") {
-    settingsFieldSet.value = fieldsForInput;
+  const dataName = e.target.dataset?.name;
+  if (dataName in elementsMap) {
+    settingsFieldSet.value = elementsMap[dataName];
   }
   toggleActive();
 }
-
-const fieldsForInput = [
-  {
-    component: "BaseInput",
-    props: {
-      id: "firstInput",
-      displayName: "",
-      sequenceNumber: 1,
-      isHidden: false,
-      required: false,
-      type: "text",
-      placeholder: "firs input placeholder",
-    },
-    editField: "placeholder",
-  },
-  {
-    component: "BaseInput",
-    props: {
-      id: "firstInput",
-      displayName: "",
-      sequenceNumber: 2,
-      isHidden: false,
-      required: false,
-      type: "text",
-      placeholder: "firs input placeholder",
-    },
-    editField: "label",
-  },
-  {
-    component: "BaseInput",
-    props: {
-      id: "firstInput",
-      displayName: "",
-      sequenceNumber: 3,
-      isHidden: false,
-      required: false,
-      type: "text",
-      placeholder: "firs input placeholder",
-    },
-    editField: "isHidden",
-  },
-];
 </script>
 
 <style scoped></style>
