@@ -11,6 +11,7 @@
       :readonly="readonly"
       :disabled="disabled"
       :aria-invalid="ariaInvalid"
+      v-model="model"
     />
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
@@ -18,6 +19,7 @@
 
 <script setup lang="ts">
 import { InputProps } from "@/types/interfaces/props";
+const model = defineModel();
 const {
   type = "text",
   name = "input",

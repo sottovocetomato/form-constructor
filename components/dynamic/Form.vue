@@ -10,6 +10,8 @@
         v-if="field?.component"
         :is="componentsMap[field?.component] || field?.component"
         v-bind="field.props"
+        v-model="fieldsState[field.editField]"
+        @keyup="logger"
       />
     </div>
   </div>
@@ -22,16 +24,24 @@ import Header from "../base/Header.vue";
 
 import { ComponentsMap } from "@/types";
 
-const componentsMap: ComponentsMap = {
-  BaseInput: BaseInput,
-  Header: Header,
-};
-
+const currentFormId = useId();
 const {
   fields = [],
   data = [],
   mainWrapClass = "",
 } = defineProps<DynamicFormProps>();
+console.log(fields, "fields");
+const { fieldsState } = useDynamicForm(fields, currentFormId);
+console.log(fieldsState);
+
+function logger() {
+  console.log(fieldsState, "logger");
+}
+
+const componentsMap: ComponentsMap = {
+  BaseInput: BaseInput,
+  Header: Header,
+};
 </script>
 
 <style scoped></style>

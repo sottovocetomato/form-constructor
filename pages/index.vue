@@ -1,5 +1,7 @@
 <template>
-  <BaseSideBar />
+  <BaseSideBar>
+    <DynamicForm mainWrapClass="super-form" :fields="settingsFieldSet" />
+  </BaseSideBar>
   <div class="constructor-area-wrap">
     <div class="constructor-area">
       <div class="constructor-area_form">
@@ -8,9 +10,10 @@
           v-for="(item, index) in formItems"
           :key="`${item}-${index}`"
           :data-index="index"
+          :data-name="item.component"
           @drop="onDrop($event)"
           @dragover.capture="onComponentDragOver"
-          @click="toggleActive"
+          @click="openSidebar"
         >
           <component :is="componentsMap[item.component]" :props="item.props" />
         </div>
@@ -70,7 +73,58 @@ const {
   onDrag,
 } = useFormDrop({ constructorAreaSelector: "#constructor-free-drop" });
 
+const settingsFieldSet = ref("");
+
 const { toggleActive } = useSidebar();
+
+function openSidebar(e) {
+  if (e.target.dataset?.name == "BaseInput") {
+    settingsFieldSet.value = fieldsForInput;
+  }
+  toggleActive();
+}
+
+const fieldsForInput = [
+  {
+    component: "BaseInput",
+    props: {
+      id: "firstInput",
+      displayName: "",
+      sequenceNumber: 1,
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "firs input placeholder",
+    },
+    editField: "placeholder",
+  },
+  {
+    component: "BaseInput",
+    props: {
+      id: "firstInput",
+      displayName: "",
+      sequenceNumber: 2,
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "firs input placeholder",
+    },
+    editField: "label",
+  },
+  {
+    component: "BaseInput",
+    props: {
+      id: "firstInput",
+      displayName: "",
+      sequenceNumber: 3,
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "firs input placeholder",
+    },
+    editField: "isHidden",
+  },
+];
 </script>
 
 <style scoped></style>
