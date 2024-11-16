@@ -97,6 +97,7 @@ aside {
 }
 
 .sidebar-wrap {
+  padding: $padding * 2 $padding * 2;
   width: 40vw;
   height: 100vh;
   position: absolute;
@@ -109,5 +110,22 @@ aside {
   background: white;
   &.active {
     transform: translateX(0%);
+    & + .sidebar-backdrop {
+      display: block;
+    }
   }
+}
+
+.sidebar-backdrop {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.3;
+  display: none;
 }

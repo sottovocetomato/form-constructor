@@ -4,6 +4,7 @@
       <slot></slot>
     </div>
   </div>
+  <div class="sidebar-backdrop" @click="toggleActive"></div>
 </template>
 
 <script setup lang="ts">

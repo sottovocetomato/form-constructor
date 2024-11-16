@@ -1,6 +1,11 @@
 <template>
   <BaseSideBar>
-    <DynamicForm mainWrapClass="super-form" :fields="settingsFieldSet" />
+    <DynamicForm
+      mainWrapClass="super-form"
+      :fields="settingsFieldSet"
+      :formId="currentFormId"
+      :key="currentFormId"
+    />
   </BaseSideBar>
   <div class="constructor-area-wrap">
     <div class="constructor-area">
@@ -75,13 +80,14 @@ const {
 } = useFormDrop({ constructorAreaSelector: "#constructor-free-drop" });
 
 const settingsFieldSet = ref("");
+const currentFormId = ref(null);
 
 const { toggleActive } = useSidebar();
-
 function openSidebar(e) {
   const dataName = e.target.dataset?.name;
   if (dataName in elementsMap) {
     settingsFieldSet.value = elementsMap[dataName];
+    currentFormId.value = e.target.dataset?.index;
   }
   toggleActive();
 }

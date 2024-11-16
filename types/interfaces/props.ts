@@ -16,6 +16,7 @@ export interface DynamicFormProps {
   fields: DynamicFormFields[];
   data: {}[];
   mainWrapClass?: string;
+  formId?: number | string | null | undefined;
 }
 
 export interface DynamicFormFields {

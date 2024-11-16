@@ -23,15 +23,18 @@ import BaseInput from "../base/forms/BaseInput.vue";
 import Header from "../base/Header.vue";
 
 import { ComponentsMap } from "@/types";
-
 const currentFormId = useId();
 const {
   fields = [],
   data = [],
   mainWrapClass = "",
+  formId = null,
 } = defineProps<DynamicFormProps>();
+
+const { fieldsState } = useDynamicForm(fields, formId ?? currentFormId);
+
 console.log(fields, "fields");
-const { fieldsState } = useDynamicForm(fields, currentFormId);
+
 console.log(fieldsState);
 
 function logger() {
