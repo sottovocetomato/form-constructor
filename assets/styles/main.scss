@@ -61,6 +61,13 @@ aside {
   }
   &__component {
     display: block;
+    padding: $padding;
+    border-radius: 5px;
+    &:hover {
+      background-color: $slate-100;
+      cursor: pointer;
+    }
+
     div {
       pointer-events: none;
     }

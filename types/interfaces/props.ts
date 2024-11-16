@@ -14,7 +14,7 @@ export interface InputProps {
 
 export interface DynamicFormProps {
   fields: DynamicFormFields[];
-  data: {}[];
+  data?: {}[];
   mainWrapClass?: string;
   formId?: number | string | null | undefined;
 }

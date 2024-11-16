@@ -21,7 +21,11 @@
           @dragover.capture="onComponentDragOver"
           @click="openSidebar"
         >
-          <component :is="componentsMap[item.component]" v-bind="item.props" />
+          <component
+            :is="componentsMap[item.component]"
+            v-bind="item.props"
+            customWrapClass="constructor-area__component__element"
+          />
         </div>
       </div>
       <div
@@ -63,14 +67,14 @@ import Header from "../components/base/Header.vue";
 import type { Component } from "@vue/runtime-core";
 import { ComponentsMap } from "@/types";
 import { elementsMap } from "@/helpers/formSettingsMap";
+import { useFormBuilderState } from "@/composables/useFormBuilderState";
 
 const componentsMap: ComponentsMap = {
   BaseInput: BaseInput,
   Header: Header,
 };
-
+const { formItems } = useFormBuilderState();
 const {
-  formItems,
   startDrag,
   onDrop,
   onComponentDragEnter,
@@ -94,13 +98,10 @@ function openSidebar(e) {
 }
 
 function onFormSubmit(state) {
-  console.log(state, "state");
   formItems.value[currentFormId?.value].props = {
-    ...formItems.value[currentFormId?.value].props,
+    ...formItems?.value[currentFormId?.value]?.props,
     ...state.value,
   };
-  console.log(currentFormId?.value);
-  console.log(formItems.value[currentFormId?.value].props, "updated props");
 }
 </script>
 

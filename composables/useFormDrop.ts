@@ -1,3 +1,5 @@
+import { useFormBuilderState } from "@/composables/useFormBuilderState";
+
 export const useFormDrop = ({
   constructorAreaSelector = "",
   customMarkerSelector = "",
@@ -12,7 +14,7 @@ export const useFormDrop = ({
 
   let dropMarker: HTMLElement | null = null;
 
-  const formItems = useState<string[]>("formItems", () => []);
+  const { insertInFromItems, addToFormItems } = useFormBuilderState();
 
   function setConstructorArea() {
     if (process.client) {
@@ -87,15 +89,9 @@ export const useFormDrop = ({
       const ind = siblingElement?.dataset?.index;
       console.log(ind);
       removeDropMarker();
-      formItems.value.splice(ind, 0, {
-        component: itemID,
-        props: { placeholder: "hello" },
-      });
+      insertInFromItems(ind, itemID);
     } else {
-      formItems.value.push({
-        component: itemID,
-        props: { placeholder: "hello" },
-      });
+      addToFormItems(itemID);
       constructorFreeDropZone.classList.remove("active");
     }
   }
@@ -192,7 +188,6 @@ export const useFormDrop = ({
     }
   }
   return {
-    formItems,
     startDrag,
     onDrop,
     onComponentDragEnter,
