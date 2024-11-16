@@ -19,7 +19,9 @@
 
 <script setup lang="ts">
 import { InputProps } from "@/types/interfaces/props";
+
 const model = defineModel();
+
 const {
   type = "text",
   name = "input",
@@ -33,6 +35,10 @@ const {
   placeholder = "Your text",
   id = "",
 } = defineProps<InputProps>();
+
+onUpdated(() => {
+  console.log(placeholder, "updated");
+});
 </script>
 
 <style scoped></style>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="mainWrapClass">
+  <form :class="mainWrapClass" @submit.prevent>
     <div
       class=""
       v-for="(field, index) in fields"
@@ -14,7 +14,8 @@
         @keyup="logger"
       />
     </div>
-  </div>
+    <button type="submit" @click="onFormSubmit">Сохранить</button>
+  </form>
 </template>
 
 <script setup lang="ts">
@@ -24,6 +25,11 @@ import Header from "../base/Header.vue";
 
 import { ComponentsMap } from "@/types";
 const currentFormId = useId();
+
+const emit = defineEmits<{
+  formSubmit: [fieldsState?: {}[]];
+}>();
+
 const {
   fields = [],
   data = [],
@@ -40,7 +46,9 @@ console.log(fieldsState);
 function logger() {
   console.log(fieldsState, "logger");
 }
-
+function onFormSubmit() {
+  emit("formSubmit", fieldsState);
+}
 const componentsMap: ComponentsMap = {
   BaseInput: BaseInput,
   Header: Header,

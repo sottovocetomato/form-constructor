@@ -5,6 +5,7 @@
       :fields="settingsFieldSet"
       :formId="currentFormId"
       :key="currentFormId"
+      @formSubmit="onFormSubmit"
     />
   </BaseSideBar>
   <div class="constructor-area-wrap">
@@ -20,7 +21,7 @@
           @dragover.capture="onComponentDragOver"
           @click="openSidebar"
         >
-          <component :is="componentsMap[item.component]" :props="item.props" />
+          <component :is="componentsMap[item.component]" v-bind="item.props" />
         </div>
       </div>
       <div
@@ -90,6 +91,16 @@ function openSidebar(e) {
     currentFormId.value = e.target.dataset?.index;
   }
   toggleActive();
+}
+
+function onFormSubmit(state) {
+  console.log(state, "state");
+  formItems.value[currentFormId?.value].props = {
+    ...formItems.value[currentFormId?.value].props,
+    ...state.value,
+  };
+  console.log(currentFormId?.value);
+  console.log(formItems.value[currentFormId?.value].props, "updated props");
 }
 </script>
 

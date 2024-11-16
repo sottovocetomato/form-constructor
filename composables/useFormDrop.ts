@@ -87,9 +87,15 @@ export const useFormDrop = ({
       const ind = siblingElement?.dataset?.index;
       console.log(ind);
       removeDropMarker();
-      formItems.value.splice(ind, 0, { component: itemID, props: {} });
+      formItems.value.splice(ind, 0, {
+        component: itemID,
+        props: { placeholder: "hello" },
+      });
     } else {
-      formItems.value.push({ component: itemID, props: {} });
+      formItems.value.push({
+        component: itemID,
+        props: { placeholder: "hello" },
+      });
       constructorFreeDropZone.classList.remove("active");
     }
   }
