@@ -1,16 +1,18 @@
-export interface InputProps {
-  type: string;
-  name?: string;
-  id?: string;
-  placeholder?: string;
-  ariaLabel?: string;
-  ariaInvalid?: boolean | null;
+type Modify<T, R> = Omit<T, keyof R> & R;
+
+export interface TextInputProps extends HTMLInputElement {
   customWrapClass?: string;
   customClass?: string;
-  required?: boolean;
-  readonly?: boolean;
-  disabled?: boolean;
 }
+
+export interface DateInputProps
+  extends Modify<
+    TextInputProps,
+    {
+      ariaLabel?: "Date" | "Datetime local" | "Month" | "Time";
+      type: "date" | "datetime-local" | "month" | "time";
+    }
+  > {}
 
 export interface DynamicFormProps {
   fields: DynamicFormFields[];

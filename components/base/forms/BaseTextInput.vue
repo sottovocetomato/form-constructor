@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { InputProps } from "@/types/interfaces/props";
+import { TextInputProps } from "@/types/interfaces/props";
 
 const model = defineModel();
 
@@ -34,7 +34,7 @@ const {
   customClass = "",
   placeholder = "Your text",
   id = "",
-} = defineProps<InputProps>();
+} = defineProps<TextInputProps>();
 
 onUpdated(() => {
   console.log(placeholder, "updated");

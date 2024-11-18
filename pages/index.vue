@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseInput from "../components/base/forms/BaseInput.vue";
+import BaseTextInput from "../components/base/forms/BaseTextInput.vue";
 import Header from "../components/base/Header.vue";
 
 import type { Component } from "@vue/runtime-core";
@@ -70,7 +70,7 @@ import { elementsMap } from "@/helpers/formSettingsMap";
 import { useFormBuilderState } from "@/composables/useFormBuilderState";
 
 const componentsMap: ComponentsMap = {
-  BaseInput: BaseInput,
+  BaseInput: BaseTextInput,
   Header: Header,
 };
 const { formItems } = useFormBuilderState();

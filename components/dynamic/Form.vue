@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { DynamicFormProps } from "@/types/interfaces/props";
-import BaseInput from "../base/forms/BaseInput.vue";
+import BaseTextInput from "../base/forms/BaseTextInput.vue";
 import Header from "../base/Header.vue";
 
 import { ComponentsMap } from "@/types";
@@ -50,7 +50,7 @@ function onFormSubmit() {
   emit("formSubmit", fieldsState);
 }
 const componentsMap: ComponentsMap = {
-  BaseInput: BaseInput,
+  BaseInput: BaseTextInput,
   Header: Header,
 };
 </script>
