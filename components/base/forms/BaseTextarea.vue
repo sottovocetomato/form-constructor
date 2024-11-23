@@ -1,12 +1,12 @@
 <template>
   <div :class="customWrapClass">
-    <input
+    <textarea
       v-bind="$attrs"
-      :placeholder="placeholder"
       :class="customClass"
-      :aria-invalid="ariaInvalid"
       v-model="model"
-    />
+      :placeholder="placeholder"
+    >
+    </textarea>
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
 </template>
@@ -17,16 +17,13 @@ defineOptions({
   inheritAttrs: false,
 });
 const model = defineModel();
+
 const {
   customWrapClass = "",
-  placeholder = "Text Input",
+  placeholder = "Textarea",
   customClass = "",
   ariaInvalid = undefined,
 } = defineProps<FormElementProps>();
-
-onUpdated(() => {
-  console.log(placeholder, "updated");
-});
 </script>
 
 <style scoped></style>

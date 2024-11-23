@@ -21,7 +21,10 @@
 <script setup lang="ts">
 import { DynamicFormProps } from "@/types/interfaces/props";
 import BaseTextInput from "../base/forms/BaseTextInput.vue";
-import Header from "../base/Header.vue";
+import BaseCheckbox from "../base/forms/BaseCheckbox.vue";
+import BaseSelect from "../base/forms/BaseSelect.vue";
+import BaseTextarea from "../base/forms/BaseTextarea.vue";
+import BaseDateInput from "../base/forms/BaseDateInput.vue";
 
 import { ComponentsMap } from "@/types";
 const currentFormId = useId();
@@ -50,8 +53,11 @@ function onFormSubmit() {
   emit("formSubmit", fieldsState);
 }
 const componentsMap: ComponentsMap = {
-  BaseInput: BaseTextInput,
-  Header: Header,
+  BaseTextInput: BaseTextInput,
+  BaseTextarea: BaseTextarea,
+  BaseSelect: BaseSelect,
+  BaseDateInput: BaseDateInput,
+  BaseCheckbox: BaseCheckbox,
 };
 </script>
 

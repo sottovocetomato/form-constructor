@@ -44,25 +44,55 @@
       @dragstart="startDrag($event)"
       @drag="onDrag"
       draggable="true"
-      id="BaseInput"
+      id="BaseTextInput"
     >
-      This is input
+      Text Input
     </div>
     <div
       class="dragable-object"
       @dragstart="startDrag($event)"
       @drag="onDrag"
       draggable="true"
-      id="Header"
+      id="BaseTextarea"
     >
-      This is HEADER
+      Text Area
+    </div>
+    <div
+      class="dragable-object"
+      @dragstart="startDrag($event)"
+      @drag="onDrag"
+      draggable="true"
+      id="BaseSelect"
+    >
+      Select
+    </div>
+    <div
+      class="dragable-object"
+      @dragstart="startDrag($event)"
+      @drag="onDrag"
+      draggable="true"
+      id="BaseDateInput"
+    >
+      Date Input
+    </div>
+    <div
+      class="dragable-object"
+      @dragstart="startDrag($event)"
+      @drag="onDrag"
+      draggable="true"
+      id="BaseCheckbox"
+    >
+      Checkbox
     </div>
   </aside>
 </template>
 
 <script setup lang="ts">
-import BaseTextInput from "../components/base/forms/BaseTextInput.vue";
-import Header from "../components/base/Header.vue";
+import BaseTextInput from "../components/base/forms/BaseTextInput";
+import BaseTextarea from "../components/base/forms/BaseTextarea";
+import BaseSelect from "../components/base/forms/BaseSelect";
+import BaseDateInput from "../components/base/forms/BaseDateInput";
+import BaseCheckbox from "../components/base/forms/BaseCheckbox";
 
 import type { Component } from "@vue/runtime-core";
 import { ComponentsMap } from "@/types";
@@ -70,8 +100,11 @@ import { elementsMap } from "@/helpers/formSettingsMap";
 import { useFormBuilderState } from "@/composables/useFormBuilderState";
 
 const componentsMap: ComponentsMap = {
-  BaseInput: BaseTextInput,
-  Header: Header,
+  BaseTextInput: BaseTextInput,
+  BaseTextarea: BaseTextarea,
+  BaseSelect: BaseSelect,
+  BaseDateInput: BaseDateInput,
+  BaseCheckbox: BaseCheckbox,
 };
 const { formItems } = useFormBuilderState();
 const {
@@ -91,8 +124,10 @@ const { toggleActive } = useSidebar();
 function openSidebar(e) {
   const dataName = e.target.dataset?.name;
   if (dataName in elementsMap) {
-    settingsFieldSet.value = elementsMap[dataName];
+    settingsFieldSet.value = elementsMap?.[dataName];
     currentFormId.value = e.target.dataset?.index;
+  } else {
+    settingsFieldSet.value = "";
   }
   toggleActive();
 }
@@ -102,6 +137,7 @@ function onFormSubmit(state) {
     ...formItems?.value[currentFormId?.value]?.props,
     ...state.value,
   };
+  toggleActive();
 }
 </script>
 

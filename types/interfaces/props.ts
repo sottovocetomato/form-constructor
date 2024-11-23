@@ -1,18 +1,18 @@
-type Modify<T, R> = Omit<T, keyof R> & R;
+// type Modify<T, R> = Omit<T, keyof R> & R;
 
-export interface TextInputProps extends HTMLInputElement {
+export interface FormElementProps {
   customWrapClass?: string;
   customClass?: string;
+  placeholder?: string;
+  label?: string;
+  ariaInvalid?: boolean | undefined;
 }
-
-export interface DateInputProps
-  extends Modify<
-    TextInputProps,
-    {
-      ariaLabel?: "Date" | "Datetime local" | "Month" | "Time";
-      type: "date" | "datetime-local" | "month" | "time";
-    }
-  > {}
+export interface CheckboxProps extends FormElementProps {
+  type: "checkbox" | "radio";
+}
+export interface DateInputProps extends FormElementProps {
+  type: "date" | "datetime-local" | "month" | "time";
+}
 
 export interface DynamicFormProps {
   fields: DynamicFormFields[];
