@@ -10,7 +10,12 @@
         v-if="field?.component"
         :is="componentsMap[field?.component] || field?.component"
         v-bind="field.props"
-        v-model="fieldsState[field.editField]"
+        :modelValue="
+          field?.fieldGroup
+            ? fieldsSet?.[field.fieldGroup]?.[field.groupPosition]
+            : fieldsSet?.[field.editField]
+        "
+        @input="onInput"
         @click="field?.onClick ? field?.onClick(fieldsSet, $event) : null"
         >{{ field.innerText }}</component
       >
@@ -32,6 +37,7 @@ const currentFormId = useId();
 
 const emit = defineEmits<{
   formSubmit: [fieldsState?: {}[]];
+  "update:modelValue": [e?: Event];
 }>();
 
 const {
@@ -56,6 +62,9 @@ function logger() {
 function onFormSubmit() {
   console.log(fieldsState, "fieldsState");
   emit("formSubmit", fieldsState);
+}
+function onInput(e) {
+  emit("update:modelValue", e.target.value);
 }
 const componentsMap: ComponentsMap = {
   BaseTextInput: BaseTextInput,

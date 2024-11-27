@@ -8,10 +8,10 @@ export interface FormElementProps {
   ariaInvalid?: boolean | undefined;
 }
 export interface CheckboxProps extends FormElementProps {
-  type: "checkbox" | "radio";
+  type?: "checkbox" | "radio";
 }
 export interface DateInputProps extends FormElementProps {
-  type: "date" | "datetime-local" | "month" | "time";
+  type?: "date" | "datetime-local" | "month" | "time";
 }
 
 export interface DynamicFormProps {
