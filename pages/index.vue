@@ -5,7 +5,7 @@
       :fields="settingsFieldSet"
       :formId="currentFormId"
       :key="currentFormId"
-      @formSubmit="onFormSubmit"
+      @formSubmit="onFormSettingsSubmit"
     />
   </BaseSideBar>
   <div class="constructor-area-wrap">
@@ -84,6 +84,7 @@
     >
       Checkbox
     </div>
+    <button @click="onFormSave">Сохранить форму</button>
   </aside>
 </template>
 
@@ -132,12 +133,15 @@ function openSidebar(e) {
   toggleActive();
 }
 
-function onFormSubmit(state) {
+function onFormSettingsSubmit(state) {
   formItems.value[currentFormId?.value].props = {
     ...formItems?.value[currentFormId?.value]?.props,
     ...state.value,
   };
   toggleActive();
+}
+function onFormSave(state) {
+  console.log(formItems.value, "currentSavedForm");
 }
 </script>
 

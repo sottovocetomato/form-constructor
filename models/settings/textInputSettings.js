@@ -4,12 +4,12 @@ const textInputSettingsModel = [
     props: {
       id: "placeholderInput",
       displayName: "",
-      sequenceNumber: 1,
       isHidden: false,
       required: false,
       type: "text",
       placeholder: "Placeholder",
     },
+    sequenceNumber: 1,
     editField: "placeholder",
   },
   {
@@ -17,12 +17,12 @@ const textInputSettingsModel = [
     props: {
       id: "IdInput",
       displayName: "",
-      sequenceNumber: 2,
       isHidden: false,
       required: false,
       type: "text",
       placeholder: "Input Id",
     },
+    sequenceNumber: 2,
     editField: "id",
   },
   {
@@ -30,12 +30,12 @@ const textInputSettingsModel = [
     props: {
       id: "minLength",
       displayName: "",
-      sequenceNumber: 3,
       isHidden: false,
       required: false,
       type: "number",
       placeholder: "Min char length",
     },
+    sequenceNumber: 3,
     editField: "min",
   },
   {
@@ -43,12 +43,12 @@ const textInputSettingsModel = [
     props: {
       id: "maxLength",
       displayName: "",
-      sequenceNumber: 4,
       isHidden: false,
       required: false,
       type: "number",
       placeholder: "Max char length",
     },
+    sequenceNumber: 4,
     editField: "max",
   },
 
@@ -57,11 +57,11 @@ const textInputSettingsModel = [
     props: {
       id: "required",
       displayName: "",
-      sequenceNumber: 5,
       isHidden: false,
       required: false,
       label: "Required",
     },
+    sequenceNumber: 5,
     editField: "required",
   },
   {
@@ -69,11 +69,11 @@ const textInputSettingsModel = [
     props: {
       id: "disabled",
       displayName: "",
-      sequenceNumber: 6,
       isHidden: false,
       required: false,
       label: "Disabled",
     },
+    sequenceNumber: 6,
     editField: "disabled",
   },
 ];

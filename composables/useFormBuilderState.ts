@@ -5,6 +5,7 @@ export const useFormBuilderState = () => {
     formItems.value.splice(ind, 0, {
       component: itemID,
       props: {},
+      sequenceNumber: ind,
     });
   }
 
@@ -12,6 +13,7 @@ export const useFormBuilderState = () => {
     formItems.value.push({
       component: itemID,
       props: {},
+      sequenceNumber: formItems.value.length,
     });
   }
 

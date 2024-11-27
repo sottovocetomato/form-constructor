@@ -2,7 +2,7 @@
   <form :class="mainWrapClass" @submit.prevent>
     <div
       class=""
-      v-for="(field, index) in fields"
+      v-for="(field, index) in fieldsSet"
       :key="`${field}-${index}`"
       :data-index="index"
     >
@@ -11,8 +11,9 @@
         :is="componentsMap[field?.component] || field?.component"
         v-bind="field.props"
         v-model="fieldsState[field.editField]"
-        @keyup="logger"
-      />
+        @click="field?.onClick ? field?.onClick(fieldsSet, $event) : null"
+        >{{ field.innerText }}</component
+      >
     </div>
     <button type="submit" @click="onFormSubmit">Сохранить</button>
   </form>
@@ -40,7 +41,10 @@ const {
   formId = null,
 } = defineProps<DynamicFormProps>();
 
-const { fieldsState } = useDynamicForm(fields, formId ?? currentFormId);
+const { fieldsState, fieldsSet } = useDynamicForm(
+  fields,
+  formId ?? currentFormId
+);
 
 console.log(fields, "fields");
 
@@ -50,6 +54,7 @@ function logger() {
   console.log(fieldsState, "logger");
 }
 function onFormSubmit() {
+  console.log(fieldsState, "fieldsState");
   emit("formSubmit", fieldsState);
 }
 const componentsMap: ComponentsMap = {
