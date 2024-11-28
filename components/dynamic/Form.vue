@@ -10,12 +10,8 @@
         v-if="field?.component"
         :is="componentsMap[field?.component] || field?.component"
         v-bind="field.props"
-        :modelValue="
-          field?.fieldGroup
-            ? fieldsSet?.[field.fieldGroup]?.[field.groupPosition]
-            : fieldsSet?.[field.editField]
-        "
-        @input="onInput"
+        :modelValue="getModelValue(field)"
+        @input="onInput($event, field)"
         @click="field?.onClick ? field?.onClick(fieldsSet, $event) : null"
         >{{ field.innerText }}</component
       >
@@ -56,6 +52,12 @@ console.log(fields, "fields");
 
 console.log(fieldsState);
 
+function getModelValue(field) {
+  return field?.isGroup
+    ? fieldsSet?.[field.editField]?.[field.groupPosition]
+    : fieldsSet?.[field.editField];
+}
+
 function logger() {
   console.log(fieldsState, "logger");
 }
@@ -63,7 +65,14 @@ function onFormSubmit() {
   console.log(fieldsState, "fieldsState");
   emit("formSubmit", fieldsState);
 }
-function onInput(e) {
+function onInput(e, field) {
+  console.log(e.target.value, "e");
+  if (field?.isGroup) {
+    fieldsState.value[field.editField][field.groupPosition] = e.target.value;
+  } else {
+    fieldsState.value[field.editField] = e.target.value;
+  }
+
   emit("update:modelValue", e.target.value);
 }
 const componentsMap: ComponentsMap = {

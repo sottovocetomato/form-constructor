@@ -7,12 +7,13 @@ const optionModel = {
     required: false,
     type: "text",
     placeholder: "Option 1",
+    selected: false,
   },
   sequenceNumber: 0,
   fieldType: "ARRAY",
-  fieldGroup: "options",
+  isGroup: true,
   groupPosition: 0,
-  editField: null,
+  editField: "options",
 };
 
 const selectSettingsModel = [
@@ -31,6 +32,10 @@ const selectSettingsModel = [
   },
   {
     ...optionModel,
+    props: {
+      ...optionModel.props,
+      selected: true,
+    },
     sequenceNumber: 2,
   },
   {

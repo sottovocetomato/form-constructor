@@ -5,6 +5,7 @@ export interface FormElementProps {
   customClass?: string;
   placeholder?: string;
   label?: string;
+  options?: [];
   ariaInvalid?: boolean | undefined;
 }
 export interface CheckboxProps extends FormElementProps {
