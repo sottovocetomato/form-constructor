@@ -7,7 +7,7 @@ export const useDynamicForm = (fields = [], id) => {
     let state = {};
 
     for (const field of fieldsSet) {
-      if (field?.fieldType && field.isGroup) {
+      if (field.isGroup) {
         state[field.editField] = FieldTypes[field.fieldType];
         state[field.editField][field.groupPosition] = {};
       } else if (field.editField) {
