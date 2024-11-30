@@ -1,33 +1,34 @@
 <template>
-  <form :class="mainWrapClass" @submit.prevent>
-    <div
-      class=""
-      v-for="(field, index) in fieldsSet"
-      :key="`${field}-${index}`"
-      :data-index="index"
-    >
-      <component
-        v-if="field.isGroup"
-        v-for="groupField in field.groupFields"
-        :is="componentsMap[groupField?.component] || groupField?.component"
-        v-bind="groupField.props"
-        v-model="groupField.stateBlock[groupField.fieldName]"
-        @click="
-          groupField?.onClick ? groupField?.onClick(fieldsSet, $event) : null
-        "
-        >{{ groupField.innerText }}</component
-      >
-      <component
-        v-else-if="!field.isGroup && field?.component"
-        :is="componentsMap[field?.component] || field?.component"
-        v-bind="field.props"
-        v-model="field.stateBlock[field.fieldName]"
-        @click="field?.onClick ? field?.onClick(fieldsSet, $event) : null"
-        >{{ field.innerText }}</component
-      >
-    </div>
-    <button type="submit" @click="onFormSubmit">Сохранить</button>
-  </form>
+  <dynamicForm />
+  <!--  <form :class="mainWrapClass" @submit.prevent>-->
+  <!--    <div-->
+  <!--      class=""-->
+  <!--      v-for="(field, index) in fieldsSet"-->
+  <!--      :key="`${field}-${index}`"-->
+  <!--      :data-index="index"-->
+  <!--    >-->
+  <!--      <component-->
+  <!--        v-if="field.isGroup"-->
+  <!--        v-for="groupField in field.groupFields"-->
+  <!--        :is="componentsMap[groupField?.component] || groupField?.component"-->
+  <!--        v-bind="groupField.props"-->
+  <!--        v-model="groupField.stateBlock[groupField.fieldName]"-->
+  <!--        @click="-->
+  <!--          groupField?.onClick ? groupField?.onClick(fieldsSet, $event) : null-->
+  <!--        "-->
+  <!--        >{{ groupField.innerText }}</component-->
+  <!--      >-->
+  <!--      <component-->
+  <!--        v-else-if="!field.isGroup && field?.component"-->
+  <!--        :is="componentsMap[field?.component] || field?.component"-->
+  <!--        v-bind="field.props"-->
+  <!--        v-model="field.stateBlock[field.fieldName]"-->
+  <!--        @click="field?.onClick ? field?.onClick(fieldsSet, $event) : null"-->
+  <!--        >{{ field.innerText }}</component-->
+  <!--      >-->
+  <!--    </div>-->
+  <!--    <button type="submit" @click="onFormSubmit">Сохранить</button>-->
+  <!--  </form>-->
 </template>
 
 <script setup lang="ts">
@@ -39,8 +40,9 @@ import BaseTextarea from "../base/forms/BaseTextarea.vue";
 import BaseDateInput from "../base/forms/BaseDateInput.vue";
 
 import { ComponentsMap } from "@/types";
-const currentFormId = useId();
 
+const currentFormId = useId();
+const dynamicForm = h("div", "hello");
 const emit = defineEmits<{
   formSubmit: [fieldsState?: {}[]];
   "update:modelValue": [e?: Event];
