@@ -1,59 +1,5 @@
-const optionModel = [
-  {
-    component: "BaseTextInput",
-    props: {
-      id: `option-name-1`,
-      displayName: "",
-      isHidden: false,
-      required: false,
-      type: "text",
-      placeholder: "Option Name",
-      selected: false,
-    },
-    sequenceNumber: 1,
-    isGroup: true,
-    editField: "text",
-  },
-  {
-    component: "BaseTextInput",
-    props: {
-      id: `option-value-1`,
-      displayName: "",
-      isHidden: false,
-      required: false,
-      type: "text",
-      placeholder: "Option Value",
-      selected: false,
-    },
-    sequenceNumber: 2,
-    isGroup: true,
-    editField: "text",
-  },
-  {
-    component: "BaseCheckbox",
-    props: {
-      id: "option-required-checkbox-1",
-      displayName: "",
-      isHidden: false,
-      required: false,
-      label: "Required",
-    },
-    sequenceNumber: 3,
-    editField: "selected",
-  },
-  {
-    component: "BaseCheckbox",
-    props: {
-      id: "option-disabled-checkbox-1",
-      displayName: "",
-      isHidden: false,
-      required: false,
-      label: "Disabled",
-    },
-    sequenceNumber: 4,
-    editField: "disabled",
-  },
-];
+import { constructFromModel } from "../../helpers/models.ts";
+import selectOptionModel from "../settings/selectOption.js";
 
 const selectSettingsModel = [
   {
@@ -67,13 +13,13 @@ const selectSettingsModel = [
       placeholder: "Select Id",
     },
     sequenceNumber: 1,
-    editField: "id",
+    fieldName: "id",
   },
   {
     isGroup: true,
     groupType: "ARRAY",
     groupName: "options",
-    groupFields: [...optionModel],
+    groupFields: [constructFromModel(selectOptionModel, { id: 1 })],
     sequenceNumber: 2,
   },
   {
@@ -86,25 +32,23 @@ const selectSettingsModel = [
       type: "text",
       placeholder: "AddRow",
     },
+    fieldName: "addRow",
     sequenceNumber: 3,
     innerText: "Добавить поле",
     onClick(fields) {
+      console.log("click");
       if (!fields || !fields.length) return;
-      const lastOptionField = fields.findLast(
+
+      const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "options"
       );
-      const position = lastOptionField?.sequenceNumber || 0;
-      const editInd = +lastOptionField?.groupPosition || 0;
-      fields.splice(position, 0, {
-        ...optionModel,
-        props: {
-          ...optionModel.props,
-          id: `option-${position}`,
-          placeholder: `Option ${position}`,
-        },
-        sequenceNumber: position,
-        groupPosition: editInd,
-      });
+      if (!optionsGroup) return;
+      optionsGroup.groupFields.push(
+        constructFromModel(selectOptionModel, {
+          ind: optionsGroup.groupFields.length,
+        })
+      );
+      console.log(optionsGroup.groupFields, "optionsGroup.groupFields");
     },
   },
 ];

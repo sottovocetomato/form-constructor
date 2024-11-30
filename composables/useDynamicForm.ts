@@ -1,4 +1,5 @@
 import { FieldTypes } from "@/types";
+import { isArray } from "@/helpers";
 
 export const useDynamicForm = (fields = [], id) => {
   const fieldsSet = reactive(JSON.parse(JSON.stringify(fields)));
@@ -8,15 +9,36 @@ export const useDynamicForm = (fields = [], id) => {
 
     for (const field of fieldsSet) {
       if (field.isGroup) {
-        state[field.editField] = FieldTypes[field.fieldType];
-        state[field.editField][field.groupPosition] = {};
-      } else if (field.editField) {
-        state[field.editField] = "";
+        state[field.groupName] = FieldTypes[field.groupType];
+
+        createStateFields(field.groupFields, state[field.groupName]);
+      } else if (field.fieldName) {
+        state[field.fieldName] = "";
+        field["stateBlock"] = state;
       }
     }
     console.log(state, "STATE");
     return state;
   });
+
+  function createStateFields(modelField, state) {
+    console.log(modelField, "modelField");
+    console.log(state, "state");
+    if (isArray(modelField)) {
+      const arrayOfArrays = modelField.every((e) => isArray(e));
+      if (arrayOfArrays) {
+        for (const [index, groupField] of Object.entries(modelField)) {
+          state[index] = {};
+          createStateFields(groupField, state[index]);
+        }
+      } else {
+        for (const groupField of modelField) {
+          state[groupField.fieldName] = null;
+          groupField["stateBlock"] = state;
+        }
+      }
+    }
+  }
 
   return { fieldsState, fieldsSet };
 };

@@ -10,7 +10,7 @@ const textInputSettingsModel = [
       placeholder: "Placeholder",
     },
     sequenceNumber: 1,
-    editField: "placeholder",
+    fieldName: "placeholder",
   },
   {
     component: "BaseTextInput",
@@ -23,7 +23,7 @@ const textInputSettingsModel = [
       placeholder: "Input Id",
     },
     sequenceNumber: 2,
-    editField: "id",
+    fieldName: "id",
   },
   {
     component: "BaseTextInput",
@@ -36,7 +36,7 @@ const textInputSettingsModel = [
       placeholder: "Min char length",
     },
     sequenceNumber: 3,
-    editField: "min",
+    fieldName: "min",
   },
   {
     component: "BaseTextInput",
@@ -49,7 +49,7 @@ const textInputSettingsModel = [
       placeholder: "Max char length",
     },
     sequenceNumber: 4,
-    editField: "max",
+    fieldName: "max",
   },
 
   {
@@ -62,7 +62,7 @@ const textInputSettingsModel = [
       label: "Required",
     },
     sequenceNumber: 5,
-    editField: "required",
+    fieldName: "required",
   },
   {
     component: "BaseCheckbox",
@@ -74,7 +74,7 @@ const textInputSettingsModel = [
       label: "Disabled",
     },
     sequenceNumber: 6,
-    editField: "disabled",
+    fieldName: "disabled",
   },
 ];
 

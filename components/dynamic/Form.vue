@@ -7,11 +7,21 @@
       :data-index="index"
     >
       <component
-        v-if="field?.component"
+        v-if="field.isGroup"
+        v-for="groupField in field.groupFields"
+        :is="componentsMap[groupField?.component] || groupField?.component"
+        v-bind="groupField.props"
+        v-model="groupField.stateBlock[groupField.fieldName]"
+        @click="
+          groupField?.onClick ? groupField?.onClick(fieldsSet, $event) : null
+        "
+        >{{ groupField.innerText }}</component
+      >
+      <component
+        v-else-if="!field.isGroup && field?.component"
         :is="componentsMap[field?.component] || field?.component"
         v-bind="field.props"
-        :modelValue="getModelValue(field)"
-        @input="onInput($event, field)"
+        v-model="field.stateBlock[field.fieldName]"
         @click="field?.onClick ? field?.onClick(fieldsSet, $event) : null"
         >{{ field.innerText }}</component
       >
@@ -51,12 +61,7 @@ const { fieldsState, fieldsSet } = useDynamicForm(
 console.log(fields, "fields");
 
 console.log(fieldsState);
-
-function getModelValue(field) {
-  return field?.isGroup
-    ? fieldsSet?.[field.editField]?.[field.groupPosition]
-    : fieldsSet?.[field.editField];
-}
+console.log(fieldsSet, "fieldsSet");
 
 function logger() {
   console.log(fieldsState, "logger");
@@ -65,16 +70,7 @@ function onFormSubmit() {
   console.log(fieldsState, "fieldsState");
   emit("formSubmit", fieldsState);
 }
-function onInput(e, field) {
-  console.log(e.target.value, "e");
-  if (field?.isGroup) {
-    fieldsState.value[field.editField][field.groupPosition] = e.target.value;
-  } else {
-    fieldsState.value[field.editField] = e.target.value;
-  }
 
-  emit("update:modelValue", e.target.value);
-}
 const componentsMap: ComponentsMap = {
   BaseTextInput: BaseTextInput,
   BaseTextarea: BaseTextarea,
