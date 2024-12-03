@@ -1,31 +1,5 @@
 <template>
   <form :class="mainWrapClass" @submit.prevent v-if="fieldsSet.length">
-    <!--    <div-->
-    <!--      class=""-->
-    <!--      v-for="(field, index) in fieldsSet"-->
-    <!--      :key="`${field}-${index}`"-->
-    <!--      :data-index="index"-->
-    <!--    >-->
-    <!--      <component-->
-    <!--        v-if="field.isGroup"-->
-    <!--        v-for="groupField in field.groupFields"-->
-    <!--        :is="componentsMap[groupField?.component] || groupField?.component"-->
-    <!--        v-bind="groupField.props"-->
-    <!--        v-model="groupField.stateBlock[groupField.fieldName]"-->
-    <!--        @click="-->
-    <!--          groupField?.onClick ? groupField?.onClick(fieldsSet, $event) : null-->
-    <!--        "-->
-    <!--        >{{ groupField.innerText }}</component-->
-    <!--      >-->
-    <!--      <component-->
-    <!--        v-else-if="!field.isGroup && field?.component"-->
-    <!--        :is="componentsMap[field?.component] || field?.component"-->
-    <!--        v-bind="field.props"-->
-    <!--        v-model="field.stateBlock[field.fieldName]"-->
-    <!--        @click="field?.onClick ? field?.onClick(fieldsSet, $event) : null"-->
-    <!--        >{{ field.innerText }}</component-->
-    <!--      >-->
-    <!--    </div>-->
     <dynamicComponent />
     <button type="submit" @click="onFormSubmit">Сохранить</button>
   </form>
@@ -61,7 +35,7 @@ const {
   mainWrapClass = "",
   formId = null,
 } = defineProps<DynamicFormProps>();
-
+console.log(fields, "fields props");
 const { fieldsState, fieldsSet } = useDynamicForm(
   fields,
   formId ?? currentFormId
@@ -69,12 +43,12 @@ const { fieldsState, fieldsSet } = useDynamicForm(
 const dynamicComponent = h(
   "div",
   fieldsSet.map((field, ind) => {
-    if (field.isGroup) {
+    if (field?.isGroup) {
       const nodes = dynamicFieldsRenderer(field.groupFields);
       console.log(nodes, "nodes");
       return h("div", nodes);
     }
-    return h("h1", "hello not is group");
+    return createComponent(field);
   })
 );
 
@@ -86,23 +60,30 @@ function dynamicFieldsRenderer(entryFields, nodes = []) {
     }
   } else {
     for (const field of entryFields) {
-      const node = h(
-        componentsMap[field.component],
-        {
-          ...field.props,
-          modelValue: field.stateBlock[field.fieldName],
-          "onUpdate:modelValue": (value) =>
-            this.$emit("update:modelValue", value),
-          onClick: (e) => {
-            field?.onClick ? field?.onClick(fieldsSet, e) : null;
-          },
-        },
-        field.innerText
-      );
+      const node = createComponent(field);
       nodes.push(node);
     }
   }
   return nodes;
+}
+
+function createComponent(field) {
+  return h(
+    componentsMap[field.component] || field.component,
+    {
+      ...field.props,
+      modelValue: field.stateBlock[field.fieldName],
+      "onUpdate:modelValue": (value) => {
+        field.stateBlock[field.fieldName] = value;
+        emit("update:modelValue", value);
+      },
+      onClick: (e) => {
+        console.log(field?.onClick, "click event fired");
+        field?.onClick ? field?.onClick(fieldsSet, e) : null;
+      },
+    },
+    field.innerText
+  );
 }
 
 console.log(fieldsState?.value, "fieldsState");

@@ -1,10 +1,10 @@
 import { FieldTypes } from "@/types";
 import { isArray } from "@/helpers";
-import { isArrayOfArrays } from "@/helpers";
+import { isArrayOfArrays, deepClone } from "@/helpers";
 
 export const useDynamicForm = (fields = [], id) => {
-  const fieldsSet = reactive(JSON.parse(JSON.stringify(fields)));
-
+  const fieldsSet = reactive(deepClone(fields));
+  console.log(fieldsSet, "fieldsSet");
   const fieldsState = useState(`fieldsState-${id}`, () => {
     let state = {};
 
@@ -18,13 +18,11 @@ export const useDynamicForm = (fields = [], id) => {
         field["stateBlock"] = state;
       }
     }
-    console.log(state, "STATE");
+
     return state;
   });
 
   function createStateFields(modelField, state) {
-    console.log(modelField, "modelField");
-    console.log(state, "state");
     if (isArray(modelField)) {
       const arrayOfArrays = isArrayOfArrays(modelField);
       if (arrayOfArrays) {
@@ -36,7 +34,6 @@ export const useDynamicForm = (fields = [], id) => {
         for (const groupField of modelField) {
           state[groupField.fieldName] = null;
           groupField["stateBlock"] = state;
-          console.log(groupField, "groupField");
         }
       }
     }
