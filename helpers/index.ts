@@ -6,4 +6,8 @@ function isArray(obj: any) {
   return Array.isArray(obj);
 }
 
-export { cloneDeep, isArray };
+function isArrayOfArrays(obj: any) {
+  return obj.every((e) => isArray(e));
+}
+
+export { cloneDeep, isArray, isArrayOfArrays };
