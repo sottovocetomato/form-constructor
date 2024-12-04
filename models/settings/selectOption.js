@@ -32,11 +32,11 @@ const selectOptionModel = [
   {
     component: "BaseCheckbox",
     props: {
-      id: "option-required-checkbox",
+      id: "option-selected-checkbox",
       displayName: "",
       isHidden: false,
       required: false,
-      label: "Required",
+      label: "Selected",
     },
     sequenceNumber: 3,
     fieldName: "selected",

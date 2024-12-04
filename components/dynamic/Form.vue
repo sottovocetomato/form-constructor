@@ -68,14 +68,20 @@ function dynamicFieldsRenderer(entryFields, nodes = []) {
 }
 
 function createComponent(field) {
+  let stateBlock = fieldsState.value;
+  if (field?.stateBlock) {
+    stateBlock = field?.stateBlock?.split(".")?.reduce((p, n) => {
+      return p[n];
+    }, fieldsState.value);
+  }
   return h(
     componentsMap[field.component] || field.component,
     {
       ...field.props,
-      modelValue: field?.stateBlock?.[field?.fieldName],
+      modelValue: stateBlock[field.fieldName],
       "onUpdate:modelValue": (value) => {
-        if (field.stateBlock) {
-          field.stateBlock[field.fieldName] = value;
+        if (field.fieldName) {
+          stateBlock[field.fieldName] = value;
           emit("update:modelValue", value);
         }
       },
