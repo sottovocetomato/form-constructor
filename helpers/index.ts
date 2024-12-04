@@ -2,12 +2,12 @@ function cloneDeep(obj: any) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function deepClone(obj: any) {
+function prepareModel(obj: any) {
   return obj.map((item) => {
     if (Array.isArray(item)) {
-      deepClone(item);
+      prepareModel(item);
     } else if (typeof item === "object") {
-      return structuredClone(item);
+      return { ...item };
     } else {
       return item;
     }
@@ -22,4 +22,4 @@ function isArrayOfArrays(obj: any) {
   return obj.every((e) => isArray(e));
 }
 
-export { cloneDeep, isArray, isArrayOfArrays, deepClone };
+export { cloneDeep, isArray, isArrayOfArrays, prepareModel };

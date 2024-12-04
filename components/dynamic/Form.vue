@@ -72,13 +72,14 @@ function createComponent(field) {
     componentsMap[field.component] || field.component,
     {
       ...field.props,
-      modelValue: field.stateBlock[field.fieldName],
+      modelValue: field?.stateBlock?.[field?.fieldName],
       "onUpdate:modelValue": (value) => {
-        field.stateBlock[field.fieldName] = value;
-        emit("update:modelValue", value);
+        if (field.stateBlock) {
+          field.stateBlock[field.fieldName] = value;
+          emit("update:modelValue", value);
+        }
       },
       onClick: (e) => {
-        console.log(field?.onClick, "click event fired");
         field?.onClick ? field?.onClick(fieldsSet, e) : null;
       },
     },

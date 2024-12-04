@@ -1,9 +1,11 @@
 import { FieldTypes } from "@/types";
 import { isArray } from "@/helpers";
-import { isArrayOfArrays, deepClone } from "@/helpers";
+import { onClickFns } from "@/helpers/models";
+import { isArrayOfArrays, prepareModel } from "@/helpers";
 
 export const useDynamicForm = (fields = [], id) => {
-  const fieldsSet = reactive(deepClone(fields));
+  console.log(prepareModel(fields), "FIIIEEEEELDS");
+  const fieldsSet = reactive(prepareModel(fields));
   console.log(fieldsSet, "fieldsSet");
   const fieldsState = useState(`fieldsState-${id}`, () => {
     let state = {};
@@ -11,7 +13,6 @@ export const useDynamicForm = (fields = [], id) => {
     for (const field of fieldsSet) {
       if (field.isGroup) {
         state[field.groupName] = FieldTypes[field.groupType];
-
         createStateFields(field.groupFields, state[field.groupName]);
       } else if (field.fieldName) {
         state[field.fieldName] = "";

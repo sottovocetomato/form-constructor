@@ -118,7 +118,7 @@ const {
   onDrag,
 } = useFormDrop({ constructorAreaSelector: "#constructor-free-drop" });
 
-const settingsFieldSet = ref([]);
+const settingsFieldSet = shallowRef([]);
 const currentFormId = ref(null);
 
 const { toggleActive } = useSidebar();

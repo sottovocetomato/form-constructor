@@ -32,11 +32,9 @@ const selectSettingsModel = [
       type: "text",
       placeholder: "AddRow",
     },
-    fieldName: "addRow",
     sequenceNumber: 3,
     innerText: "Добавить поле",
-    onClick(fields) {
-      console.log("click");
+    onClick: (fields) => {
       if (!fields || !fields.length) return;
 
       const optionsGroup = fields.find(
