@@ -40,17 +40,21 @@ const { fieldsState, fieldsSet } = useDynamicForm(
   fields,
   formId ?? currentFormId
 );
-const dynamicComponent = h(
-  "div",
-  fieldsSet.map((field, ind) => {
-    if (field?.isGroup) {
-      const nodes = dynamicFieldsRenderer(field.groupFields);
-      console.log(nodes, "nodes");
-      return h("div", nodes);
-    }
-    return createComponent(field);
-  })
-);
+console.log("updated?");
+const dynamicComponent = () => {
+  console.log("rerun dynamicComponent");
+  return h(
+    "div",
+    fieldsSet.map((field, ind) => {
+      if (field?.isGroup) {
+        const nodes = dynamicFieldsRenderer(field.groupFields);
+        console.log(nodes, "nodes");
+        return h("div", nodes);
+      }
+      return createComponent(field);
+    })
+  );
+};
 
 function dynamicFieldsRenderer(entryFields, nodes = []) {
   const arrayOfArrays = isArrayOfArrays(entryFields);
@@ -87,6 +91,7 @@ function createComponent(field) {
       },
       onClick: (e) => {
         field?.onClick ? field?.onClick(fieldsSet, e) : null;
+        console.log(fieldsSet, "fieldsSet");
       },
     },
     field.innerText
