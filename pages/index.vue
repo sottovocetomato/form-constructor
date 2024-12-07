@@ -1,6 +1,7 @@
 <template>
   <BaseSideBar>
     <DynamicForm
+      v-if="settingsFieldSet"
       mainWrapClass="super-form"
       :fields="settingsFieldSet"
       :formId="currentFormId"
@@ -118,7 +119,7 @@ const {
   onDrag,
 } = useFormDrop({ constructorAreaSelector: "#constructor-free-drop" });
 
-const settingsFieldSet = shallowRef([]);
+const settingsFieldSet = shallowRef(null);
 const currentFormId = ref(null);
 
 const { toggleActive } = useSidebar();

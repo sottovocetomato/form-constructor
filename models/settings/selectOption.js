@@ -7,7 +7,7 @@ const selectOptionModel = [
       isHidden: false,
       required: false,
       type: "text",
-      placeholder: "Option Name",
+      placeholder: "Option Text",
       selected: false,
     },
     sequenceNumber: 1,

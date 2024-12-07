@@ -24,9 +24,9 @@ const {
   ariaInvalid = undefined,
 } = defineProps<FormElementProps>();
 
-onUpdated(() => {
-  console.log(placeholder, "updated");
-});
+// onUpdated(() => {
+//   console.log(placeholder, "updated");
+// });
 </script>
 
 <style scoped></style>

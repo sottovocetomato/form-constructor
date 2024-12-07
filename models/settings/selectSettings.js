@@ -15,6 +15,7 @@ const selectSettingsModel = [
     sequenceNumber: 1,
     fieldName: "id",
   },
+
   {
     isGroup: true,
     groupType: "ARRAY",
@@ -46,7 +47,6 @@ const selectSettingsModel = [
           ind: optionsGroup.groupFields.length,
         })
       );
-      console.log(optionsGroup.groupFields, "optionsGroup.groupFields");
     },
   },
 ];

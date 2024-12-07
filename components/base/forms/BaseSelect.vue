@@ -1,4 +1,5 @@
 <template>
+  <div>Selected: {{ model }}</div>
   <div :class="customWrapClass">
     <select v-bind="$attrs" v-model="model">
       <option
@@ -16,6 +17,7 @@
 
 <script setup lang="ts">
 import { FormElementProps } from "@/types/interfaces/props";
+
 defineOptions({
   inheritAttrs: false,
 });
@@ -26,6 +28,17 @@ const {
   customWrapClass = "",
   options = [],
 } = defineProps<FormElementProps>();
+
+watch(
+  () => options,
+  async (newVal, oldVal) => {
+    const selectedOptions = newVal.find((el) => el.selected);
+    if (selectedOptions) {
+      model.value = selectedOptions?.value;
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped></style>

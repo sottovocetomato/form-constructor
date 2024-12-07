@@ -35,20 +35,19 @@ const {
   mainWrapClass = "",
   formId = null,
 } = defineProps<DynamicFormProps>();
-console.log(fields, "fields props");
+
 const { fieldsState, fieldsSet } = useDynamicForm(
   fields,
   formId ?? currentFormId
 );
-console.log("updated?");
+
 const dynamicComponent = () => {
-  console.log("rerun dynamicComponent");
   return h(
     "div",
     fieldsSet.map((field, ind) => {
       if (field?.isGroup) {
         const nodes = dynamicFieldsRenderer(field.groupFields);
-        console.log(nodes, "nodes");
+        // console.log(nodes, "nodes");
         return h("div", nodes);
       }
       return createComponent(field);
@@ -91,21 +90,18 @@ function createComponent(field) {
       },
       onClick: (e) => {
         field?.onClick ? field?.onClick(fieldsSet, e) : null;
-        console.log(fieldsSet, "fieldsSet");
       },
     },
     field.innerText
   );
 }
 
-console.log(fieldsState?.value, "fieldsState");
-console.log(fieldsSet, "fieldsSet");
-
 function logger() {
   console.log(fieldsState, "logger");
 }
 function onFormSubmit() {
   console.log(fieldsState, "fieldsState");
+  console.log(fieldsSet, "fieldsSet");
   emit("formSubmit", fieldsState);
 }
 </script>
