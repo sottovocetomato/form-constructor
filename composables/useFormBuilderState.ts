@@ -1,5 +1,5 @@
-export const useFormBuilderState = () => {
-  const formItems = useState<string[]>("formItems", () => []);
+export const useFormBuilderState = (id) => {
+  const formItems = useState<string[]>(`formItems-${id}`, () => []);
 
   function insertInFromItems(ind, itemID) {
     formItems.value.splice(ind, 0, {

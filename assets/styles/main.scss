@@ -137,3 +137,23 @@ aside {
   opacity: 0.3;
   display: none;
 }
+
+.composed-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: calc(90vh - $header-height - $footer-height);
+}
+.form-preview {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 45vw;
+  margin: auto;
+  flex-direction: column;
+  height: auto;
+  background-color: white;
+  box-shadow: -2px 3px 10px #b2b0b0;
+  padding: $gap * 2;
+}

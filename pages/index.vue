@@ -2,7 +2,6 @@
   <BaseSideBar>
     <DynamicForm
       v-if="settingsFieldSet"
-      mainWrapClass="super-form"
       :fields="settingsFieldSet"
       :formId="currentFormId"
       :key="currentFormId"
@@ -86,6 +85,7 @@
       Checkbox
     </div>
     <button @click="onFormSave">Сохранить форму</button>
+    <button @click="onFormPreview">Предпросмотр</button>
   </aside>
 </template>
 
@@ -108,7 +108,11 @@ const componentsMap: ComponentsMap = {
   BaseDateInput: BaseDateInput,
   BaseCheckbox: BaseCheckbox,
 };
-const { formItems } = useFormBuilderState();
+
+const router = useRouter();
+
+const formId = 1;
+const { formItems } = useFormBuilderState(formId);
 const {
   startDrag,
   onDrop,
@@ -117,7 +121,7 @@ const {
   onConstructorAreaDragEnter,
   onConstructorAreaDragLeave,
   onDrag,
-} = useFormDrop({ constructorAreaSelector: "#constructor-free-drop" });
+} = useFormDrop({ constructorAreaSelector: "#constructor-free-drop", formId });
 
 const settingsFieldSet = shallowRef(null);
 const currentFormId = ref(null);
@@ -144,6 +148,15 @@ function onFormSettingsSubmit(state) {
 }
 function onFormSave(state) {
   console.log(formItems.value, "currentSavedForm");
+}
+function onFormPreview(state) {
+  const savedForms =
+    JSON.parse(localStorage.getItem("savedForm") as string) || {};
+  localStorage.setItem(
+    "savedForm",
+    JSON.stringify({ ...savedForms, [formId]: [...formItems.value] })
+  );
+  router.push(`/preview/${formId}`);
 }
 </script>
 

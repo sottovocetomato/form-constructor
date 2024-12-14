@@ -3,6 +3,7 @@ import { useFormBuilderState } from "@/composables/useFormBuilderState";
 export const useFormDrop = ({
   constructorAreaSelector = "",
   customMarkerSelector = "",
+  formId,
 }: {
   constructorAreaSelector: string;
   customMarkerSelector: string;
@@ -14,7 +15,7 @@ export const useFormDrop = ({
 
   let dropMarker: HTMLElement | null = null;
 
-  const { insertInFromItems, addToFormItems } = useFormBuilderState();
+  const { insertInFromItems, addToFormItems } = useFormBuilderState(formId);
 
   function setConstructorArea() {
     if (process.client) {

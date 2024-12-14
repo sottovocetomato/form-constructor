@@ -13,7 +13,9 @@
   </div>
 </template>
 <script setup lang="ts">
-function someErrorLogger(error): void {
+import { NuxtError } from "nuxt/app";
+
+function someErrorLogger(error: NuxtError): void {
   console.error(error, "Some error has occured on app level");
 }
 </script>

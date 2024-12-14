@@ -5,11 +5,13 @@ export interface FormElementProps {
   customClass?: string;
   placeholder?: string;
   label?: string;
-  options?: [];
   ariaInvalid?: boolean | undefined;
 }
 export interface CheckboxProps extends FormElementProps {
   type?: "checkbox" | "radio";
+}
+export interface SelectInputProps extends FormElementProps {
+  options?: SelectOptions[];
 }
 export interface DateInputProps extends FormElementProps {
   type?: "date" | "datetime-local" | "month" | "time";
@@ -19,6 +21,7 @@ export interface DynamicFormProps {
   fields: DynamicFormFields[];
   data?: {}[];
   mainWrapClass?: string;
+  noSubmitBtn?: boolean;
   formId?: number | string | null | undefined;
 }
 
@@ -32,4 +35,11 @@ export interface DynamicFormFields {
     label?: string;
     storeField?: string;
   };
+}
+
+export interface SelectOptions {
+  selected?: boolean;
+  disabled?: boolean;
+  text?: string;
+  value?: string;
 }

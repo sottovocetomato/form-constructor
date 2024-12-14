@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { DateInputProps } from "@/types/interfaces/props";
+import type { DateInputProps } from "@/types/interfaces/props";
 defineOptions({
   inheritAttrs: false,
 });

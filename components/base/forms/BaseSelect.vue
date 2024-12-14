@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { FormElementProps } from "@/types/interfaces/props";
+import type { SelectInputProps } from "@/types/interfaces/props";
 
 defineOptions({
   inheritAttrs: false,
@@ -27,7 +27,7 @@ const {
   ariaInvalid = undefined,
   customWrapClass = "",
   options = [],
-} = defineProps<FormElementProps>();
+} = defineProps<SelectInputProps>();
 
 watch(
   () => options,

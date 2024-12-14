@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { CheckboxProps } from "@/types/interfaces/props";
+import type { CheckboxProps } from "@/types/interfaces/props";
 
 defineOptions({
   inheritAttrs: false,

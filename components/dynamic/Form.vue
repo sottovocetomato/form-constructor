@@ -1,7 +1,15 @@
 <template>
-  <form :class="mainWrapClass" @submit.prevent v-if="fieldsSet.length">
-    <dynamicComponent />
-    <button type="submit" @click="onFormSubmit">Сохранить</button>
+  <form
+    :class="[mainWrapClass ? mainWrapClass : 'composed-form']"
+    @submit.prevent
+    v-if="fieldsSet.length"
+  >
+    <div class="composed-form__content">
+      <dynamicComponent />
+    </div>
+    <button v-if="!noSubmitBtn" type="submit" @click="onFormSubmit">
+      Сохранить
+    </button>
   </form>
 </template>
 
@@ -34,6 +42,7 @@ const {
   data = [],
   mainWrapClass = "",
   formId = null,
+  noSubmitBtn = false,
 } = defineProps<DynamicFormProps>();
 
 const { fieldsState, fieldsSet } = useDynamicForm(
