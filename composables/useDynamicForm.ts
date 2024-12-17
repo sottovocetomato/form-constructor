@@ -1,19 +1,30 @@
-import { FieldTypes } from "@/types";
 import { isArray } from "@/helpers";
-import { onClickFns } from "@/helpers/models";
+
 import { isArrayOfArrays, prepareModel } from "@/helpers";
 
 export const useDynamicForm = (fields = [], id) => {
   const fieldsSet = reactive(prepareModel(fields));
 
-  const fieldsState = useState(`fieldsState-${id}`, createStateFields);
+  const fieldsState = useState(`fieldsState-${id}`);
+
+  createStateFields();
+
+  function createGroupObject(type) {
+    if (type === "ARRAY") {
+      return [];
+    }
+    if (type === "OBJECT") {
+      return {};
+    } else return "";
+  }
 
   function createStateFields() {
     let state = {};
-
+    console.log("creating state fields");
     for (const field of fieldsSet) {
       if (field.isGroup) {
-        state[field.groupName] = FieldTypes[field.groupType];
+        state[field.groupName] = createGroupObject(field.groupType);
+
         createNestedFields(
           field.groupFields,
           state[field.groupName],
@@ -23,22 +34,22 @@ export const useDynamicForm = (fields = [], id) => {
         state[field.fieldName] = "";
       }
     }
-
-    return state;
+    // console.log(state, "State");
+    fieldsState.value = state;
   }
 
-  function createNestedFields(modelField, state, path = "") {
-    if (isArray(modelField)) {
-      const arrayOfArrays = isArrayOfArrays(modelField);
+  function createNestedFields(groupFields, state, path = "") {
+    if (isArray(groupFields)) {
+      const arrayOfArrays = isArrayOfArrays(groupFields);
       if (arrayOfArrays) {
-        for (const [index, groupField] of Object.entries(modelField)) {
+        for (const [index, groupField] of Object.entries(groupFields)) {
           if (state?.[index]) continue;
           state[index] = {};
-          path = `${path}.${index}`;
-          createNestedFields(groupField, state[index], path);
+          const currentPath = `${path}.${index}`;
+          createNestedFields(groupField, state[index], currentPath);
         }
       } else {
-        for (const groupField of modelField) {
+        for (const groupField of groupFields) {
           if (state?.[groupField.fieldName]) continue;
           state[groupField.fieldName] = null;
           groupField["stateBlock"] = `${path}`;
@@ -46,12 +57,5 @@ export const useDynamicForm = (fields = [], id) => {
       }
     }
   }
-  watch(fieldsSet, (newVal) => {
-    if (newVal) {
-      console.log("creating new fields");
-      createStateFields();
-      console.log(fieldsState, "fieldsState");
-    }
-  });
-  return { fieldsState, fieldsSet };
+  return { fieldsState, fieldsSet, createStateFields };
 };

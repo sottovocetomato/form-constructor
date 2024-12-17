@@ -37,7 +37,6 @@ const selectSettingsModel = [
     innerText: "Добавить поле",
     onClick: (fields) => {
       if (!fields || !fields.length) return;
-
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "options"
       );

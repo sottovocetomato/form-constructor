@@ -44,8 +44,8 @@ const {
   formId = null,
   noSubmitBtn = false,
 } = defineProps<DynamicFormProps>();
-
-const { fieldsState, fieldsSet } = useDynamicForm(
+console.log(formId, "formId");
+const { fieldsState, fieldsSet, createStateFields } = useDynamicForm(
   fields,
   formId ?? currentFormId
 );
@@ -86,21 +86,27 @@ function createComponent(field) {
       return p[n];
     }, fieldsState.value);
   }
+
+  const component = {
+    ...field.props,
+    modelValue: stateBlock[field.fieldName],
+    "onUpdate:modelValue": (value) => {
+      if (field.fieldName) {
+        stateBlock[field.fieldName] = value;
+        emit("update:modelValue", value);
+      }
+    },
+  };
+  if (field.onClick) {
+    component.onClick = () => {
+      field.onClick(fieldsSet);
+      createStateFields();
+    };
+  }
+
   return h(
     componentsMap[field.component] || field.component,
-    {
-      ...field.props,
-      modelValue: stateBlock[field.fieldName],
-      "onUpdate:modelValue": (value) => {
-        if (field.fieldName) {
-          stateBlock[field.fieldName] = value;
-          emit("update:modelValue", value);
-        }
-      },
-      onClick: (e) => {
-        field?.onClick ? field?.onClick(fieldsSet, e) : null;
-      },
-    },
+    { ...component },
     field.innerText
   );
 }
