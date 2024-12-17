@@ -1,5 +1,4 @@
-import { cloneDeep, isArray } from "@/helpers/index";
-import selectOptionModel from "#build/models/settings/selectOption";
+import { isArray, prepareModel } from "@/helpers/index";
 
 function constructFromModel(
   model: any,
@@ -8,17 +7,23 @@ function constructFromModel(
   if (isArray(model)) {
     const preModel = [];
     for (const modelObj of model) {
-      const newObj = cloneDeep(modelObj);
-      if ("props" in newObj) {
+      const newObj = { ...modelObj };
+      if ("props" in modelObj) {
+        newObj.props = { ...modelObj.props };
         newObj.props.id = `${newObj.props.id}-${id ?? ind + 1}`;
+        newObj.props["data-index"] = id;
       }
       preModel.push(newObj);
     }
 
     return preModel;
   }
-  const newObj = cloneDeep(model);
+  const newObj = { ...model };
+  if ("props" in modelObj) {
+    newObj.props = { ...modelObj.props };
+  }
   newObj.props[id] = `${newObj.props.id}-${id ?? ind + 1}`;
+  newObj.props["data-index"] = id;
   return newObj;
 }
 

@@ -38,6 +38,14 @@ const selectOptionModel = [
       required: false,
       label: "Selected",
     },
+    onInput: (fields, state, e) => {
+      const selectIndex = e.target.dataset.index - 1;
+      state.options.forEach((opt, ind) => {
+        if (ind !== selectIndex) {
+          opt.selected = null;
+        }
+      });
+    },
     sequenceNumber: 3,
     fieldName: "selected",
   },

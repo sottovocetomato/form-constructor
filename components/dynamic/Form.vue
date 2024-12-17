@@ -98,9 +98,14 @@ function createComponent(field) {
     },
   };
   if (field.onClick) {
-    component.onClick = () => {
-      field.onClick(fieldsSet);
+    component.onClick = (e) => {
+      field.onClick(fieldsSet, fieldsState.value, e);
       createStateFields();
+    };
+  }
+  if (field.onInput) {
+    component.onInput = (e) => {
+      field.onInput(fieldsSet, fieldsState.value, e);
     };
   }
 
