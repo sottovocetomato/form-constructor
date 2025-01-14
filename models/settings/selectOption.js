@@ -1,8 +1,9 @@
-const selectOptionModel = [
+const createSelectOption = (id) => [
   {
     component: "BaseTextInput",
     props: {
-      id: `option-name`,
+      id: `option-name-${id}`,
+      "data-index": id,
       displayName: "",
       isHidden: false,
       required: false,
@@ -17,7 +18,8 @@ const selectOptionModel = [
   {
     component: "BaseTextInput",
     props: {
-      id: `option-value`,
+      id: `option-value-${id}`,
+      "data-index": id,
       displayName: "",
       isHidden: false,
       required: false,
@@ -32,7 +34,8 @@ const selectOptionModel = [
   {
     component: "BaseCheckbox",
     props: {
-      id: "option-selected-checkbox",
+      id: `option-selected-checkbox-${id}`,
+      "data-index": id,
       displayName: "",
       isHidden: false,
       required: false,
@@ -52,7 +55,8 @@ const selectOptionModel = [
   {
     component: "BaseCheckbox",
     props: {
-      id: "option-disabled-checkbox",
+      id: `option-disabled-checkbox-${id}`,
+      "data-index": id,
       displayName: "",
       isHidden: false,
       required: false,
@@ -63,4 +67,4 @@ const selectOptionModel = [
   },
 ];
 
-export default selectOptionModel;
+export default createSelectOption;

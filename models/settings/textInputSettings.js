@@ -1,4 +1,4 @@
-const textInputSettingsModel = [
+const createTextInputModel = () => [
   {
     component: "BaseTextInput",
     props: {
@@ -36,7 +36,7 @@ const textInputSettingsModel = [
       placeholder: "Min char length",
     },
     sequenceNumber: 3,
-    fieldName: "min",
+    fieldName: "minlength",
   },
   {
     component: "BaseTextInput",
@@ -49,7 +49,7 @@ const textInputSettingsModel = [
       placeholder: "Max char length",
     },
     sequenceNumber: 4,
-    fieldName: "max",
+    fieldName: "maxlength",
   },
 
   {
@@ -78,4 +78,4 @@ const textInputSettingsModel = [
   },
 ];
 
-export default textInputSettingsModel;
+export default createTextInputModel;

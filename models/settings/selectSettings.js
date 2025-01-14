@@ -1,26 +1,12 @@
 import { constructFromModel } from "../../helpers/models.ts";
-import selectOptionModel from "../settings/selectOption.js";
+import createSelectOption from "../settings/selectOption.js";
 
-const selectSettingsModel = [
-  {
-    component: "BaseTextInput",
-    props: {
-      id: "placeholderInput",
-      displayName: "",
-      isHidden: false,
-      required: false,
-      type: "text",
-      placeholder: "Select Id",
-    },
-    sequenceNumber: 1,
-    fieldName: "id",
-  },
-
+const createSelectModel = (id) => [
   {
     isGroup: true,
     groupType: "ARRAY",
     groupName: "options",
-    groupFields: [constructFromModel(selectOptionModel, { id: 1 })],
+    groupFields: [createSelectOption(1)],
     sequenceNumber: 2,
   },
   {
@@ -42,12 +28,10 @@ const selectSettingsModel = [
       );
       if (!optionsGroup) return;
       optionsGroup.groupFields.push(
-        constructFromModel(selectOptionModel, {
-          ind: optionsGroup.groupFields.length,
-        })
+        createSelectOption(optionsGroup.groupFields.length)
       );
     },
   },
 ];
 
-export default selectSettingsModel;
+export default createSelectModel;

@@ -1,7 +1,6 @@
 <template>
-  <div>Selected: {{ model }}</div>
   <div :class="customWrapClass">
-    <select v-bind="$attrs" v-model="model">
+    <select v-bind="$attrs" v-model="model" :id="selectId">
       <option
         v-for="option in options"
         :selected="option?.selected"
@@ -17,6 +16,8 @@
 
 <script setup lang="ts">
 import type { SelectInputProps } from "@/types/interfaces/props";
+
+const selectId = `select-${useId()}`;
 
 defineOptions({
   inheritAttrs: false,

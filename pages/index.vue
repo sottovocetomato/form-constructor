@@ -131,7 +131,7 @@ function openSidebar(e) {
   const dataName = e.target.dataset?.name;
 
   if (dataName in elementsMap) {
-    settingsFieldSet.value = elementsMap?.[dataName];
+    settingsFieldSet.value = elementsMap?.[dataName]?.();
     currentFormId.value = e.target.dataset?.index;
   } else {
     settingsFieldSet.value = "";

@@ -1,7 +1,8 @@
-import textInputSettingsModel from "@/models/settings/textInputSettings.js";
-import selectSettingsModel from "@/models/settings/selectSettings.js";
+import createTextInputModel from "@/models/settings/textInputSettings.js";
+import createSelectModel from "@/models/settings/selectSettings.js";
+import { constructFromModel } from "@/helpers/models";
 
 export const elementsMap = {
-  BaseTextInput: textInputSettingsModel,
-  BaseSelect: selectSettingsModel,
+  BaseTextInput: createTextInputModel,
+  BaseSelect: createSelectModel,
 };

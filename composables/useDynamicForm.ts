@@ -5,7 +5,7 @@ import { isArrayOfArrays, prepareModel } from "@/helpers";
 export const useDynamicForm = (fields = [], id) => {
   const fieldsSet = reactive(prepareModel(fields));
 
-  const fieldsState = useState(`fieldsState-${id}`);
+  const fieldsState = useState(`fieldsState-${id}`, () => ({}));
 
   createStateFields();
 
@@ -19,23 +19,24 @@ export const useDynamicForm = (fields = [], id) => {
   }
 
   function createStateFields() {
-    let state = {};
-    console.log("creating state fields");
+    console.log(fieldsState.value, "creating state fields");
     for (const field of fieldsSet) {
       if (field.isGroup) {
-        state[field.groupName] = createGroupObject(field.groupType);
+        if (!fieldsState.value[field.groupName]) {
+          fieldsState.value[field.groupName] = createGroupObject(
+            field.groupType
+          );
+        }
 
         createNestedFields(
           field.groupFields,
-          state[field.groupName],
+          fieldsState.value[field.groupName],
           field.groupName
         );
       } else if (field.fieldName) {
-        state[field.fieldName] = "";
+        fieldsState.value[field.fieldName] = null;
       }
     }
-    // console.log(state, "State");
-    fieldsState.value = state;
   }
 
   function createNestedFields(groupFields, state, path = "") {
