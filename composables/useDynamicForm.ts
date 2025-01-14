@@ -34,7 +34,11 @@ export const useDynamicForm = (fields = [], id) => {
           field.groupName
         );
       } else if (field.fieldName) {
-        fieldsState.value[field.fieldName] = null;
+        fieldsState.value[field.fieldName] = field.initialValue
+          ? field.initialValue
+          : field.notNullable
+          ? ""
+          : null;
       }
     }
   }
@@ -52,7 +56,12 @@ export const useDynamicForm = (fields = [], id) => {
       } else {
         for (const groupField of groupFields) {
           if (state?.[groupField.fieldName]) continue;
-          state[groupField.fieldName] = null;
+          // state[groupField.fieldName] = groupField.notNullable ? "" : null;
+          state[groupField.fieldName] = groupField.initialValue
+            ? groupField.initialValue
+            : groupField.notNullable
+            ? ""
+            : null;
           groupField["stateBlock"] = `${path}`;
         }
       }

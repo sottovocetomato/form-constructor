@@ -51,7 +51,7 @@ aside {
   display: flex;
   flex-direction: column;
   width: 70%;
-  padding: 15px;
+  padding: $padding * 2;
   min-height: calc(95vh - $header-height - $footer-height);
   height: auto;
   background: white;
@@ -61,7 +61,6 @@ aside {
   }
   &__component {
     display: block;
-    padding: $padding;
     border-radius: 5px;
     &:hover {
       background-color: $slate-100;

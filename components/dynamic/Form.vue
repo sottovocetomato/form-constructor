@@ -51,6 +51,7 @@ const { fieldsState, fieldsSet, createStateFields } = useDynamicForm(
 );
 
 const dynamicComponent = () => {
+  console.log(fieldsSet, "FORM FIELDSET");
   return h(
     "div",
     fieldsSet.map((field, ind) => {
@@ -80,13 +81,14 @@ function dynamicFieldsRenderer(entryFields, nodes = []) {
 }
 
 function createComponent(field) {
+  if (field.props.isHidden) return;
   let stateBlock = fieldsState.value;
   if (field?.stateBlock) {
     stateBlock = field?.stateBlock?.split(".")?.reduce((p, n) => {
       return p[n];
     }, fieldsState.value);
   }
-
+  console.log(stateBlock, "stateBlock");
   const component = {
     ...field.props,
     modelValue: stateBlock[field.fieldName],

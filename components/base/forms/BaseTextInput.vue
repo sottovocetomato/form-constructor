@@ -6,6 +6,7 @@
       :class="customClass"
       :aria-invalid="ariaInvalid"
       v-model="model"
+      :id="inputId"
     />
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
@@ -16,6 +17,8 @@ import { FormElementProps } from "@/types/interfaces/props";
 defineOptions({
   inheritAttrs: false,
 });
+const inputId = `input-${useId()}`;
+
 const model = defineModel();
 const {
   customWrapClass = "",

@@ -1,12 +1,13 @@
 import { constructFromModel } from "../../helpers/models.ts";
 import createSelectOption from "../settings/selectOption.js";
+import createSelectPlaceholder from "../settings/selectPlaceholder.js";
 
 const createSelectModel = (id) => [
   {
     isGroup: true,
     groupType: "ARRAY",
     groupName: "options",
-    groupFields: [createSelectOption(1)],
+    groupFields: [createSelectPlaceholder(1), createSelectOption(2)],
     sequenceNumber: 2,
   },
   {

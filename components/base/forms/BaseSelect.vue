@@ -1,10 +1,11 @@
 <template>
   <div :class="customWrapClass">
-    <select v-bind="$attrs" v-model="model" :id="selectId">
+    <select v-bind="$attrs" :id="selectId" v-model="model">
       <option
         v-for="option in options"
         :selected="option?.selected"
         :disabled="option?.disabled"
+        :hidden="option?.hidden"
         :value="option?.value"
       >
         {{ option?.text }}
@@ -22,7 +23,6 @@ const selectId = `select-${useId()}`;
 defineOptions({
   inheritAttrs: false,
 });
-const model = defineModel();
 
 const {
   ariaInvalid = undefined,
@@ -30,15 +30,18 @@ const {
   options = [],
 } = defineProps<SelectInputProps>();
 
+const model = defineModel({ default: "" });
+
 watch(
   () => options,
   async (newVal, oldVal) => {
+    console.log(newVal, "newVal");
     const selectedOptions = newVal.find((el) => el.selected);
     if (selectedOptions) {
       model.value = selectedOptions?.value;
     }
   },
-  { deep: true }
+  { deep: true, immediate: false }
 );
 </script>
 
