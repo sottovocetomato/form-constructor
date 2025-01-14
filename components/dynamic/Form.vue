@@ -56,9 +56,16 @@ const dynamicComponent = () => {
     "div",
     fieldsSet.map((field, ind) => {
       if (field?.isGroup) {
-        const nodes = dynamicFieldsRenderer(field.groupFields);
-        // console.log(nodes, "nodes");
-        return h("div", nodes);
+        // const nodes = dynamicFieldsRenderer(field.groupFields, []);
+        // return h("div", nodes);
+        const groupedNodes = [];
+        for (const fieldArr of field.groupFields) {
+          const nodes = dynamicFieldsRenderer(fieldArr);
+          groupedNodes.push(
+            h("div", { class: "composed-form__content__group" }, nodes)
+          );
+        }
+        return groupedNodes;
       }
       return createComponent(field);
     })

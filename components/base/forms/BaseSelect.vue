@@ -32,17 +32,17 @@ const {
 
 const model = defineModel({ default: "" });
 
-watch(
-  () => options,
-  async (newVal, oldVal) => {
-    console.log(newVal, "newVal");
-    const selectedOptions = newVal.find((el) => el.selected);
-    if (selectedOptions) {
-      model.value = selectedOptions?.value;
-    }
-  },
-  { deep: true, immediate: false }
-);
+// watch(
+//   () => options,
+//   async (newVal, oldVal) => {
+//     console.log(newVal, "newVal");
+//     const selectedOptions = newVal.find((el) => el.selected);
+//     if (selectedOptions) {
+//       model.value = selectedOptions?.value;
+//     }
+//   },
+//   { deep: true, immediate: false }
+// );
 </script>
 
 <style scoped></style>
