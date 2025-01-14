@@ -121,6 +121,9 @@ aside {
       display: block;
     }
   }
+  .composed-form {
+    min-height: calc(100vh - $footer-height);
+  }
 }
 
 .sidebar-backdrop {
@@ -142,7 +145,16 @@ aside {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: calc(90vh - $header-height - $footer-height);
+  min-height: calc(90vh - $footer-height - $header-height);
+
+  &__content {
+    &__group {
+      margin: $padding 0;
+    }
+  }
+  #add-row {
+    margin: $padding 0;
+  }
 }
 .form-preview {
   display: flex;
