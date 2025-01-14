@@ -28,7 +28,7 @@ const createSelectModel = (id) => [
       );
       if (!optionsGroup) return;
       optionsGroup.groupFields.push(
-        createSelectOption(optionsGroup.groupFields.length)
+        createSelectOption(optionsGroup.groupFields.length + 1)
       );
     },
   },
