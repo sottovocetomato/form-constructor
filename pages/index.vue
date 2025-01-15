@@ -139,6 +139,8 @@ function openSidebar(e) {
   toggleActive();
 }
 
+console.log(formItems, "formItems");
+
 function onFormSettingsSubmit(state) {
   formItems.value[currentFormId?.value].props = {
     ...formItems?.value[currentFormId?.value]?.props,

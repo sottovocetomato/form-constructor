@@ -34,11 +34,13 @@ export const useDynamicForm = (fields = [], id) => {
           field.groupName
         );
       } else if (field.fieldName) {
-        fieldsState.value[field.fieldName] = field.initialValue
-          ? field.initialValue
-          : field.notNullable
-          ? ""
-          : null;
+        if (!fieldsState.value[field.fieldName]) {
+          fieldsState.value[field.fieldName] = field.initialValue
+            ? field.initialValue
+            : field.notNullable
+            ? ""
+            : null;
+        }
       }
     }
   }
@@ -48,20 +50,21 @@ export const useDynamicForm = (fields = [], id) => {
       const arrayOfArrays = isArrayOfArrays(groupFields);
       if (arrayOfArrays) {
         for (const [index, groupField] of Object.entries(groupFields)) {
-          if (state?.[index]) continue;
-          state[index] = {};
+          if (!state?.[index]) {
+            state[index] = {};
+          }
           const currentPath = `${path}.${index}`;
           createNestedFields(groupField, state[index], currentPath);
         }
       } else {
         for (const groupField of groupFields) {
-          if (state?.[groupField.fieldName]) continue;
-          // state[groupField.fieldName] = groupField.notNullable ? "" : null;
-          state[groupField.fieldName] = groupField.initialValue
-            ? groupField.initialValue
-            : groupField.notNullable
-            ? ""
-            : null;
+          if (!state?.[groupField.fieldName]) {
+            state[groupField.fieldName] = groupField.initialValue
+              ? groupField.initialValue
+              : groupField.notNullable
+              ? ""
+              : null;
+          }
           groupField["stateBlock"] = `${path}`;
         }
       }

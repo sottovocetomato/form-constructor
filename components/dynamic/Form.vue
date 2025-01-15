@@ -56,16 +56,16 @@ const dynamicComponent = () => {
     "div",
     fieldsSet.map((field, ind) => {
       if (field?.isGroup) {
-        // const nodes = dynamicFieldsRenderer(field.groupFields, []);
-        // return h("div", nodes);
-        const groupedNodes = [];
-        for (const fieldArr of field.groupFields) {
-          const nodes = dynamicFieldsRenderer(fieldArr);
-          groupedNodes.push(
-            h("div", { class: "composed-form__content__group" }, nodes)
-          );
-        }
-        return groupedNodes;
+        const nodes = dynamicFieldsRenderer(field.groupFields, []);
+        return h("div", nodes);
+        // const groupedNodes = [];
+        // for (const fieldArr of field.groupFields) {
+        //   const nodes = dynamicFieldsRenderer(fieldArr);
+        //   groupedNodes.push(
+        //     h("div", { class: "composed-form__content__group" }, nodes)
+        //   );
+        // }
+        // return groupedNodes;
       }
       return createComponent(field);
     })
@@ -96,6 +96,9 @@ function createComponent(field) {
     }, fieldsState.value);
   }
   console.log(stateBlock, "stateBlock");
+  console.log(field?.stateBlock, "field?.stateBlock");
+  console.log(field.fieldName, "field.fieldName");
+  console.log(stateBlock[field.fieldName], "stateBlock[field.fieldName] value");
   const component = {
     ...field.props,
     modelValue: stateBlock[field.fieldName],
