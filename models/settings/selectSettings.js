@@ -4,6 +4,19 @@ import createSelectPlaceholder from "../settings/selectPlaceholder.js";
 
 const createSelectModel = (id) => [
   {
+    component: "BaseTextInput",
+    props: {
+      id: "labelSelect",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Label",
+    },
+    sequenceNumber: 1,
+    fieldName: "label",
+  },
+  {
     isGroup: true,
     groupType: "ARRAY",
     groupName: "options",

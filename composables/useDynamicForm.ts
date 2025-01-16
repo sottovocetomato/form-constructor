@@ -3,7 +3,11 @@ import { isArray } from "@/helpers";
 import { isArrayOfArrays, prepareModel } from "@/helpers";
 
 export const useDynamicForm = (fields = [], id) => {
-  const fieldsSet = reactive(prepareModel(fields));
+  const fieldsSet = useState(`fieldsSet-${id}`);
+
+  if (!fieldsSet.value) {
+    fieldsSet.value = fields;
+  }
 
   const fieldsState = useState(`fieldsState-${id}`, () => ({}));
 
@@ -20,7 +24,7 @@ export const useDynamicForm = (fields = [], id) => {
 
   function createStateFields() {
     console.log(fieldsState.value, "creating state fields");
-    for (const field of fieldsSet) {
+    for (const field of fieldsSet.value) {
       if (field.isGroup) {
         if (!fieldsState.value[field.groupName]) {
           fieldsState.value[field.groupName] = createGroupObject(
@@ -50,21 +54,20 @@ export const useDynamicForm = (fields = [], id) => {
       const arrayOfArrays = isArrayOfArrays(groupFields);
       if (arrayOfArrays) {
         for (const [index, groupField] of Object.entries(groupFields)) {
-          if (!state?.[index]) {
-            state[index] = {};
-          }
+          if (state?.[index]) continue;
+          state[index] = {};
           const currentPath = `${path}.${index}`;
           createNestedFields(groupField, state[index], currentPath);
         }
       } else {
         for (const groupField of groupFields) {
-          if (!state?.[groupField.fieldName]) {
-            state[groupField.fieldName] = groupField.initialValue
-              ? groupField.initialValue
-              : groupField.notNullable
-              ? ""
-              : null;
-          }
+          if (state?.[groupField.fieldName]) continue;
+          // state[groupField.fieldName] = groupField.notNullable ? "" : null;
+          state[groupField.fieldName] = groupField.initialValue
+            ? groupField.initialValue
+            : groupField.notNullable
+            ? ""
+            : null;
           groupField["stateBlock"] = `${path}`;
         }
       }

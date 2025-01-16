@@ -2,6 +2,19 @@ const createTextInputModel = () => [
   {
     component: "BaseTextInput",
     props: {
+      id: "labelInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Label",
+    },
+    sequenceNumber: 1,
+    fieldName: "label",
+  },
+  {
+    component: "BaseTextInput",
+    props: {
       id: "placeholderInput",
       displayName: "",
       isHidden: false,
@@ -9,7 +22,7 @@ const createTextInputModel = () => [
       type: "text",
       placeholder: "Placeholder",
     },
-    sequenceNumber: 1,
+    sequenceNumber: 2,
     fieldName: "placeholder",
   },
   // {
@@ -35,7 +48,7 @@ const createTextInputModel = () => [
       type: "number",
       placeholder: "Min char length",
     },
-    sequenceNumber: 2,
+    sequenceNumber: 3,
     fieldName: "minlength",
   },
   {
@@ -48,7 +61,7 @@ const createTextInputModel = () => [
       type: "number",
       placeholder: "Max char length",
     },
-    sequenceNumber: 3,
+    sequenceNumber: 4,
     fieldName: "maxlength",
   },
 
@@ -61,8 +74,20 @@ const createTextInputModel = () => [
       required: false,
       label: "Required",
     },
-    sequenceNumber: 4,
+    sequenceNumber: 5,
     fieldName: "required",
+  },
+  {
+    component: "BaseCheckbox",
+    props: {
+      id: "required",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      label: "Numeric",
+    },
+    sequenceNumber: 6,
+    fieldName: "number",
   },
   {
     component: "BaseCheckbox",
@@ -73,7 +98,7 @@ const createTextInputModel = () => [
       required: false,
       label: "Disabled",
     },
-    sequenceNumber: 5,
+    sequenceNumber: 7,
     fieldName: "disabled",
   },
 ];

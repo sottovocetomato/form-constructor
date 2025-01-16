@@ -1,13 +1,17 @@
 <template>
   <div :class="customWrapClass">
-    <input
-      v-bind="$attrs"
-      :placeholder="placeholder"
-      :class="customClass"
-      :aria-invalid="ariaInvalid"
-      v-model="model"
-      :id="inputId"
-    />
+    <label>
+      {{ label }}
+      <input
+        v-bind="$attrs"
+        :placeholder="placeholder"
+        :class="customClass"
+        :aria-invalid="ariaInvalid"
+        :type="number ? 'number' : 'text'"
+        v-model="model"
+        :id="inputId"
+      />
+    </label>
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
 </template>
@@ -22,6 +26,8 @@ const inputId = `input-${useId()}`;
 const model = defineModel();
 const {
   customWrapClass = "",
+  label = "",
+  number = "",
   placeholder = "Text Input",
   customClass = "",
   ariaInvalid = undefined,

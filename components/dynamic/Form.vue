@@ -51,10 +51,10 @@ const { fieldsState, fieldsSet, createStateFields } = useDynamicForm(
 );
 
 const dynamicComponent = () => {
-  console.log(fieldsSet, "FORM FIELDSET");
+  console.log(fieldsSet.value, "FORM FIELDSET");
   return h(
     "div",
-    fieldsSet.map((field, ind) => {
+    fieldsSet.value.map((field, ind) => {
       if (field?.isGroup) {
         const nodes = dynamicFieldsRenderer(field.groupFields, []);
         return h("div", nodes);
@@ -111,13 +111,13 @@ function createComponent(field) {
   };
   if (field.onClick) {
     component.onClick = (e) => {
-      field.onClick(fieldsSet, fieldsState.value, e);
+      field.onClick(fieldsSet.value, fieldsState.value, e);
       createStateFields();
     };
   }
   if (field.onInput) {
     component.onInput = (e) => {
-      field.onInput(fieldsSet, fieldsState.value, e);
+      field.onInput(fieldsSet.value, fieldsState.value, e);
     };
   }
 
@@ -133,7 +133,7 @@ function logger() {
 }
 function onFormSubmit() {
   console.log(fieldsState, "fieldsState");
-  console.log(fieldsSet, "fieldsSet");
+  console.log(fieldsSet.value, "fieldsSet");
   emit("formSubmit", fieldsState);
 }
 </script>

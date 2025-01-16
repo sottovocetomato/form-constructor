@@ -1,6 +1,9 @@
 <template>
   <div :class="customWrapClass">
-    <input v-bind="$attrs" v-model="model" :type="type" />
+    <label>
+      {{ label }}
+      <input v-bind="$attrs" v-model="model" :type="type" />
+    </label>
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
 </template>
@@ -16,6 +19,7 @@ const model = defineModel();
 const {
   ariaInvalid = undefined,
   customWrapClass = "",
+  label = "",
   type = "date",
 } = defineProps<DateInputProps>();
 </script>

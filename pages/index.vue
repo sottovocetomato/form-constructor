@@ -3,8 +3,8 @@
     <DynamicForm
       v-if="settingsFieldSet"
       :fields="settingsFieldSet"
-      :formId="currentFormId"
-      :key="currentFormId"
+      :formId="currentFieldId"
+      :key="currentFieldId"
       @formSubmit="onFormSettingsSubmit"
     />
   </BaseSideBar>
@@ -100,6 +100,7 @@ import type { Component } from "@vue/runtime-core";
 import { ComponentsMap } from "@/types";
 import { elementsMap } from "@/helpers/formSettingsMap";
 import { useFormBuilderState } from "@/composables/useFormBuilderState";
+import { useSavedForms } from "@/composables/useSavedForms";
 
 const componentsMap: ComponentsMap = {
   BaseTextInput: BaseTextInput,
@@ -111,8 +112,10 @@ const componentsMap: ComponentsMap = {
 
 const router = useRouter();
 
-const formId = 1;
-const { formItems } = useFormBuilderState(formId);
+const { getLastFormId, setSavedForms, setPresavedForm } = useSavedForms();
+
+const formId = ref(getLastFormId() + 1);
+const { formItems } = useFormBuilderState(formId.value);
 const {
   startDrag,
   onDrop,
@@ -121,18 +124,22 @@ const {
   onConstructorAreaDragEnter,
   onConstructorAreaDragLeave,
   onDrag,
-} = useFormDrop({ constructorAreaSelector: "#constructor-free-drop", formId });
+} = useFormDrop({
+  constructorAreaSelector: "#constructor-free-drop",
+  formId: formId.value,
+});
 
 const settingsFieldSet = shallowRef(null);
-const currentFormId = ref(null);
+const currentFieldId = ref(null);
 
 const { toggleActive } = useSidebar();
+
 function openSidebar(e) {
   const dataName = e.target.dataset?.name;
 
   if (dataName in elementsMap) {
     settingsFieldSet.value = elementsMap?.[dataName]?.();
-    currentFormId.value = e.target.dataset?.index;
+    currentFieldId.value = `form-field-${e.target.dataset?.index}`;
   } else {
     settingsFieldSet.value = "";
   }
@@ -142,23 +149,19 @@ function openSidebar(e) {
 console.log(formItems, "formItems");
 
 function onFormSettingsSubmit(state) {
-  formItems.value[currentFormId?.value].props = {
-    ...formItems?.value[currentFormId?.value]?.props,
+  const fieldIndex = currentFieldId.value.split("form-field-")[1];
+  formItems.value[fieldIndex].props = {
+    ...formItems?.value[fieldIndex]?.props,
     ...state.value,
   };
   toggleActive();
 }
-function onFormSave(state) {
-  console.log(formItems.value, "currentSavedForm");
+function onFormSave() {
+  setSavedForms({ id: formId.value, form: [...formItems.value] });
 }
-function onFormPreview(state) {
-  const savedForms =
-    JSON.parse(localStorage.getItem("savedForm") as string) || {};
-  localStorage.setItem(
-    "savedForm",
-    JSON.stringify({ ...savedForms, [formId]: [...formItems.value] })
-  );
-  router.push(`/preview/${formId}`);
+function onFormPreview() {
+  setPresavedForm({ id: formId.value, form: [...formItems.value] });
+  router.push(`/preview/${formId.value}`);
 }
 </script>
 

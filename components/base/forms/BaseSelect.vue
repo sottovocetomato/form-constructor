@@ -1,16 +1,19 @@
 <template>
   <div :class="customWrapClass">
-    <select v-bind="$attrs" :id="selectId" v-model="model">
-      <option
-        v-for="option in options"
-        :selected="option?.selected"
-        :disabled="option?.disabled"
-        :hidden="option?.hidden"
-        :value="option?.value"
-      >
-        {{ option?.text }}
-      </option>
-    </select>
+    <label>
+      {{ label }}
+      <select v-bind="$attrs" :id="selectId" v-model="model">
+        <option
+          v-for="option in options"
+          :selected="option?.selected"
+          :disabled="option?.disabled"
+          :hidden="option?.hidden"
+          :value="option?.value"
+        >
+          {{ option?.text }}
+        </option>
+      </select>
+    </label>
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
 </template>
@@ -27,6 +30,7 @@ defineOptions({
 const {
   ariaInvalid = undefined,
   customWrapClass = "",
+  label = "",
   options = [],
 } = defineProps<SelectInputProps>();
 
