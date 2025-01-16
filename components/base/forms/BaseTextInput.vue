@@ -27,7 +27,7 @@ const model = defineModel();
 const {
   customWrapClass = "",
   label = "",
-  number = "",
+  number = false,
   placeholder = "Text Input",
   customClass = "",
   ariaInvalid = undefined,
