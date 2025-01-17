@@ -28,6 +28,19 @@ const createTextAreaModel = () => [
   {
     component: "BaseTextInput",
     props: {
+      id: "nameInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Name (optional)",
+    },
+    sequenceNumber: 1,
+    fieldName: "name",
+  },
+  {
+    component: "BaseTextInput",
+    props: {
       id: "placeholderInput",
       displayName: "",
       isHidden: false,

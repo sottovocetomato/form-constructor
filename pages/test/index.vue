@@ -20,28 +20,43 @@
 //     editField: "placeholder",
 //   },
 // ];
+// const fields = [
+//   {
+//     component: "BaseSelect",
+//     props: {
+//       options: [
+//         {
+//           text: "Email",
+//           value: "",
+//           selected: false,
+//           hidden: null,
+//           disabled: true,
+//         },
+//         {
+//           text: "Phone",
+//           value: "1",
+//           selected: false,
+//           hidden: null,
+//           disabled: false,
+//         },
+//       ],
+//     },
+//     sequenceNumber: 0,
+//   },
+// ];
 const fields = [
   {
-    component: "BaseSelect",
+    component: "BaseDateInput",
     props: {
-      options: [
-        {
-          text: "Email",
-          value: "",
-          selected: false,
-          hidden: null,
-          disabled: true,
-        },
-        {
-          text: "Phone",
-          value: "1",
-          selected: false,
-          hidden: null,
-          disabled: false,
-        },
-      ],
+      label: null,
+      min: null,
+      max: null,
+      required: null,
+      setToday: true,
+      disabled: null,
     },
     sequenceNumber: 0,
+    fieldName: "Birth date",
   },
 ];
 </script>

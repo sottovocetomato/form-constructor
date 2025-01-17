@@ -44,14 +44,13 @@ const {
   formId = null,
   noSubmitBtn = false,
 } = defineProps<DynamicFormProps>();
-console.log(formId, "formId");
+
 const { fieldsState, fieldsSet, createStateFields } = useDynamicForm(
   fields,
   formId ?? currentFormId
 );
 
 const dynamicComponent = () => {
-  console.log(fieldsSet.value, "FORM FIELDSET");
   return h(
     "div",
     fieldsSet.value.map((field, ind) => {
@@ -95,10 +94,7 @@ function createComponent(field) {
       return p[n];
     }, fieldsState.value);
   }
-  console.log(stateBlock, "stateBlock");
-  console.log(field?.stateBlock, "field?.stateBlock");
-  console.log(field.fieldName, "field.fieldName");
-  console.log(stateBlock[field.fieldName], "stateBlock[field.fieldName] value");
+
   const component = {
     ...field.props,
     modelValue: stateBlock[field.fieldName],
@@ -132,8 +128,6 @@ function logger() {
   console.log(fieldsState, "logger");
 }
 function onFormSubmit() {
-  console.log(fieldsState, "fieldsState");
-  console.log(fieldsSet.value, "fieldsSet");
   emit("formSubmit", fieldsState);
 }
 </script>

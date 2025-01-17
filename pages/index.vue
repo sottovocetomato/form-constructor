@@ -150,10 +150,13 @@ console.log(formItems, "formItems");
 
 function onFormSettingsSubmit(state) {
   const fieldIndex = currentFieldId.value.split("form-field-")[1];
-  formItems.value[fieldIndex].props = {
+  const fieldItem = formItems.value[fieldIndex];
+  fieldItem.props = {
     ...formItems?.value[fieldIndex]?.props,
     ...state.value,
   };
+  fieldItem.fieldName =
+    fieldItem.props.label || fieldItem.placeholder || fieldItem.name;
   toggleActive();
 }
 function onFormSave() {

@@ -62,6 +62,7 @@ aside {
   &__component {
     display: block;
     border-radius: 5px;
+    padding: $padding $padding 0 $padding;
     &:hover {
       background-color: $slate-100;
       cursor: pointer;

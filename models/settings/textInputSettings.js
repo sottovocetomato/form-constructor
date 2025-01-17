@@ -25,6 +25,19 @@ const createTextInputModel = () => [
     sequenceNumber: 2,
     fieldName: "placeholder",
   },
+  {
+    component: "BaseTextInput",
+    props: {
+      id: "nameInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Name (optional)",
+    },
+    sequenceNumber: 1,
+    fieldName: "name",
+  },
   // {
   //   component: "BaseTextInput",
   //   props: {

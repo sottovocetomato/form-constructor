@@ -10,11 +10,11 @@
 
 <script setup lang="ts">
 import type { DateInputProps } from "@/types/interfaces/props";
-import { useDate } from "@/composables/useDate";
+
 defineOptions({
   inheritAttrs: false,
 });
-
+const emit = defineEmits(["update:modelValue"]);
 const { today: currentDay } = useDate();
 
 const {
@@ -22,22 +22,28 @@ const {
   customWrapClass = "",
   label = "",
   type = "date",
-  today = true,
+  setToday = false,
 } = defineProps<DateInputProps>();
 
 const model = defineModel();
 
 onMounted(() => {
-  model.value = currentDay;
+  if (setToday) {
+    model.value = currentDay;
+  }
 });
 
 watch(
-  () => today,
-  async (newVal, oldVal) => {
-    console.log(newVal, "newVal");
-    model.value = newVal;
+  () => setToday,
+  (newVal, oldVal) => {
+    console.log(newVal, "watching");
+    if (!newVal) {
+      model.value = "";
+    } else {
+      model.value = currentDay;
+    }
   },
-  { immediate: false }
+  { deep: true }
 );
 </script>
 

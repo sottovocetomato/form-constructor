@@ -17,6 +17,19 @@ const createSelectModel = (id) => [
     fieldName: "label",
   },
   {
+    component: "BaseTextInput",
+    props: {
+      id: "nameInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Name (optional)",
+    },
+    sequenceNumber: 1,
+    fieldName: "name",
+  },
+  {
     isGroup: true,
     groupType: "ARRAY",
     groupName: "options",

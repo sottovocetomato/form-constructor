@@ -26,6 +26,19 @@ const createDateInputModel = () => [
     fieldName: "min",
   },
   {
+    component: "BaseTextInput",
+    props: {
+      id: "nameInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Name (optional)",
+    },
+    sequenceNumber: 1,
+    fieldName: "name",
+  },
+  {
     component: "BaseDateInput",
     props: {
       id: "maxDate",
@@ -60,7 +73,7 @@ const createDateInputModel = () => [
       label: "Set at today's date",
     },
     sequenceNumber: 5,
-    fieldName: "today",
+    fieldName: "setToday",
     initialValue: true,
   },
   {

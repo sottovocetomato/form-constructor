@@ -7,6 +7,7 @@ export interface FormElementProps {
   label?: string;
   number?: boolean;
   ariaInvalid?: boolean | undefined;
+  modelValue?: string;
 }
 export interface CheckboxProps extends FormElementProps {
   type?: "checkbox" | "radio";
@@ -16,6 +17,14 @@ export interface SelectInputProps extends FormElementProps {
 }
 export interface DateInputProps extends FormElementProps {
   type?: "date" | "datetime-local" | "month" | "time";
+  setToday?: boolean;
+}
+export interface DateRangeInputProps extends DateInputProps {
+  type?: "date" | "datetime-local" | "month" | "time";
+  labelFrom?: string;
+  labelTo?: string;
+  nameTo?: string;
+  nameFrom?: string;
 }
 
 export interface DynamicFormProps {
