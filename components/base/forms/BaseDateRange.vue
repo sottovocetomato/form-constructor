@@ -1,27 +1,30 @@
 <template>
-  <div :class="customWrapClass">
-    <BaseDateRange
+  <div :class="`${customWrapClass} date-range-input`">
+    <BaseDateInput
       :label="labelFrom"
       :name="nameFrom || 'dateStart'"
       type="date"
-      :max="dateEnd"
-      v-model="dateStart"
+      :max="dateRange?.dateEnd"
+      v-model="dateRange.dateStart"
     />
-    <BaseDateRange
+    <BaseDateInput
       :name="nameTo || 'dateEnd'"
       :label="labelTo"
       type="date"
-      :min="dateStart"
-      v-model="dateEnd"
+      :min="dateRange?.dateStart"
+      v-model="dateRange.dateEnd"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import type { DateRangeInputProps } from "@/types/interfaces/props";
+import BaseDateInput from "@/components/base/forms/BaseDateInput.vue";
 
-const dateStart = defineModel("dateStart");
-const dateEnd = defineModel("dateEnd");
+// const dateStart = defineModel("dateStart");
+// const dateEnd = defineModel("dateEnd");
+
+const dateRange = defineModel({ default: { dateStart: "", dateEnd: "" } });
 
 const {
   ariaInvalid = undefined,
@@ -33,6 +36,7 @@ const {
   labelTo = "",
   nameTo = "",
   nameFrom = "",
+  // dateRange = {},
 } = defineProps<DateRangeInputProps>();
 </script>
 

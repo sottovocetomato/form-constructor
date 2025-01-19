@@ -80,6 +80,15 @@
       @dragstart="startDrag($event)"
       @drag="onDrag"
       draggable="true"
+      id="BaseDateRange"
+    >
+      Date Range
+    </div>
+    <div
+      class="dragable-object"
+      @dragstart="startDrag($event)"
+      @drag="onDrag"
+      draggable="true"
       id="BaseCheckbox"
     >
       Checkbox
@@ -95,6 +104,7 @@ import BaseTextarea from "../components/base/forms/BaseTextarea";
 import BaseSelect from "../components/base/forms/BaseSelect";
 import BaseDateInput from "../components/base/forms/BaseDateInput";
 import BaseCheckbox from "../components/base/forms/BaseCheckbox";
+import BaseDateRange from "../components/base/forms/BaseDateRange";
 
 import type { Component } from "@vue/runtime-core";
 import { ComponentsMap } from "@/types";
@@ -108,6 +118,7 @@ const componentsMap: ComponentsMap = {
   BaseSelect: BaseSelect,
   BaseDateInput: BaseDateInput,
   BaseCheckbox: BaseCheckbox,
+  BaseDateRange: BaseDateRange,
 };
 
 const router = useRouter();

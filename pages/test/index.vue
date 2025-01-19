@@ -48,7 +48,7 @@ const fields = [
   {
     component: "BaseDateInput",
     props: {
-      label: null,
+      label: "Birth date",
       min: null,
       max: null,
       required: null,
@@ -56,7 +56,7 @@ const fields = [
       disabled: null,
     },
     sequenceNumber: 0,
-    fieldName: "Birth date",
+    // fieldName: "Birth date",
   },
 ];
 </script>

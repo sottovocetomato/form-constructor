@@ -169,3 +169,13 @@ aside {
   box-shadow: -2px 3px 10px #b2b0b0;
   padding: $gap * 2;
 }
+
+.date-range-input {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  div {
+    width: 48%;
+  }
+}
