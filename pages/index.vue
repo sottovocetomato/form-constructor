@@ -17,9 +17,13 @@
           :key="`${item}-${index}`"
           :data-index="index"
           :data-name="item.component"
+          :id="`${item.component}-${item.sequenceNumber}`"
           @drop="onDrop($event)"
           @dragover.capture="onComponentDragOver"
           @click="openSidebar"
+          draggable="true"
+          @dragstart="startDrag($event)"
+          @drag="onDrag"
         >
           <component
             :is="componentsMap[item.component]"

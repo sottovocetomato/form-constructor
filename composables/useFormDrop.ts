@@ -79,18 +79,23 @@ export const useFormDrop = ({
     evt.dataTransfer.dropEffect = "move";
     evt.dataTransfer.effectAllowed = "move";
     evt.dataTransfer.setData("itemID", evt.target?.id);
+    if (evt.target?.dataset?.index) {
+      evt.dataTransfer.setData("dataIndex", evt.target?.dataset?.index);
+    }
   }
   function onDrop(e): void {
     e.stopImmediatePropagation();
     const itemID = e.dataTransfer.getData("itemID");
+    const itemIndex = e.dataTransfer.getData("dataIndex");
     console.log(e.target.id, "e.target.id");
+    console.log(itemIndex, "itemIndex");
     getDropMarker();
     const siblingElement = dropMarker?.nextElementSibling;
     if (siblingElement instanceof HTMLElement) {
       const ind = siblingElement?.dataset?.index;
       console.log(ind);
       removeDropMarker();
-      insertInFromItems(ind, itemID);
+      insertInFromItems(ind, itemID, itemIndex);
     } else {
       addToFormItems(itemID);
       constructorFreeDropZone.classList.remove("active");
@@ -136,7 +141,7 @@ export const useFormDrop = ({
   //   }
   // }
   function onComponentDragOver(e): void {
-    console.log(e.target, "onComponentDragOver");
+    // console.log(e.target, "onComponentDragOver");
     e.preventDefault();
     //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
     if (!e.target.classList.contains("constructor-area__component")) return;
@@ -152,11 +157,11 @@ export const useFormDrop = ({
         e.target.getBoundingClientRect().right < e.clientX;
 
       // console.log(e.clientY);
-      console.log(e.target, "onComponentDragOver");
-      console.log(e.target.getBoundingClientRect());
-      console.log(e.clientX);
+      // console.log(e.target, "onComponentDragOver");
+      // console.log(e.target.getBoundingClientRect());
+      // console.log(e.clientX);
       getDropMarker();
-      console.log(dropMarker, "dropMarker");
+      // console.log(dropMarker, "dropMarker");
       if (!dropMarker) {
         createDropMarker();
       }
@@ -165,7 +170,7 @@ export const useFormDrop = ({
         return;
       }
       if (checkDirectionVertical === "down") {
-        console.log(e.target.nextElementSibling, "e.target.nextSibling");
+        // console.log(e.target.nextElementSibling, "e.target.nextSibling");
         if (
           e.target.nextElementSibling &&
           e.target.nextElementSibling.classList?.contains(
