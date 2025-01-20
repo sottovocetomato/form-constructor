@@ -25,6 +25,7 @@ export interface DateRangeInputProps extends DateInputProps {
   labelTo?: string;
   nameTo?: string;
   nameFrom?: string;
+  dateRange?: object;
 }
 
 export interface DynamicFormProps {

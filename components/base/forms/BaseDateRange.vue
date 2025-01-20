@@ -1,19 +1,22 @@
 <template>
-  <div :class="`${customWrapClass} date-range-input`">
-    <BaseDateInput
-      :label="labelFrom"
-      :name="nameFrom || 'dateStart'"
-      type="date"
-      :max="dateRange?.dateEnd"
-      v-model="dateRange.dateStart"
-    />
-    <BaseDateInput
-      :name="nameTo || 'dateEnd'"
-      :label="labelTo"
-      type="date"
-      :min="dateRange?.dateStart"
-      v-model="dateRange.dateEnd"
-    />
+  <div :class="`${customWrapClass} date-range`" v-if="dateRangeModel">
+    <label>{{ label }} </label>
+    <div class="date-range__inputs">
+      <BaseDateInput
+        :label="labelFrom"
+        :name="nameFrom || 'dateStart'"
+        type="date"
+        :max="dateRangeModel?.dateEnd"
+        v-model="dateRangeModel.dateStart"
+      />
+      <BaseDateInput
+        :name="nameTo || 'dateEnd'"
+        :label="labelTo"
+        type="date"
+        :min="dateRangeModel?.dateStart"
+        v-model="dateRangeModel.dateEnd"
+      />
+    </div>
   </div>
 </template>
 
@@ -24,7 +27,7 @@ import BaseDateInput from "@/components/base/forms/BaseDateInput.vue";
 // const dateStart = defineModel("dateStart");
 // const dateEnd = defineModel("dateEnd");
 
-const dateRange = defineModel({ default: { dateStart: "", dateEnd: "" } });
+const dateRangeModel = defineModel();
 
 const {
   ariaInvalid = undefined,
@@ -34,10 +37,16 @@ const {
   setToday = false,
   labelFrom = "",
   labelTo = "",
-  nameTo = "",
-  nameFrom = "",
-  // dateRange = {},
+  nameTo = "dateTo",
+  nameFrom = "dateFrom",
+  dateRange = {},
 } = defineProps<DateRangeInputProps>();
+
+if (dateRange && Object.keys(dateRange)?.length > 0) {
+  dateRangeModel.value = dateRange;
+} else {
+  dateRangeModel.value = { dateStart: "", dateEnd: "" };
+}
 </script>
 
 <style scoped></style>

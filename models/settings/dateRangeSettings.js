@@ -1,36 +1,75 @@
 const createDateRangeModel = () => [
   {
-    isGroup: true,
-    groupType: "OBJECT",
-    groupName: "dateRange",
-    groupFields: [
-      {
-        component: "BaseDateInput",
-        props: {
-          id: "dateStart",
-          displayName: "",
-          isHidden: false,
-          required: false,
-          placeholder: "Starting date",
-        },
-        sequenceNumber: 3,
-        fieldName: "dateStart",
-      },
-      {
-        component: "BaseDateInput",
-        props: {
-          id: "dateEnd",
-          displayName: "",
-          isHidden: false,
-          required: false,
-          placeholder: "Ending date",
-        },
-        sequenceNumber: 3,
-        fieldName: "dateEnd",
-      },
-    ],
+    component: "BaseTextInput",
+    props: {
+      id: "labelInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Label",
+    },
     sequenceNumber: 1,
+    fieldName: "label",
   },
+  {
+    component: "BaseTextInput",
+    props: {
+      id: "labelFromInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Label From",
+    },
+    sequenceNumber: 2,
+    fieldName: "labelFrom",
+  },
+  {
+    component: "BaseTextInput",
+    props: {
+      id: "labelToInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Label To",
+    },
+    sequenceNumber: 3,
+    fieldName: "labelTo",
+  },
+  // {
+  //   isGroup: true,
+  //   groupType: "OBJECT",
+  //   groupName: "dateRange",
+  //   groupFields: [
+  //     {
+  //       component: "BaseDateInput",
+  //       props: {
+  //         id: "dateStart",
+  //         displayName: "",
+  //         isHidden: true,
+  //         required: false,
+  //         placeholder: "Starting date",
+  //       },
+  //       sequenceNumber: 3,
+  //       fieldName: "dateStart",
+  //     },
+  //     {
+  //       component: "BaseDateInput",
+  //       props: {
+  //         id: "dateEnd",
+  //         displayName: "",
+  //         isHidden: true,
+  //         required: false,
+  //         placeholder: "Ending date",
+  //       },
+  //       sequenceNumber: 3,
+  //       fieldName: "dateEnd",
+  //     },
+  //   ],
+  //   sequenceNumber: 4,
+  // },
 
   {
     component: "BaseCheckbox",
@@ -66,7 +105,7 @@ const createDateRangeModel = () => [
       required: false,
       label: "Disabled",
     },
-    sequenceNumber: 7,
+    sequenceNumber: 6,
     fieldName: "disabled",
   },
 ];

@@ -170,12 +170,20 @@ aside {
   padding: $gap * 2;
 }
 
-.date-range-input {
+.date-range {
   display: flex;
   width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  div {
-    width: 48%;
+  flex-direction: column;
+  label {
+    text-align: left;
+  }
+  &__inputs {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div {
+      width: 48%;
+    }
   }
 }
