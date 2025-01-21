@@ -17,7 +17,7 @@
           :key="`${item}-${index}`"
           :data-index="index"
           :data-name="item.component"
-          :id="`${item.component}-${item.sequenceNumber}`"
+          :id="item.id"
           @drop="onDrop($event)"
           @dragover.capture="onComponentDragOver"
           @click="openSidebar"
@@ -154,7 +154,8 @@ function openSidebar(e) {
 
   if (dataName in elementsMap) {
     settingsFieldSet.value = elementsMap?.[dataName]?.();
-    currentFieldId.value = `form-field-${e.target.dataset?.index}`;
+    console.log(e.target.id);
+    currentFieldId.value = e.target.id;
   } else {
     settingsFieldSet.value = "";
   }
@@ -164,7 +165,9 @@ function openSidebar(e) {
 console.log(formItems, "formItems");
 
 function onFormSettingsSubmit(state) {
-  const fieldIndex = currentFieldId.value.split("form-field-")[1];
+  const fieldIndex = formItems?.value.findIndex(
+    (e) => e.id == currentFieldId.value
+  );
   const fieldItem = formItems.value[fieldIndex];
   fieldItem.props = {
     ...formItems?.value[fieldIndex]?.props,

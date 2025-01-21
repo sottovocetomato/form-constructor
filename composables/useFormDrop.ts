@@ -14,6 +14,7 @@ export const useFormDrop = ({
   let constructorAreaForm;
 
   let dropMarker: HTMLElement | null = null;
+  let dragged: HTMLElement | null = null;
 
   const { insertInFromItems, addToFormItems } = useFormBuilderState(formId);
 
@@ -82,18 +83,24 @@ export const useFormDrop = ({
     if (evt.target?.dataset?.index) {
       evt.dataTransfer.setData("dataIndex", evt.target?.dataset?.index);
     }
+    dragged = evt.target;
   }
   function onDrop(e): void {
     e.stopImmediatePropagation();
-    const itemID = e.dataTransfer.getData("itemID");
-    const itemIndex = e.dataTransfer.getData("dataIndex");
+    // const itemID = e.dataTransfer.getData("itemID");
+    // const itemIndex = e.dataTransfer.getData("dataIndex");
+    const itemID = dragged?.id;
+    const itemIndex = dragged?.dataset?.index;
     console.log(e.target.id, "e.target.id");
     console.log(itemIndex, "itemIndex");
     getDropMarker();
     const siblingElement = dropMarker?.nextElementSibling;
     if (siblingElement instanceof HTMLElement) {
       const ind = siblingElement?.dataset?.index;
-      console.log(ind);
+      removeDropMarker();
+      insertInFromItems(ind, itemID, itemIndex);
+    } else if (itemIndex) {
+      const ind = constructorAreaForm.children.length;
       removeDropMarker();
       insertInFromItems(ind, itemID, itemIndex);
     } else {
@@ -143,6 +150,9 @@ export const useFormDrop = ({
   function onComponentDragOver(e): void {
     // console.log(e.target, "onComponentDragOver");
     e.preventDefault();
+    const itemID = dragged?.id;
+    const itemIndex = dragged?.dataset?.index;
+
     //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
     if (!e.target.classList.contains("constructor-area__component")) return;
     if (process.client) {
@@ -181,6 +191,8 @@ export const useFormDrop = ({
             dropMarker,
             e.target.nextElementSibling
           );
+        } else if (itemIndex && !e.target.nextElementSibling) {
+          constructorAreaForm?.appendChild(dropMarker as HTMLElement);
         } else if (!e.target.nextElementSibling) {
           removeDropMarker();
           constructorFreeDropZone?.classList.add("active");
