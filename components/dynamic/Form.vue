@@ -113,6 +113,11 @@ function createComponent(field) {
       createStateFields();
     };
   }
+  if (field.refreshFieldState) {
+    component.onClick = (e) => {
+      createStateFields();
+    };
+  }
   if (field.onInput) {
     component.onInput = (e) => {
       field.onInput(fieldsSet.value, fieldsState.value, e);

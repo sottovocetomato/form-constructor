@@ -1,10 +1,20 @@
 <template>
   <div :class="customWrapClass">
-    <label v-if="label">
-      <input v-bind="$attrs" v-model="model" :type="type" />
+    <template v-if="!group"
+      ><label>
+        <input v-bind="$attrs" v-model="model" :type="type" />
 
-      {{ label }}
-    </label>
+        {{ label }}
+      </label></template
+    >
+    <template v-else>
+      <div class="checkbox-group" v-for="checkbox in checkboxGroup">
+        <label>
+          <input v-bind="$attrs" v-model="model" :type="type" />
+          {{ checkbox.label }}
+        </label>
+      </div>
+    </template>
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
 </template>
@@ -23,6 +33,8 @@ const {
   type = "checkbox",
   customWrapClass = "",
   ariaInvalid = undefined,
+  group = false,
+  checkboxGroup = [],
 } = defineProps<CheckboxProps>();
 </script>
 

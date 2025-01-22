@@ -11,6 +11,8 @@ export interface FormElementProps {
 }
 export interface CheckboxProps extends FormElementProps {
   type?: "checkbox" | "radio";
+  group?: boolean;
+  checkboxGroup?: [];
 }
 export interface SelectInputProps extends FormElementProps {
   options?: SelectOptions[];

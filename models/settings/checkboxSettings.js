@@ -12,6 +12,7 @@ const createCheckboxModel = () => [
     },
     sequenceNumber: 5,
     fieldName: "group",
+    refreshFieldState: true,
     initialValue: false,
   },
   ...createCheckboxFields(1, { field: "group", showValue: false }),
