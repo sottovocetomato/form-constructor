@@ -39,11 +39,12 @@ export const useDynamicForm = (fields = [], id) => {
         );
       } else if (field.fieldName) {
         if (!fieldsState.value[field.fieldName]) {
-          fieldsState.value[field.fieldName] = field.initialValue
-            ? field.initialValue
-            : field.notNullable
-            ? ""
-            : null;
+          fieldsState.value[field.fieldName] =
+            field?.initialValue !== null
+              ? field.initialValue
+              : field.notNullable
+              ? ""
+              : null;
         }
       }
     }
@@ -63,11 +64,12 @@ export const useDynamicForm = (fields = [], id) => {
         for (const groupField of groupFields) {
           if (state?.[groupField.fieldName]) continue;
           // state[groupField.fieldName] = groupField.notNullable ? "" : null;
-          state[groupField.fieldName] = groupField.initialValue
-            ? groupField.initialValue
-            : groupField.notNullable
-            ? ""
-            : null;
+          state[groupField.fieldName] =
+            groupField?.initialValue !== null
+              ? groupField.initialValue
+              : groupField.notNullable
+              ? ""
+              : null;
           groupField["stateBlock"] = `${path}`;
         }
       }

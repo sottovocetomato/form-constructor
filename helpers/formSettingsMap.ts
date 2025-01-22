@@ -3,6 +3,7 @@ import createSelectModel from "@/models/settings/selectSettings.js";
 import createTextAreaModel from "@/models/settings/textAreaSettings.js";
 import createDateInputModel from "@/models/settings/dateInputSettings";
 import createDateRangeModel from "@/models/settings/dateRangeSettings";
+import createCheckboxModel from "@/models/settings/checkboxSettings.js";
 import { constructFromModel } from "@/helpers/models";
 
 export const elementsMap = {
@@ -11,4 +12,5 @@ export const elementsMap = {
   BaseTextarea: createTextAreaModel,
   BaseDateInput: createDateInputModel,
   BaseDateRange: createDateRangeModel,
+  BaseCheckbox: createCheckboxModel,
 };

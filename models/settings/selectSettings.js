@@ -47,7 +47,7 @@ const createSelectModel = (id) => [
       placeholder: "AddRow",
     },
     sequenceNumber: 3,
-    innerText: "Добавить поле",
+    innerText: "Add option",
     onClick: (fields) => {
       if (!fields || !fields.length) return;
       const optionsGroup = fields.find(

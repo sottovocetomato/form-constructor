@@ -53,24 +53,24 @@ const { fieldsState, fieldsSet, createStateFields } = useDynamicForm(
 );
 
 const dynamicComponent = () => {
-  return h(
-    "div",
-    fieldsSet.value.map((field, ind) => {
-      if (field?.isGroup) {
-        const nodes = dynamicFieldsRenderer(field.groupFields, []);
-        return h("div", nodes);
-        // const groupedNodes = [];
-        // for (const fieldArr of field.groupFields) {
-        //   const nodes = dynamicFieldsRenderer(fieldArr);
-        //   groupedNodes.push(
-        //     h("div", { class: "composed-form__content__group" }, nodes)
-        //   );
-        // }
-        // return groupedNodes;
-      }
-      return createComponent(field);
-    })
-  );
+  const fieldNodes = [];
+  for (const field of fieldsSet.value) {
+    if (field?.displayByField?.field) {
+      const watchOnFieldVal = fieldsState.value[field?.displayByField?.field];
+      // console.log(watchOnFieldVal, "watchOnFieldVal");
+      // console.log(
+      //   watchOnFieldVal != field?.displayByField?.onTrue,
+      //   "watchOnFieldVal != field?.displayByField?.onTrue"
+      // );
+      if (watchOnFieldVal != field?.displayByField?.showValue) continue;
+    }
+    if (field?.isGroup) {
+      const nodes = dynamicFieldsRenderer(field.groupFields, []);
+      fieldNodes.push(h("div", nodes));
+    }
+    fieldNodes.push(createComponent(field));
+  }
+  return h("div", fieldNodes);
 };
 
 function dynamicFieldsRenderer(entryFields, nodes = []) {
@@ -89,7 +89,7 @@ function dynamicFieldsRenderer(entryFields, nodes = []) {
 }
 
 function createComponent(field) {
-  if (field.props.isHidden) return;
+  if (field?.props?.isHidden) return;
   let stateBlock = fieldsState.value;
   if (field?.stateBlock) {
     stateBlock = field?.stateBlock?.split(".")?.reduce((p, n) => {
