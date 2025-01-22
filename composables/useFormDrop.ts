@@ -175,6 +175,7 @@ export const useFormDrop = ({
       if (!dropMarker) {
         createDropMarker();
       }
+
       if (isOutHotizontally) {
         removeDropMarker();
         return;

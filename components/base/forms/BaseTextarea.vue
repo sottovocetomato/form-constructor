@@ -1,15 +1,14 @@
 <template>
   <div :class="customWrapClass">
-    <label>
-      {{ label }}
-      <textarea
-        v-bind="$attrs"
-        :class="customClass"
-        v-model="model"
-        :placeholder="placeholder"
-      >
-      </textarea>
-    </label>
+    <label v-if="label"> {{ label }} </label>
+
+    <textarea
+      v-bind="$attrs"
+      :class="customClass"
+      v-model="model"
+      :placeholder="placeholder"
+    >
+    </textarea>
 
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>

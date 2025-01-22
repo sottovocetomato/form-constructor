@@ -1,17 +1,16 @@
 <template>
   <div :class="customWrapClass">
-    <label>
-      {{ label }}
-      <input
-        v-bind="$attrs"
-        :placeholder="placeholder"
-        :class="customClass"
-        :aria-invalid="ariaInvalid"
-        :type="number ? 'number' : 'text'"
-        v-model="model"
-        :id="inputId"
-      />
-    </label>
+    <label v-if="label"> {{ label }} </label>
+
+    <input
+      v-bind="$attrs"
+      :placeholder="placeholder"
+      :class="customClass"
+      :aria-invalid="ariaInvalid"
+      :type="number ? 'number' : 'text'"
+      v-model="model"
+      :id="inputId"
+    />
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
 </template>

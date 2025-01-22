@@ -1,19 +1,18 @@
 <template>
   <div :class="customWrapClass">
-    <label>
-      {{ label }}
-      <select v-bind="$attrs" :id="selectId" v-model="model">
-        <option
-          v-for="option in options"
-          :selected="option?.selected"
-          :disabled="option?.disabled"
-          :hidden="option?.hidden"
-          :value="option?.value"
-        >
-          {{ option?.text }}
-        </option>
-      </select>
-    </label>
+    <label v-if="label"> {{ label }} </label>
+
+    <select v-bind="$attrs" :id="selectId" v-model="model">
+      <option
+        v-for="option in options"
+        :selected="option?.selected"
+        :disabled="option?.disabled"
+        :hidden="option?.hidden"
+        :value="option?.value"
+      >
+        {{ option?.text }}
+      </option>
+    </select>
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
 </template>

@@ -52,10 +52,11 @@ aside {
   flex-direction: column;
   width: 70%;
   padding: $padding * 2;
-  min-height: calc(95vh - $header-height - $footer-height);
-  height: auto;
+  //min-height: calc(95vh - $header-height - $footer-height);
+  height: calc(95vh - $header-height - $footer-height);
   background: white;
   box-shadow: -2px 3px 10px #b2b0b0;
+  overflow-y: auto;
   &__form {
     flex: 1 1 0;
   }
@@ -65,8 +66,7 @@ aside {
     padding: $padding;
     input,
     textarea,
-    select,
-    label {
+    select {
       margin-top: 0 !important;
       margin-bottom: 0 !important;
     }
@@ -83,8 +83,10 @@ aside {
 #constructor-free-drop {
   width: 100%;
   flex: 1 1 20px;
+  min-height: 100px;
   &.active {
-    background-color: $grey-50;
+    border: 2px dashed $grey-100;
+    background-color: $bg-freedrop-zone;
   }
 }
 .dragable-object {
@@ -102,11 +104,11 @@ aside {
 }
 
 #drop-insert-marker {
-  height: 50px;
-  margin: 5px 0;
-  width: 100%;
+  height: 65px;
+  margin: 5px auto;
+  width: calc(100% - $padding * 2);
 
-  padding: 10px;
+  padding: $padding;
   border: 2px dashed $grey-100;
 }
 

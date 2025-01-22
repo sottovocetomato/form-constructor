@@ -1,10 +1,10 @@
 <template>
   <div :class="customWrapClass">
-    <label>
+    <label v-if="label">
       <input v-bind="$attrs" v-model="model" :type="type" />
+
       {{ label }}
     </label>
-
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
 </template>

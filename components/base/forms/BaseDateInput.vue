@@ -2,8 +2,9 @@
   <div :class="customWrapClass">
     <label>
       {{ label }}
-      <input v-bind="$attrs" v-model="model" :type="type" />
     </label>
+    <input v-bind="$attrs" v-model="model" :type="type" />
+
     <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
   </div>
 </template>
