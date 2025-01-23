@@ -15,19 +15,18 @@ const createCheckboxFields = (id, displayByField = {}) => [
     fieldName: "label",
   },
   {
-    component: "BaseTextInput",
+    component: "BaseCheckbox",
     displayByField: displayByField,
     props: {
-      id: `name-input-${id}`,
+      id: `disabled-input-${id}`,
       "data-index": id,
       displayName: "",
       isHidden: false,
       required: false,
-      type: "text",
-      placeholder: "Name (optional)",
+      label: "Disabled",
     },
     sequenceNumber: 2,
-    fieldName: "name",
+    fieldName: "disabled",
   },
 ];
 

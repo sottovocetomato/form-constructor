@@ -22,16 +22,9 @@ export const useDynamicForm = (fields = [], id) => {
     } else return "";
   }
 
-  function createStateFields() {
+  function createStateFields(reset = false) {
     console.log(fieldsState.value, "creating state fields");
     for (const field of fieldsSet.value) {
-      if (
-        field?.displayByField?.field &&
-        fieldsState.value[field?.displayByField?.field] !=
-          field?.displayByField?.showValue
-      )
-        continue;
-
       if (field.isGroup) {
         if (!fieldsState.value[field.groupName]) {
           fieldsState.value[field.groupName] = createGroupObject(

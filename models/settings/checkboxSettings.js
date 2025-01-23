@@ -15,6 +15,19 @@ const createCheckboxModel = () => [
     refreshFieldState: true,
     initialValue: false,
   },
+  {
+    component: "BaseTextInput",
+    props: {
+      id: "nameInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      placeholder: "Name",
+    },
+    sequenceNumber: 2,
+    fieldName: "name",
+  },
   ...createCheckboxFields(1, { field: "group", showValue: false }),
   {
     isGroup: true,
@@ -59,19 +72,6 @@ const createCheckboxModel = () => [
     },
     sequenceNumber: 5,
     fieldName: "required",
-  },
-
-  {
-    component: "BaseCheckbox",
-    props: {
-      id: "disabled",
-      displayName: "",
-      isHidden: false,
-      required: false,
-      label: "Disabled",
-    },
-    sequenceNumber: 7,
-    fieldName: "disabled",
   },
 ];
 

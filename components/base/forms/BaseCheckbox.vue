@@ -10,7 +10,12 @@
     <template v-else>
       <div class="checkbox-group" v-for="checkbox in checkboxGroup">
         <label>
-          <input v-bind="$attrs" v-model="model" :type="type" />
+          <input
+            v-model="model"
+            :type="type"
+            :value="checkbox.label"
+            :disabled="checkbox.disabled"
+          />
           {{ checkbox.label }}
         </label>
       </div>
@@ -32,10 +37,15 @@ const {
   label = "Checkbox",
   type = "checkbox",
   customWrapClass = "",
+  name = "",
   ariaInvalid = undefined,
   group = false,
   checkboxGroup = [],
 } = defineProps<CheckboxProps>();
+
+if (group) {
+  model.value = [];
+}
 </script>
 
 <style scoped></style>

@@ -174,7 +174,9 @@ function onFormSettingsSubmit(state) {
     ...state.value,
   };
   fieldItem.fieldName =
-    fieldItem.props.label || fieldItem.placeholder || fieldItem.name;
+    fieldItem.props.label ||
+    fieldItem.props.placeholder ||
+    fieldItem.props.name;
   toggleActive();
 }
 function onFormSave() {
