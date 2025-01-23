@@ -21,6 +21,7 @@ import BaseSelect from "../base/forms/BaseSelect.vue";
 import BaseTextarea from "../base/forms/BaseTextarea.vue";
 import BaseDateInput from "../base/forms/BaseDateInput.vue";
 import BaseDateRange from "../base/forms/BaseDateRange.vue";
+import BaseRadio from "../base/forms/BaseRadio.vue";
 
 import { ComponentsMap } from "@/types";
 import { isArrayOfArrays } from "@/helpers";
@@ -33,6 +34,7 @@ const componentsMap: ComponentsMap = {
   BaseDateInput: BaseDateInput,
   BaseCheckbox: BaseCheckbox,
   BaseDateRange: BaseDateRange,
+  BaseRadio: BaseRadio,
 };
 const emit = defineEmits<{
   formSubmit: [fieldsState?: {}[]];

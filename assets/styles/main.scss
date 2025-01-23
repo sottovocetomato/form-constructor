@@ -64,6 +64,9 @@ aside {
     display: block;
     border-radius: 5px;
     padding: $padding;
+    transform: translateY(0);
+    transition: all 0.2s ease-in-out;
+
     input,
     textarea,
     select {
@@ -80,6 +83,7 @@ aside {
     }
   }
 }
+
 #constructor-free-drop {
   width: 100%;
   flex: 1 1 20px;

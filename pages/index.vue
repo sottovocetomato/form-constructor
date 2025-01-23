@@ -97,6 +97,24 @@
     >
       Checkbox
     </div>
+    <div
+      class="dragable-object"
+      @dragstart="startDrag($event)"
+      @drag="onDrag"
+      draggable="true"
+      id="BaseCheckbox"
+    >
+      Checkbox
+    </div>
+    <div
+      class="dragable-object"
+      @dragstart="startDrag($event)"
+      @drag="onDrag"
+      draggable="true"
+      id="BaseRadio"
+    >
+      Radio Input
+    </div>
     <button @click="onFormSave">Сохранить форму</button>
     <button @click="onFormPreview">Предпросмотр</button>
   </aside>
@@ -109,6 +127,7 @@ import BaseSelect from "../components/base/forms/BaseSelect";
 import BaseDateInput from "../components/base/forms/BaseDateInput";
 import BaseCheckbox from "../components/base/forms/BaseCheckbox";
 import BaseDateRange from "../components/base/forms/BaseDateRange";
+import BaseRadio from "../components/base/forms/BaseRadio";
 
 import type { Component } from "@vue/runtime-core";
 import { ComponentsMap } from "@/types";
@@ -123,6 +142,7 @@ const componentsMap: ComponentsMap = {
   BaseDateInput: BaseDateInput,
   BaseCheckbox: BaseCheckbox,
   BaseDateRange: BaseDateRange,
+  BaseRadio: BaseRadio,
 };
 
 const router = useRouter();
