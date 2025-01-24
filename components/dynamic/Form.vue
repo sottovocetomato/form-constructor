@@ -7,9 +7,19 @@
     <div class="composed-form__content">
       <dynamicComponent />
     </div>
-    <button v-if="!noSubmitBtn" type="submit" @click="onFormSubmit">
-      Сохранить
-    </button>
+    <div class="form-controls">
+      <button
+        v-if="!noDeleteBtn"
+        type="submit"
+        @click="onDelete"
+        class="btn-danger"
+      >
+        Удалить
+      </button>
+      <button v-if="!noSubmitBtn" type="submit" @click="onFormSubmit">
+        Сохранить
+      </button>
+    </div>
   </form>
 </template>
 
@@ -38,6 +48,7 @@ const componentsMap: ComponentsMap = {
 };
 const emit = defineEmits<{
   formSubmit: [fieldsState?: {}[]];
+  onDelete: [formId?: string | number];
   "update:modelValue": [e?: Event];
 }>();
 
@@ -47,6 +58,7 @@ const {
   mainWrapClass = "",
   formId = null,
   noSubmitBtn = false,
+  noDeleteBtn = false,
 } = defineProps<DynamicFormProps>();
 
 const { fieldsState, fieldsSet, createStateFields } = useDynamicForm(
@@ -138,6 +150,9 @@ function logger() {
 }
 function onFormSubmit() {
   emit("formSubmit", fieldsState);
+}
+function onDelete() {
+  emit("onDelete", formId);
 }
 </script>
 

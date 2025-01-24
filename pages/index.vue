@@ -6,6 +6,7 @@
       :formId="currentFieldId"
       :key="currentFieldId"
       @formSubmit="onFormSettingsSubmit"
+      @onDelete="onFieldDelete"
     />
   </BaseSideBar>
   <div class="constructor-area-wrap">
@@ -43,80 +44,84 @@
     </div>
   </div>
   <aside>
-    <div
-      class="dragable-object"
-      @dragstart="startDrag($event)"
-      @drag="onDrag"
-      draggable="true"
-      id="BaseTextInput"
-    >
-      Text Input
+    <div class="form-components">
+      <div
+        class="dragable-object"
+        @dragstart="startDrag($event)"
+        @drag="onDrag"
+        draggable="true"
+        id="BaseTextInput"
+      >
+        Text Input
+      </div>
+      <div
+        class="dragable-object"
+        @dragstart="startDrag($event)"
+        @drag="onDrag"
+        draggable="true"
+        id="BaseTextarea"
+      >
+        Text Area
+      </div>
+      <div
+        class="dragable-object"
+        @dragstart="startDrag($event)"
+        @drag="onDrag"
+        draggable="true"
+        id="BaseSelect"
+      >
+        Select
+      </div>
+      <div
+        class="dragable-object"
+        @dragstart="startDrag($event)"
+        @drag="onDrag"
+        draggable="true"
+        id="BaseDateInput"
+      >
+        Date Input
+      </div>
+      <div
+        class="dragable-object"
+        @dragstart="startDrag($event)"
+        @drag="onDrag"
+        draggable="true"
+        id="BaseDateRange"
+      >
+        Date Range
+      </div>
+      <div
+        class="dragable-object"
+        @dragstart="startDrag($event)"
+        @drag="onDrag"
+        draggable="true"
+        id="BaseCheckbox"
+      >
+        Checkbox
+      </div>
+      <div
+        class="dragable-object"
+        @dragstart="startDrag($event)"
+        @drag="onDrag"
+        draggable="true"
+        id="BaseCheckbox"
+      >
+        Checkbox
+      </div>
+      <div
+        class="dragable-object"
+        @dragstart="startDrag($event)"
+        @drag="onDrag"
+        draggable="true"
+        id="BaseRadio"
+      >
+        Radio Input
+      </div>
     </div>
-    <div
-      class="dragable-object"
-      @dragstart="startDrag($event)"
-      @drag="onDrag"
-      draggable="true"
-      id="BaseTextarea"
-    >
-      Text Area
+    <div class="form-controls">
+      <button @click="onFormSave">Сохранить форму</button>
+      <button @click="onFormPreview">Предпросмотр</button>
     </div>
-    <div
-      class="dragable-object"
-      @dragstart="startDrag($event)"
-      @drag="onDrag"
-      draggable="true"
-      id="BaseSelect"
-    >
-      Select
-    </div>
-    <div
-      class="dragable-object"
-      @dragstart="startDrag($event)"
-      @drag="onDrag"
-      draggable="true"
-      id="BaseDateInput"
-    >
-      Date Input
-    </div>
-    <div
-      class="dragable-object"
-      @dragstart="startDrag($event)"
-      @drag="onDrag"
-      draggable="true"
-      id="BaseDateRange"
-    >
-      Date Range
-    </div>
-    <div
-      class="dragable-object"
-      @dragstart="startDrag($event)"
-      @drag="onDrag"
-      draggable="true"
-      id="BaseCheckbox"
-    >
-      Checkbox
-    </div>
-    <div
-      class="dragable-object"
-      @dragstart="startDrag($event)"
-      @drag="onDrag"
-      draggable="true"
-      id="BaseCheckbox"
-    >
-      Checkbox
-    </div>
-    <div
-      class="dragable-object"
-      @dragstart="startDrag($event)"
-      @drag="onDrag"
-      draggable="true"
-      id="BaseRadio"
-    >
-      Radio Input
-    </div>
-    <button @click="onFormSave">Сохранить форму</button>
-    <button @click="onFormPreview">Предпросмотр</button>
   </aside>
 </template>
 
@@ -197,6 +202,12 @@ function onFormSettingsSubmit(state) {
     fieldItem.props.label ||
     fieldItem.props.placeholder ||
     fieldItem.props.name;
+  toggleActive();
+}
+function onFieldDelete(fieldId) {
+  formItems.value = formItems?.value.filter((e) => e.id != fieldId);
+  currentFieldId.value = null;
+  settingsFieldSet.value = "";
   toggleActive();
 }
 function onFormSave() {
