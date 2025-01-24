@@ -14,5 +14,5 @@ export const elementsMap = {
   BaseDateInput: createDateInputModel,
   BaseDateRange: createDateRangeModel,
   BaseCheckbox: createCheckboxModel,
-  BaseRadio: createCheckboxModel,
+  BaseRadio: createRadioModel,
 };

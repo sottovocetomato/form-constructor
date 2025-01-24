@@ -5,7 +5,7 @@
         <input
           v-model="model"
           type="radio"
-          :value="radio.label"
+          :value="radio.value || radio.label"
           :disabled="radio.disabled"
         />
         {{ radio.label }}
@@ -30,7 +30,7 @@ const {
   name = "",
   ariaInvalid = undefined,
   group = false,
-  radioGroup = [],
+  radioGroup = [{ label: "Radio", value: "" }],
 } = defineProps<RadioProps>();
 
 if (group) {

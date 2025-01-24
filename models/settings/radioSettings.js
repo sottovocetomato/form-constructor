@@ -16,15 +16,13 @@ const createRadioModel = () => [
   },
   {
     isGroup: true,
-    displayByField: { field: "group", showValue: true },
     groupType: "ARRAY",
-    groupName: "checkboxGroup",
+    groupName: "radioGroup",
     groupFields: [createRadioFields(1)],
     sequenceNumber: 2,
   },
   {
     component: "button",
-    displayByField: { field: "group", showValue: true },
     props: {
       id: "add-row",
       displayName: "",
