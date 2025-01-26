@@ -7,7 +7,7 @@ const createCheckboxFields = (id, displayByField = {}) => [
       "data-index": id,
       displayName: "",
       isHidden: false,
-      required: false,
+      required: true,
       type: "text",
       placeholder: "Label",
     },

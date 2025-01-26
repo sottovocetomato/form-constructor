@@ -5,7 +5,7 @@ const createTextAreaModel = () => [
       id: "labelInput",
       displayName: "",
       isHidden: false,
-      required: false,
+      required: true,
       type: "text",
       placeholder: "Label",
     },

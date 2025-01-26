@@ -26,9 +26,6 @@
         </label>
       </div>
     </template>
-    <small v-if="ariaInvalid" id="invalid-helper"
-      >Field {{ label }} shouldn't be empty</small
-    >
   </div>
 </template>
 

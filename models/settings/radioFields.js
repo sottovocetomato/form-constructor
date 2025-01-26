@@ -6,7 +6,7 @@ const createRadioFields = (id) => [
       "data-index": id,
       displayName: "",
       isHidden: false,
-      required: false,
+      required: true,
       type: "text",
       placeholder: "Label",
     },

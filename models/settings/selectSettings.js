@@ -9,7 +9,7 @@ const createSelectModel = (id) => [
       id: "labelSelect",
       displayName: "",
       isHidden: false,
-      required: false,
+      required: true,
       type: "text",
       placeholder: "Label",
     },
