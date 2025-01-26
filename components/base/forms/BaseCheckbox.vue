@@ -2,9 +2,14 @@
   <div :class="customWrapClass">
     <template v-if="!group"
       ><label>
-        <input v-bind="$attrs" v-model="model" :type="type" />
+        <input
+          v-bind="$attrs"
+          v-model="model"
+          :type="type"
+          :aria-invalid="ariaInvalid"
+        />
 
-        {{ label }}
+        {{ label }}<sup v-if="required"> * </sup>
       </label></template
     >
     <template v-else>
@@ -15,12 +20,15 @@
             :type="type"
             :value="checkbox.label"
             :disabled="checkbox.disabled"
+            :aria-invalid="ariaInvalid"
           />
           {{ checkbox.label }}
         </label>
       </div>
     </template>
-    <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
+    <small v-if="ariaInvalid" id="invalid-helper"
+      >Field {{ label }} shouldn't be empty</small
+    >
   </div>
 </template>
 
@@ -38,7 +46,8 @@ const {
   type = "checkbox",
   customWrapClass = "",
   name = "",
-  ariaInvalid = undefined,
+  validated = false,
+  required = false,
   group = false,
   checkboxGroup = [],
 } = defineProps<CheckboxProps>();
@@ -46,6 +55,9 @@ const {
 if (group) {
   model.value = [];
 }
+const ariaInvalid = computed(
+  () => (validated && required && !model.value) || null
+);
 </script>
 
 <style scoped></style>

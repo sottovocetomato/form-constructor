@@ -7,11 +7,14 @@
           type="radio"
           :value="radio.value || radio.label"
           :disabled="radio.disabled"
+          :aria-invalid="ariaInvalid"
         />
-        {{ radio.label }}
+        {{ radio.label }}<sup v-if="required"> * </sup>
       </label>
     </div>
-    <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
+    <small v-if="ariaInvalid" id="invalid-helper"
+      >Field {{ label }} shouldn't be empty</small
+    >
   </div>
 </template>
 
@@ -28,14 +31,18 @@ const {
   label = "Radio",
   customWrapClass = "",
   name = "",
-  ariaInvalid = undefined,
   group = false,
+  validated = false,
+  required = false,
   radioGroup = [{ label: "Radio", value: "" }],
 } = defineProps<RadioProps>();
 
 if (group) {
   model.value = [];
 }
+const ariaInvalid = computed(
+  () => (validated && required && !model.value) || null
+);
 </script>
 
 <style scoped></style>

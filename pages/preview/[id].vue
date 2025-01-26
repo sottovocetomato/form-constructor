@@ -5,6 +5,8 @@
       :fields="currentForm"
       :formId="formId"
       :key="formId"
+      noDeleteBtn
+      @formSubmit="onFormSubmit"
     />
   </div>
 </template>
@@ -25,6 +27,10 @@ onMounted(() => {
   console.log(currentForm.value, "currentForm.value");
   formLoaded.value = true;
 });
+
+function onFormSubmit(state) {
+  console.log(state.value, "ON FORM SUBMIT");
+}
 </script>
 
 <style scoped></style>

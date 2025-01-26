@@ -1,6 +1,6 @@
 <template>
   <div :class="`${customWrapClass} date-range`" v-if="dateRangeModel">
-    <label>{{ label }} </label>
+    <label>{{ label }}<sup v-if="required"> * </sup> </label>
     <div class="date-range__inputs">
       <BaseDateInput
         :label="labelFrom"
@@ -17,6 +17,9 @@
         v-model="dateRangeModel.dateEnd"
       />
     </div>
+    <small v-if="ariaInvalid" id="invalid-helper"
+      >Field {{ label }} shouldn't be empty</small
+    >
   </div>
 </template>
 
@@ -30,7 +33,8 @@ import BaseDateInput from "@/components/base/forms/BaseDateInput.vue";
 const dateRangeModel = defineModel();
 
 const {
-  ariaInvalid = undefined,
+  validated = false,
+  required = false,
   customWrapClass = "",
   label = "",
   type = "date",
@@ -47,6 +51,10 @@ if (dateRange && Object.keys(dateRange)?.length > 0) {
 } else {
   dateRangeModel.value = { dateStart: "", dateEnd: "" };
 }
+
+const ariaInvalid = computed(
+  () => (validated && required && !model.value) || null
+);
 </script>
 
 <style scoped></style>

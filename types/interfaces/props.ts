@@ -6,6 +6,8 @@ export interface FormElementProps {
   placeholder?: string;
   label?: string;
   number?: boolean;
+  required?: boolean;
+  validated?: boolean;
   ariaInvalid?: boolean | undefined;
   modelValue?: string | object;
 }

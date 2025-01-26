@@ -104,23 +104,15 @@
         @dragstart="startDrag($event)"
         @drag="onDrag"
         draggable="true"
-        id="BaseCheckbox"
-      >
-        Checkbox
-      </div>
-      <div
-        class="dragable-object"
-        @dragstart="startDrag($event)"
-        @drag="onDrag"
-        draggable="true"
         id="BaseRadio"
       >
         Radio Input
       </div>
     </div>
     <div class="form-controls">
+      <button @click="onFormPreview" class="secondary">Предпросмотр</button>
+
       <button @click="onFormSave">Сохранить форму</button>
-      <button @click="onFormPreview">Предпросмотр</button>
     </div>
   </aside>
 </template>
@@ -205,6 +197,8 @@ function onFormSettingsSubmit(state) {
   toggleActive();
 }
 function onFieldDelete(fieldId) {
+  const userConfirm = confirm("Are you sure, you want to delete this field?");
+  if (userConfirm) return;
   formItems.value = formItems?.value.filter((e) => e.id != fieldId);
   currentFieldId.value = null;
   settingsFieldSet.value = "";

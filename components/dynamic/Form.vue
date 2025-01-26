@@ -4,7 +4,7 @@
     @submit.prevent
     v-if="fieldsSet.length"
   >
-    <div class="composed-form__content">
+    <div class="composed-form__content" ref="composedForm">
       <dynamicComponent />
     </div>
     <div class="form-controls">
@@ -51,6 +51,9 @@ const emit = defineEmits<{
   onDelete: [formId?: string | number];
   "update:modelValue": [e?: Event];
 }>();
+
+const composedForm = ref(null);
+const validated = ref(false);
 
 const {
   fields = [],
@@ -113,6 +116,7 @@ function createComponent(field) {
 
   const component = {
     ...field.props,
+    validated: validated.value,
     modelValue: stateBlock[field.fieldName],
     "onUpdate:modelValue": (value) => {
       if (field.fieldName) {
@@ -149,7 +153,14 @@ function logger() {
   console.log(fieldsState, "logger");
 }
 function onFormSubmit() {
-  emit("formSubmit", fieldsState);
+  validated.value = true;
+  nextTick(() => {
+    const hasInvalidFields = composedForm.value.querySelector(
+      "input[aria-invalid='true']"
+    );
+    if (!!hasInvalidFields) return;
+    emit("formSubmit", fieldsState);
+  });
 }
 function onDelete() {
   emit("onDelete", formId);

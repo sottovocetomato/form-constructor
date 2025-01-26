@@ -1,11 +1,16 @@
 <template>
   <div :class="customWrapClass">
-    <label>
-      {{ label }}
-    </label>
-    <input v-bind="$attrs" v-model="model" :type="type" />
+    <label> {{ label }}<sup v-if="required"> * </sup> </label>
+    <input
+      v-bind="$attrs"
+      v-model="model"
+      :type="type"
+      :aria-invalid="ariaInvalid"
+    />
 
-    <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
+    <small v-if="ariaInvalid" id="invalid-helper"
+      >Field {{ label }} shouldn't be empty</small
+    >
   </div>
 </template>
 
@@ -19,7 +24,8 @@ const emit = defineEmits(["update:modelValue"]);
 const { today: currentDay } = useDate();
 
 const {
-  ariaInvalid = undefined,
+  validated = false,
+  required = false,
   customWrapClass = "",
   label = "",
   type = "date",
@@ -27,6 +33,10 @@ const {
 } = defineProps<DateInputProps>();
 
 const model = defineModel();
+
+const ariaInvalid = computed(
+  () => (validated && required && !model.value) || null
+);
 
 onMounted(() => {
   if (setToday) {

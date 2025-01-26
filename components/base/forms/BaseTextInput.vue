@@ -1,17 +1,20 @@
 <template>
   <div :class="customWrapClass">
-    <label v-if="label"> {{ label }} </label>
+    <label v-if="label"> {{ label }}<sup v-if="required"> * </sup> </label>
 
     <input
       v-bind="$attrs"
       :placeholder="placeholder"
       :class="customClass"
       :aria-invalid="ariaInvalid"
+      :required="required"
       :type="number ? 'number' : 'text'"
       v-model="model"
       :id="inputId"
     />
-    <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
+    <small v-if="ariaInvalid" id="invalid-helper"
+      >Field {{ label }} shouldn't be empty</small
+    >
   </div>
 </template>
 
@@ -29,9 +32,13 @@ const {
   number = false,
   placeholder = "Text Input",
   customClass = "",
-  ariaInvalid = undefined,
+  required = false,
+  validated = false,
 } = defineProps<FormElementProps>();
 
+const ariaInvalid = computed(
+  () => (validated && required && !model.value) || null
+);
 // onUpdated(() => {
 //   console.log(placeholder, "updated");
 // });

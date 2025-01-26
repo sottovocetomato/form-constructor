@@ -1,8 +1,13 @@
 <template>
   <div :class="customWrapClass">
-    <label v-if="label"> {{ label }} </label>
+    <label v-if="label"> {{ label }}<sup v-if="required"> * </sup> </label>
 
-    <select v-bind="$attrs" :id="selectId" v-model="model">
+    <select
+      v-bind="$attrs"
+      :id="selectId"
+      v-model="model"
+      :aria-invalid="ariaInvalid"
+    >
       <option
         v-for="option in options"
         :selected="option?.selected"
@@ -13,7 +18,9 @@
         {{ option?.text }}
       </option>
     </select>
-    <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
+    <small v-if="ariaInvalid" id="invalid-helper"
+      >Field {{ label }} shouldn't be empty</small
+    >
   </div>
 </template>
 
@@ -27,14 +34,17 @@ defineOptions({
 });
 
 const {
-  ariaInvalid = undefined,
   customWrapClass = "",
   label = "",
   options = [],
+  validated = false,
+  required = false,
 } = defineProps<SelectInputProps>();
 
 const model = defineModel({ default: "" });
-
+const ariaInvalid = computed(
+  () => (validated && required && !model.value) || null
+);
 // watch(
 //   () => options,
 //   async (newVal, oldVal) => {
