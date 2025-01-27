@@ -32,6 +32,7 @@ const createSelectPlaceholder = (id) => [
     isGroup: true,
     fieldName: "value",
     notNullable: true,
+    initialValue: "",
   },
   {
     component: "BaseCheckbox",
