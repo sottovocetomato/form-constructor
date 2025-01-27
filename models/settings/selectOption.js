@@ -82,6 +82,29 @@ const createSelectOption = (id) => [
     fieldName: "disabled",
   },
   {
+    component: "button",
+    props: {
+      id: "delete-row",
+      "data-index": id,
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "button",
+      placeholder: "Delete row",
+    },
+    sequenceNumber: 3,
+    innerText: "Delete option",
+    onClick: (fields, state, e) => {
+      if (!fields || !fields.length) return;
+      const optionsGroup = fields.find(
+        (el) => el?.isGroup && el.groupName === "options"
+      );
+      if (!optionsGroup) return;
+      const removeAtIndex = +e.target.dataset.index - 1;
+      optionsGroup.groupFields.splice(removeAtIndex, 1);
+    },
+  },
+  {
     component: "hr",
     sequenceNumber: 5,
   },

@@ -46,10 +46,10 @@ const createSelectModel = (id) => [
     component: "button",
     props: {
       id: "add-row",
+      type: "button",
       displayName: "",
       isHidden: false,
       required: false,
-      type: "text",
       placeholder: "AddRow",
     },
     sequenceNumber: 3,
