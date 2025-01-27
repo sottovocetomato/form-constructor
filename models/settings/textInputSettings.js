@@ -82,7 +82,10 @@ const createTextInputModel = () => [
     sequenceNumber: 4,
     fieldName: "maxlength",
   },
-
+  {
+    component: "hr",
+    sequenceNumber: 5,
+  },
   {
     component: "BaseCheckbox",
     props: {
@@ -92,7 +95,7 @@ const createTextInputModel = () => [
       required: false,
       label: "Required",
     },
-    sequenceNumber: 5,
+    sequenceNumber: 6,
     fieldName: "required",
   },
   {
@@ -104,7 +107,7 @@ const createTextInputModel = () => [
       required: false,
       label: "Numeric",
     },
-    sequenceNumber: 6,
+    sequenceNumber: 7,
     fieldName: "number",
   },
   {
@@ -116,7 +119,7 @@ const createTextInputModel = () => [
       required: false,
       label: "Disabled",
     },
-    sequenceNumber: 7,
+    sequenceNumber: 8,
     fieldName: "disabled",
   },
 ];

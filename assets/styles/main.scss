@@ -172,6 +172,7 @@ aside {
   }
   #add-row {
     margin: $padding 0;
+    width: 100%;
   }
 }
 .form-preview {
@@ -217,5 +218,18 @@ aside {
   flex-direction: column;
   button {
     margin-bottom: $padding;
+  }
+}
+
+.sidebar-content {
+  .form-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin-top: $padding;
+    button {
+      width: 49%;
+    }
   }
 }

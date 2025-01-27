@@ -1,8 +1,10 @@
 <template>
   <div :class="customWrapClass">
+    <label v-if="name">{{ name }}</label>
     <template v-if="!group"
-      ><label>
+      ><label :for="`checkbox-${label}`">
         <input
+          :id="`checkbox-${label}`"
           v-bind="$attrs"
           v-model="model"
           :type="type"
@@ -13,16 +15,17 @@
       </label></template
     >
     <template v-else>
-      <div class="checkbox-group" v-for="checkbox in checkboxGroup">
-        <label>
+      <div class="checkbox-group" v-for="(checkbox, ind) in checkboxGroup">
+        <label :for="`${checkbox.label}-${ind}`">
           <input
             v-model="model"
+            :id="`${checkbox.label}-${ind}`"
             :type="type"
             :value="checkbox.label"
             :disabled="checkbox.disabled"
             :aria-invalid="ariaInvalid"
           />
-          {{ checkbox.label }}
+          {{ checkbox.label }}<sup v-if="required"> * </sup>
         </label>
       </div>
     </template>

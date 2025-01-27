@@ -10,10 +10,13 @@ const createCheckboxModel = () => [
       required: false,
       label: "Group",
     },
-    sequenceNumber: 5,
+    sequenceNumber: 2,
     fieldName: "group",
     refreshFieldState: true,
     initialValue: false,
+  },
+  {
+    component: "hr",
   },
   {
     component: "BaseTextInput",
@@ -23,11 +26,16 @@ const createCheckboxModel = () => [
       isHidden: false,
       required: false,
       type: "text",
-      placeholder: "Name",
+      label: "Section label",
+      placeholder: "Label for checkbox section...",
     },
-    sequenceNumber: 2,
+    sequenceNumber: 1,
     fieldName: "name",
   },
+  {
+    component: "hr",
+  },
+
   ...createCheckboxFields(1, { field: "group", showValue: false }),
   {
     isGroup: true,
@@ -60,6 +68,9 @@ const createCheckboxModel = () => [
         createCheckboxFields(optionsGroup.groupFields.length + 1)
       );
     },
+  },
+  {
+    component: "hr",
   },
   {
     component: "BaseCheckbox",

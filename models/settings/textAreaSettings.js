@@ -64,7 +64,10 @@ const createTextAreaModel = () => [
     sequenceNumber: 4,
     fieldName: "maxlength",
   },
-
+  {
+    component: "hr",
+    sequenceNumber: 5,
+  },
   {
     component: "BaseCheckbox",
     props: {
@@ -74,7 +77,7 @@ const createTextAreaModel = () => [
       required: false,
       label: "Required",
     },
-    sequenceNumber: 5,
+    sequenceNumber: 6,
     fieldName: "required",
   },
 
