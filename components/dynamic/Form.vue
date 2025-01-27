@@ -14,10 +14,10 @@
         @click="onDelete"
         class="btn-danger"
       >
-        Удалить
+        Delete
       </button>
       <button v-if="!noSubmitBtn" type="submit" @click="onFormSubmit">
-        Сохранить
+        Save
       </button>
     </div>
   </form>
@@ -74,13 +74,9 @@ const dynamicComponent = () => {
   for (const field of fieldsSet.value) {
     if (field?.displayByField?.field) {
       const watchOnFieldVal = fieldsState.value[field?.displayByField?.field];
-      // console.log(watchOnFieldVal, "watchOnFieldVal");
-      // console.log(
-      //   watchOnFieldVal != field?.displayByField?.onTrue,
-      //   "watchOnFieldVal != field?.displayByField?.onTrue"
-      // );
       if (watchOnFieldVal != field?.displayByField?.showValue) continue;
     }
+    if ("displayCondition" in field && !field.displayCondition) continue;
     if (field?.isGroup) {
       const nodes = dynamicFieldsRenderer(field.groupFields, []);
       fieldNodes.push(h("div", nodes));
@@ -98,6 +94,7 @@ function dynamicFieldsRenderer(entryFields, nodes = []) {
     }
   } else {
     for (const field of entryFields) {
+      if ("displayCondition" in field && !field.displayCondition) continue;
       const node = createComponent(field);
       nodes.push(node);
     }
@@ -116,7 +113,7 @@ function createComponent(field) {
 
   const component = {
     ...field.props,
-    validated: validated.value,
+
     modelValue: stateBlock[field.fieldName],
     "onUpdate:modelValue": (value) => {
       if (field.fieldName) {
@@ -125,6 +122,9 @@ function createComponent(field) {
       }
     },
   };
+  if (field.fieldName) {
+    component.validated = validated.value;
+  }
   if (field.onClick) {
     component.onClick = (e) => {
       field.onClick(fieldsSet.value, fieldsState.value, e);

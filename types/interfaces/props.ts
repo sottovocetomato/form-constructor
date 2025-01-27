@@ -10,6 +10,7 @@ export interface FormElementProps {
   validated?: boolean;
   ariaInvalid?: boolean | undefined;
   modelValue?: string | object;
+  name?: string;
 }
 export interface CheckboxProps extends FormElementProps {
   type?: "checkbox" | "radio";

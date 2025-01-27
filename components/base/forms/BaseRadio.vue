@@ -1,10 +1,12 @@
 <template>
   <div :class="customWrapClass">
-    <div class="radio-group" v-for="radio in radioGroup">
-      <label>
+    <label v-if="name">{{ name }}</label>
+    <div class="radio-group" v-for="(radio, ind) in radioGroup">
+      <label :for="`${radio.label}-${ind}`">
         <input
           v-model="model"
           type="radio"
+          :ind="`${radio.label}-${ind}`"
           :value="radio.value || radio.label"
           :disabled="radio.disabled"
           :aria-invalid="ariaInvalid"

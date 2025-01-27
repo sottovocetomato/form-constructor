@@ -32,9 +32,6 @@ const createCheckboxModel = () => [
     sequenceNumber: 1,
     fieldName: "name",
   },
-  {
-    component: "hr",
-  },
 
   ...createCheckboxFields(1, { field: "group", showValue: false }),
   {
@@ -53,7 +50,7 @@ const createCheckboxModel = () => [
       displayName: "",
       isHidden: false,
       required: false,
-      type: "text",
+      type: "button",
       placeholder: "AddRow",
     },
     sequenceNumber: 3,
@@ -68,9 +65,6 @@ const createCheckboxModel = () => [
         createCheckboxFields(optionsGroup.groupFields.length + 1)
       );
     },
-  },
-  {
-    component: "hr",
   },
   {
     component: "BaseCheckbox",

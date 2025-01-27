@@ -8,7 +8,8 @@ const createRadioFields = (id) => [
       isHidden: false,
       required: true,
       type: "text",
-      placeholder: "Label",
+      label: "Label",
+      placeholder: "Type text for radio label...",
     },
     sequenceNumber: 1,
     fieldName: "label",
@@ -22,7 +23,8 @@ const createRadioFields = (id) => [
       isHidden: false,
       required: false,
       type: "text",
-      placeholder: "Value",
+      label: "Value",
+      placeholder: "Type text for radio value...",
     },
     sequenceNumber: 2,
     fieldName: "value",
@@ -39,6 +41,35 @@ const createRadioFields = (id) => [
     },
     sequenceNumber: 3,
     fieldName: "disabled",
+  },
+  {
+    component: "button",
+    props: {
+      id: "delete-row",
+      "data-index": id,
+      displayName: "",
+      class: "btn-danger",
+      isHidden: false,
+      required: false,
+      type: "button",
+      placeholder: "Delete row",
+    },
+    displayCondition: id != 1,
+    sequenceNumber: 3,
+    innerText: "Delete radio",
+    onClick: (fields, state, e) => {
+      if (!fields || !fields.length) return;
+      const optionsGroup = fields.find(
+        (el) => el?.isGroup && el.groupName === "radioGroup"
+      );
+      if (!optionsGroup) return;
+      const removeAtIndex = +e.target.dataset.index - 1;
+      optionsGroup.groupFields.splice(removeAtIndex, 1);
+    },
+  },
+  {
+    component: "hr",
+    sequenceNumber: 4,
   },
 ];
 

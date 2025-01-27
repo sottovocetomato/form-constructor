@@ -10,6 +10,12 @@
   //width: 100vw;
 }
 
+label {
+  sup {
+    color: $red-500;
+  }
+}
+
 main {
   background: $white;
   flex: 1 1 0;
@@ -232,4 +238,9 @@ aside {
       width: 49%;
     }
   }
+}
+
+#delete-row {
+  width: 100%;
+  margin-top: $padding;
 }

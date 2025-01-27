@@ -9,17 +9,22 @@ const createRadioModel = () => [
       isHidden: false,
       required: false,
       type: "text",
-      placeholder: "Name",
+      label: "Name",
+      placeholder: "Label for radio group section...",
     },
     sequenceNumber: 1,
     fieldName: "name",
+  },
+  {
+    component: "hr",
+    sequenceNumber: 2,
   },
   {
     isGroup: true,
     groupType: "ARRAY",
     groupName: "radioGroup",
     groupFields: [createRadioFields(1)],
-    sequenceNumber: 2,
+    sequenceNumber: 3,
   },
   {
     component: "button",
@@ -28,11 +33,11 @@ const createRadioModel = () => [
       displayName: "",
       isHidden: false,
       required: false,
-      type: "text",
+      type: "button",
       placeholder: "AddRow",
     },
-    sequenceNumber: 3,
-    innerText: "Add checkbox",
+    sequenceNumber: 4,
+    innerText: "Add radio",
     onClick: (fields) => {
       if (!fields || !fields.length) return;
       const optionsGroup = fields.find(
@@ -53,7 +58,7 @@ const createRadioModel = () => [
       required: false,
       label: "Required",
     },
-    sequenceNumber: 4,
+    sequenceNumber: 5,
     fieldName: "required",
   },
 ];

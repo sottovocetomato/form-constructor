@@ -87,6 +87,7 @@ const createSelectOption = (id) => [
       id: "delete-row",
       "data-index": id,
       displayName: "",
+      class: "btn-danger",
       isHidden: false,
       required: false,
       type: "button",

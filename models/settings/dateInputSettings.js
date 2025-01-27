@@ -7,6 +7,7 @@ const createDateInputModel = () => [
       isHidden: false,
       required: true,
       type: "text",
+      label: "Label",
       placeholder: "Label",
     },
     sequenceNumber: 1,

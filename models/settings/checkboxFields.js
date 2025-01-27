@@ -10,7 +10,7 @@ const createCheckboxFields = (id, displayByField = {}) => [
       required: true,
       type: "text",
       label: "Label",
-      placeholder: "Type label for checkbox",
+      placeholder: "Type text for checkbox label...",
     },
     sequenceNumber: 1,
     fieldName: "label",
@@ -28,6 +28,35 @@ const createCheckboxFields = (id, displayByField = {}) => [
     },
     sequenceNumber: 2,
     fieldName: "disabled",
+  },
+  {
+    component: "button",
+    props: {
+      id: "delete-row",
+      "data-index": id,
+      displayName: "",
+      class: "btn-danger",
+      isHidden: false,
+      required: false,
+      type: "button",
+      placeholder: "Delete row",
+    },
+    displayCondition: id != 1,
+    sequenceNumber: 3,
+    innerText: "Delete checkbox",
+    onClick: (fields, state, e) => {
+      if (!fields || !fields.length) return;
+      const optionsGroup = fields.find(
+        (el) => el?.isGroup && el.groupName === "checkboxGroup"
+      );
+      if (!optionsGroup) return;
+      const removeAtIndex = +e.target.dataset.index - 1;
+      optionsGroup.groupFields.splice(removeAtIndex, 1);
+    },
+  },
+  {
+    component: "hr",
+    sequenceNumber: 4,
   },
 ];
 
