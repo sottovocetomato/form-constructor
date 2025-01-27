@@ -98,7 +98,6 @@ const createTextAreaModel = () => [
     sequenceNumber: 7,
     fieldName: "disabled",
   },
-  {},
 ];
 
 export default createTextAreaModel;

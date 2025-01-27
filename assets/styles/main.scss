@@ -22,21 +22,22 @@ main {
 }
 
 footer {
-  background: $blue-950;
+  background: var(--pico-secondary-background);
   height: $footer-height;
 }
 
 header {
-  background: $blue-950;
+  background: var(--pico-secondary-background);
   height: $header-height;
 }
 aside {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: $grey-50;
+  //background: $grey-50;
+  background: $slate-50;
   padding: $padding * 1.5;
-  flex: 1 1 75px;
+  width: 350px;
 }
 .main-section-wrap {
   display: flex;
@@ -57,9 +58,10 @@ aside {
   height: auto;
 }
 .constructor-area {
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 45vw;
   padding: $padding * 2;
   //min-height: calc(95vh - $header-height - $footer-height);
   height: calc(95vh - $header-height - $footer-height);
@@ -105,15 +107,24 @@ aside {
 .dragable-object {
   //width: 250px;
   width: 100%;
-  height: 45px;
-  margin-bottom: 10px;
+  height: 55px;
+  margin-bottom: $padding;
   background-color: $white;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 $padding * 3;
   align-items: center;
-  text-align: center;
+  box-shadow: -1px 2px 5px #b2b0b0;
+  border-radius: 5px;
   &:hover {
     cursor: pointer;
+  }
+  span {
+    width: 70%;
+  }
+  svg {
+    height: 22px;
+    width: 22px;
   }
 }
 
@@ -186,6 +197,7 @@ aside {
   justify-content: flex-start;
   align-items: center;
   width: 45vw;
+  border-radius: 5px;
   margin: auto;
   flex-direction: column;
   height: auto;

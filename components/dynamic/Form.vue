@@ -142,8 +142,9 @@ function createComponent(field) {
     };
   }
 
+  if (!field?.component) return;
   return h(
-    componentsMap[field.component] || field.component,
+    componentsMap?.[field.component] || field.component,
     { ...component },
     field.innerText
   );

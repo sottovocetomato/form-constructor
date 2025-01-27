@@ -19,16 +19,18 @@ export const useFormBuilderState = (id) => {
         } else {
           formItems.value.splice(itemArrIndex, 1);
         }
-        formItems.value.forEach((el, ind) => (el.sequenceNumber = ind));
       }
     } else {
       formItems.value.splice(ind, 0, {
         component: itemID,
         props: {},
         sequenceNumber: ind,
-        id: `${itemID}-${ind}`,
       });
     }
+    formItems.value.forEach((el, ind) => {
+      el.sequenceNumber = ind;
+      el.id = `${el.component}-${ind}`;
+    });
   }
 
   function addToFormItems(itemID) {
