@@ -7,7 +7,8 @@ const createDateRangeModel = () => [
       isHidden: false,
       required: true,
       type: "text",
-      placeholder: "Label",
+      label: "Label",
+      placeholder: "Type text for input label...",
     },
     sequenceNumber: 1,
     fieldName: "label",
@@ -20,6 +21,7 @@ const createDateRangeModel = () => [
       isHidden: false,
       required: false,
       type: "text",
+      label: "Date from",
       placeholder: "Label From",
     },
     sequenceNumber: 2,
@@ -33,43 +35,12 @@ const createDateRangeModel = () => [
       isHidden: false,
       required: false,
       type: "text",
+      label: "Date to",
       placeholder: "Label To",
     },
     sequenceNumber: 3,
     fieldName: "labelTo",
   },
-  // {
-  //   isGroup: true,
-  //   groupType: "OBJECT",
-  //   groupName: "dateRange",
-  //   groupFields: [
-  //     {
-  //       component: "BaseDateInput",
-  //       props: {
-  //         id: "dateStart",
-  //         displayName: "",
-  //         isHidden: true,
-  //         required: false,
-  //         placeholder: "Starting date",
-  //       },
-  //       sequenceNumber: 3,
-  //       fieldName: "dateStart",
-  //     },
-  //     {
-  //       component: "BaseDateInput",
-  //       props: {
-  //         id: "dateEnd",
-  //         displayName: "",
-  //         isHidden: true,
-  //         required: false,
-  //         placeholder: "Ending date",
-  //       },
-  //       sequenceNumber: 3,
-  //       fieldName: "dateEnd",
-  //     },
-  //   ],
-  //   sequenceNumber: 4,
-  // },
 
   {
     component: "BaseCheckbox",
@@ -80,22 +51,10 @@ const createDateRangeModel = () => [
       required: false,
       label: "Required",
     },
-    sequenceNumber: 5,
+    sequenceNumber: 4,
     fieldName: "required",
   },
-  // {
-  //   component: "BaseCheckbox",
-  //   props: {
-  //     id: "required",
-  //     displayName: "",
-  //     isHidden: false,
-  //     required: false,
-  //     label: "Set at today's date",
-  //   },
-  //   sequenceNumber: 5,
-  //   fieldName: "setToday",
-  //   initialValue: true,
-  // },
+
   {
     component: "BaseCheckbox",
     props: {
@@ -105,7 +64,7 @@ const createDateRangeModel = () => [
       required: false,
       label: "Disabled",
     },
-    sequenceNumber: 6,
+    sequenceNumber: 5,
     fieldName: "disabled",
   },
 ];
