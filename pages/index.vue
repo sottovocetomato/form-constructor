@@ -52,7 +52,7 @@
         draggable="true"
         id="BaseTextInput"
       >
-        Text Input
+        <IconTextInput /> Text Input
       </div>
       <div
         class="dragable-object"
@@ -61,7 +61,7 @@
         draggable="true"
         id="BaseTextarea"
       >
-        Text Area
+        <IconTextArea /> Text Area
       </div>
       <div
         class="dragable-object"
@@ -70,7 +70,7 @@
         draggable="true"
         id="BaseSelect"
       >
-        Select
+        <IconSelect /> Select
       </div>
       <div
         class="dragable-object"
@@ -79,7 +79,7 @@
         draggable="true"
         id="BaseDateInput"
       >
-        Date Input
+        <IconCalendar /> Date Input
       </div>
       <div
         class="dragable-object"
@@ -88,7 +88,7 @@
         draggable="true"
         id="BaseDateRange"
       >
-        Date Range
+        <IconCalendarRange /> Date Range
       </div>
       <div
         class="dragable-object"
@@ -97,7 +97,7 @@
         draggable="true"
         id="BaseCheckbox"
       >
-        Checkbox
+        <IconCheckbox /> Checkbox
       </div>
       <div
         class="dragable-object"
@@ -106,7 +106,7 @@
         draggable="true"
         id="BaseRadio"
       >
-        Radio Input
+        <IconRadio /> Radio Input
       </div>
     </div>
     <div class="form-controls">
