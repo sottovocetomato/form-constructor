@@ -25,27 +25,11 @@
 
 <script setup lang="ts">
 import { DynamicFormProps } from "@/types/interfaces/props";
-import BaseTextInput from "../base/forms/BaseTextInput.vue";
-import BaseCheckbox from "../base/forms/BaseCheckbox.vue";
-import BaseSelect from "../base/forms/BaseSelect.vue";
-import BaseTextarea from "../base/forms/BaseTextarea.vue";
-import BaseDateInput from "../base/forms/BaseDateInput.vue";
-import BaseDateRange from "../base/forms/BaseDateRange.vue";
-import BaseRadio from "../base/forms/BaseRadio.vue";
-
-import { ComponentsMap } from "@/types";
+import componentsMap from "@/models/components/componentsMap";
 import { isArrayOfArrays } from "@/helpers";
 
 const currentFormId = useId();
-const componentsMap: ComponentsMap = {
-  BaseTextInput: BaseTextInput,
-  BaseTextarea: BaseTextarea,
-  BaseSelect: BaseSelect,
-  BaseDateInput: BaseDateInput,
-  BaseCheckbox: BaseCheckbox,
-  BaseDateRange: BaseDateRange,
-  BaseRadio: BaseRadio,
-};
+
 const emit = defineEmits<{
   formSubmit: [fieldsState?: {}[]];
   onDelete: [formId?: string | number];
