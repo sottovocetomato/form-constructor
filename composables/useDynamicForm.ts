@@ -13,7 +13,7 @@ export const useDynamicForm = (fields = [], id) => {
 
   createStateFields();
 
-  function createGroupObject(type) {
+  function createGroupObject(type: "ARRAY" | "OBJECT" | undefined) {
     if (type === "ARRAY") {
       return [];
     }

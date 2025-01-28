@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 import { useFormBuilderState } from "@/.nuxt/imports";
+import { State } from "@/types";
 
 const { getPresavedForm } = useSavedForms();
 
@@ -28,7 +29,7 @@ onMounted(() => {
   formLoaded.value = true;
 });
 
-function onFormSubmit(state) {
+function onFormSubmit(state: State) {
   console.log(state.value, "ON FORM SUBMIT");
 }
 </script>
