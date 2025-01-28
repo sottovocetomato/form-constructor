@@ -1,4 +1,6 @@
-const createTextAreaModel = () => [
+import { Field } from "@/types";
+
+const createTextAreaModel = (): Field[] => [
   {
     component: "BaseTextInput",
     props: {

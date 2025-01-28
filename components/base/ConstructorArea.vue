@@ -123,12 +123,13 @@ import componentsMap from "@/models/components/componentsMap";
 import { elementsMap } from "@/helpers/formSettingsMap";
 import { useFormBuilderState } from "@/composables/useFormBuilderState";
 import { useSavedForms } from "@/composables/useSavedForms";
+import { FieldsState } from "@/types";
 
 const router = useRouter();
 
 const { getLastFormId, setSavedForms, setPresavedForm } = useSavedForms();
 
-const formId = ref(getLastFormId() + 1);
+const formId = ref<number | string>(getLastFormId() + 1);
 const { formItems } = useFormBuilderState(formId.value);
 const {
   startDrag,
@@ -143,15 +144,15 @@ const {
   formId: formId.value,
 });
 
-const settingsFieldSet = shallowRef(null);
-const currentFieldId = ref(null);
+const settingsFieldSet = shallowRef("");
+const currentFieldId = ref();
 
 const { toggleActive } = useSidebar();
 
-function openSidebar(e) {
+function openSidebar(e: Event) {
+  if (!(e.target instanceof HTMLElement)) return;
   const dataName = e.target.dataset?.name;
-
-  if (dataName in elementsMap) {
+  if (dataName && dataName in elementsMap) {
     settingsFieldSet.value = elementsMap?.[dataName]?.();
     console.log(e.target.id);
     currentFieldId.value = e.target.id;
@@ -163,7 +164,7 @@ function openSidebar(e) {
 
 console.log(formItems, "formItems");
 
-function onFormSettingsSubmit(state) {
+function onFormSettingsSubmit(state: FieldsState) {
   const fieldIndex = formItems?.value.findIndex(
     (e) => e.id == currentFieldId.value
   );

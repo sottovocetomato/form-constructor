@@ -1,4 +1,6 @@
-const createSelectPlaceholder = (id) => [
+import { Field } from "@/types";
+
+const createSelectPlaceholder = (id: string | number): Field[] => [
   {
     component: "BaseTextInput",
     props: {

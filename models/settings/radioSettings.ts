@@ -1,6 +1,7 @@
 import createRadioFields from "./radioFields.js";
+import { Field } from "@/types";
 
-const createRadioModel = () => [
+const createRadioModel = (): Field[] => [
   {
     component: "BaseTextInput",
     props: {

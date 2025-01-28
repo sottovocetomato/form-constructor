@@ -1,4 +1,6 @@
-const createSelectOption = (id) => [
+import { Field } from "@/types";
+
+const createSelectOption = (id: string | number): Field => [
   {
     component: "BaseTextInput",
     props: {

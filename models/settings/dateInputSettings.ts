@@ -1,4 +1,6 @@
-const createDateRangeModel = () => [
+import { Field } from "#build/types";
+
+const createDateInputModel = (): Field[] => [
   {
     component: "BaseTextInput",
     props: {
@@ -13,35 +15,60 @@ const createDateRangeModel = () => [
     sequenceNumber: 1,
     fieldName: "label",
   },
+
   {
     component: "BaseTextInput",
     props: {
-      id: "labelFromInput",
+      id: "nameInput",
       displayName: "",
       isHidden: false,
       required: false,
       type: "text",
-      label: "Date from",
-      placeholder: "Label From",
+      label: "Name",
+      placeholder: "Type text for input name (optional)...",
     },
     sequenceNumber: 2,
-    fieldName: "labelFrom",
+    fieldName: "name",
   },
   {
-    component: "BaseTextInput",
+    component: "BaseDateInput",
     props: {
-      id: "labelToInput",
+      id: "minDate",
       displayName: "",
       isHidden: false,
       required: false,
-      type: "text",
-      label: "Date to",
-      placeholder: "Label To",
+      label: "Min date",
+      placeholder: "Min date",
     },
     sequenceNumber: 3,
-    fieldName: "labelTo",
+    fieldName: "min",
   },
-
+  {
+    component: "BaseDateInput",
+    props: {
+      id: "maxDate",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      label: "Max date",
+      placeholder: "Max date",
+    },
+    sequenceNumber: 4,
+    fieldName: "max",
+  },
+  {
+    component: "BaseCheckbox",
+    props: {
+      id: "required",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      label: "Set at today's date",
+    },
+    sequenceNumber: 5,
+    fieldName: "setToday",
+    initialValue: true,
+  },
   {
     component: "BaseCheckbox",
     props: {
@@ -51,7 +78,7 @@ const createDateRangeModel = () => [
       required: false,
       label: "Required",
     },
-    sequenceNumber: 4,
+    sequenceNumber: 6,
     fieldName: "required",
   },
 
@@ -64,9 +91,9 @@ const createDateRangeModel = () => [
       required: false,
       label: "Disabled",
     },
-    sequenceNumber: 5,
+    sequenceNumber: 7,
     fieldName: "disabled",
   },
 ];
 
-export default createDateRangeModel;
+export default createDateInputModel;

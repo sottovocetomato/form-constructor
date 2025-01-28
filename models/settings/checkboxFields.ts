@@ -1,4 +1,7 @@
-const createCheckboxFields = (id, displayByField = {}) => [
+const createCheckboxFields = (
+  id: string | number,
+  displayByField: { field: string; showValue: boolean } | {} = {}
+): Field[] => [
   {
     component: "BaseTextInput",
     displayByField: displayByField,

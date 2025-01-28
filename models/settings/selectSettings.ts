@@ -1,5 +1,5 @@
-import createSelectOption from "../settings/selectOption.js";
-import createSelectPlaceholder from "../settings/selectPlaceholder.js";
+import createSelectOption from "./selectOption.js";
+import createSelectPlaceholder from "./selectPlaceholder.js";
 
 const createSelectModel = (id) => [
   {

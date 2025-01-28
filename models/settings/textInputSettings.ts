@@ -1,4 +1,6 @@
-const createDateInputModel = () => [
+import { Field } from "@/types";
+
+const createTextInputModel = (): Field[] => [
   {
     component: "BaseTextInput",
     props: {
@@ -13,7 +15,20 @@ const createDateInputModel = () => [
     sequenceNumber: 1,
     fieldName: "label",
   },
-
+  {
+    component: "BaseTextInput",
+    props: {
+      id: "placeholderInput",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      type: "text",
+      label: "Placeholder",
+      placeholder: "Type text for input placeholder...",
+    },
+    sequenceNumber: 2,
+    fieldName: "placeholder",
+  },
   {
     component: "BaseTextInput",
     props: {
@@ -25,47 +40,53 @@ const createDateInputModel = () => [
       label: "Name",
       placeholder: "Type text for input name (optional)...",
     },
-    sequenceNumber: 2,
+    sequenceNumber: 1,
     fieldName: "name",
   },
+  // {
+  //   component: "BaseTextInput",
+  //   props: {
+  //     id: "IdInput",
+  //     displayName: "",
+  //     isHidden: false,
+  //     required: false,
+  //     type: "text",
+  //     placeholder: "Input Id",
+  //   },
+  //   sequenceNumber: 2,
+  //   fieldName: "id",
+  // },
   {
-    component: "BaseDateInput",
+    component: "BaseTextInput",
     props: {
-      id: "minDate",
+      id: "minLength",
       displayName: "",
       isHidden: false,
       required: false,
-      label: "Min date",
-      placeholder: "Min date",
+      type: "number",
+      label: "Min",
+      placeholder: "Min char length",
     },
     sequenceNumber: 3,
-    fieldName: "min",
+    fieldName: "minlength",
   },
   {
-    component: "BaseDateInput",
+    component: "BaseTextInput",
     props: {
-      id: "maxDate",
+      id: "maxLength",
       displayName: "",
       isHidden: false,
       required: false,
-      label: "Max date",
-      placeholder: "Max date",
+      type: "number",
+      label: "Max",
+      placeholder: "Max char length",
     },
     sequenceNumber: 4,
-    fieldName: "max",
+    fieldName: "maxlength",
   },
   {
-    component: "BaseCheckbox",
-    props: {
-      id: "required",
-      displayName: "",
-      isHidden: false,
-      required: false,
-      label: "Set at today's date",
-    },
+    component: "hr",
     sequenceNumber: 5,
-    fieldName: "setToday",
-    initialValue: true,
   },
   {
     component: "BaseCheckbox",
@@ -79,7 +100,18 @@ const createDateInputModel = () => [
     sequenceNumber: 6,
     fieldName: "required",
   },
-
+  {
+    component: "BaseCheckbox",
+    props: {
+      id: "required",
+      displayName: "",
+      isHidden: false,
+      required: false,
+      label: "Numeric",
+    },
+    sequenceNumber: 7,
+    fieldName: "number",
+  },
   {
     component: "BaseCheckbox",
     props: {
@@ -89,9 +121,9 @@ const createDateInputModel = () => [
       required: false,
       label: "Disabled",
     },
-    sequenceNumber: 7,
+    sequenceNumber: 8,
     fieldName: "disabled",
   },
 ];
 
-export default createDateInputModel;
+export default createTextInputModel;

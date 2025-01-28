@@ -5,8 +5,9 @@ export const useFormDrop = ({
   customMarkerSelector = "",
   formId,
 }: {
-  constructorAreaSelector: string;
-  customMarkerSelector: string;
+  constructorAreaSelector?: string;
+  customMarkerSelector?: string;
+  formId: string | number;
 }) => {
   const dropMarkerSelector = customMarkerSelector || "drop-insert-marker";
   let constructorFreeDropZone;

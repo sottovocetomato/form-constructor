@@ -1,6 +1,7 @@
 import createCheckboxFields from "./checkboxFields.js";
+import { Field } from "#build/types";
 
-const createCheckboxModel = () => [
+const createCheckboxModel = (): Field[] => [
   {
     component: "BaseCheckbox",
     props: {

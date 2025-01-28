@@ -1,5 +1,7 @@
+import { Field } from "#build/types";
+
 export const useFormBuilderState = (id) => {
-  const formItems = useState<string[]>(`formItems-${id}`, () => []);
+  const formItems = useState<Field[]>(`formItems-${id}`, () => []);
 
   function insertInFromItems(ind, itemID, itemIndex = null) {
     ind = +ind;

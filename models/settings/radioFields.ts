@@ -1,4 +1,6 @@
-const createRadioFields = (id) => [
+import { Field } from "@/types";
+
+const createRadioFields = (id: string | number): Field[] => [
   {
     component: "BaseTextInput",
     props: {
