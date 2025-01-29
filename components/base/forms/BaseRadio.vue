@@ -35,9 +35,6 @@ const {
   radioGroup = [{ label: "Radio", value: "" }],
 } = defineProps<RadioProps>();
 
-if (group) {
-  model.value = [];
-}
 const ariaInvalid = computed(
   () => (validated && required && !model.value) || undefined
 );

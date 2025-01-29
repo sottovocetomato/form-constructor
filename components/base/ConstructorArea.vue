@@ -15,7 +15,6 @@
         <div
           class="constructor-area__component"
           v-for="(item, index) in formItems"
-          v-if="item?.component"
           :key="`${item}-${index}`"
           :data-index="index"
           :data-name="item.component"
@@ -28,6 +27,7 @@
           @drag="onDrag"
         >
           <component
+            v-if="item?.component"
             :is="componentsMap?.[item?.component]"
             v-bind="item.props"
             customWrapClass="constructor-area__component__element"
@@ -125,7 +125,7 @@ import { elementsMap } from "@/helpers/formSettingsMap";
 import { useFormBuilderState } from "@/composables/useFormBuilderState";
 import { useSavedForms } from "@/composables/useSavedForms";
 import type { FieldsState, Field } from "@/types";
-import { Ref } from "@vue/reactivity";
+import type { Ref } from "@vue/reactivity";
 
 const router = useRouter();
 

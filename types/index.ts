@@ -9,7 +9,7 @@ export interface ElementsMap {
 }
 
 export interface FieldsState {
-  [key: string | number]: string | number | string[] | number[] | {};
+  [key: string | number | symbol]: string | number | string[] | number[] | {};
 }
 
 export type onFieldClickFn = (
@@ -21,7 +21,7 @@ export type onFieldClickFn = (
 export interface Field {
   component?: string;
   displayByField?: { field: string; showValue: boolean };
-  id?: string | number;
+  id?: string;
   isGroup?: boolean;
   groupFields?: Field[];
   groupName?: string;
@@ -45,7 +45,12 @@ export interface Field {
   initialValue?: boolean;
   displayCondition?: boolean;
 }
-
+export interface CheckBoxElement {
+  label: string;
+  value?: string;
+  disabled?: boolean;
+  readonly?: boolean;
+}
 export type DateRangeModel = { dateStart: string; dateEnd: string };
 
 export function needStateField(field: Field): field is Field {

@@ -1,6 +1,6 @@
 // type Modify<T, R> = Omit<T, keyof R> & R;
 
-import { Field } from "@/types";
+import { Field, CheckBoxElement, DateRangeModel } from "@/types";
 
 export interface FormElementProps {
   customWrapClass?: string;
@@ -17,10 +17,10 @@ export interface FormElementProps {
 export interface CheckboxProps extends FormElementProps {
   type?: "checkbox" | "radio";
   group?: boolean;
-  checkboxGroup?: HTMLInputElement[];
+  checkboxGroup?: CheckBoxElement[];
 }
 export interface RadioProps extends FormElementProps {
-  radioGroup?: HTMLInputElement[];
+  radioGroup?: CheckBoxElement[];
 }
 export interface SelectInputProps extends FormElementProps {
   options?: HTMLOptionElement[];
@@ -35,7 +35,7 @@ export interface DateRangeInputProps extends DateInputProps {
   labelTo?: string;
   nameTo?: string;
   nameFrom?: string;
-  dateRange?: object;
+  dateRange?: DateRangeModel;
 }
 
 export interface DynamicFormProps {

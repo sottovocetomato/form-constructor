@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import type { NuxtError } from "nuxt/app";
 
-function someErrorLogger(error: NuxtError) {
+function someErrorLogger(error: unknown): any {
   console.error(error, "Some error has occured on app level");
 }
 </script>

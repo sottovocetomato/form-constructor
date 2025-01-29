@@ -28,14 +28,15 @@ import type { DynamicFormProps } from "@/types/interfaces/props";
 import componentsMap from "@/models/components/componentsMap";
 import { isArrayOfArrays } from "@/helpers";
 import type { FieldsState, Field } from "@/types";
-import type { Component } from "@vue/runtime-core";
+import type { Component, VNodeArrayChildren, VNode } from "@vue/runtime-core";
+import type { Ref } from "@vue/reactivity";
 
 const currentFormId = useId();
 
 const emit = defineEmits<{
-  formSubmit: [fieldsState: FieldsState];
-  onDelete: [formId?: string | number];
-  "update:modelValue": [e?: Event];
+  formSubmit: [fieldsState: Ref];
+  onDelete: [formId: string | number];
+  "update:modelValue": [e: Event];
 }>();
 
 const composedForm = ref(null);
@@ -69,32 +70,39 @@ const dynamicComponent = () => {
     }
     fieldNodes.push(createComponent(field));
   }
-  return h("div", fieldNodes);
+  return h("div", fieldNodes as VNodeArrayChildren);
 };
 
-function dynamicFieldsRenderer(entryFields = [], nodes = []) {
+function dynamicFieldsRenderer(
+  entryFields: Field[][] | Field[] = [],
+  nodes: VNode[] = []
+) {
   const arrayOfArrays = isArrayOfArrays(entryFields);
   if (arrayOfArrays) {
     for (const fieldArr of entryFields) {
-      dynamicFieldsRenderer(fieldArr, nodes);
+      dynamicFieldsRenderer(fieldArr as Field[], nodes);
     }
   } else {
     for (const field of entryFields) {
       if ("displayCondition" in field && !field.displayCondition) continue;
-      const node = createComponent(field);
-      nodes.push(node);
+      const node = createComponent(field as Field);
+      if (node) {
+        nodes.push(node);
+      }
     }
   }
   return nodes;
 }
 
-function createComponent(field: Field): Component {
+function createComponent(field: Field): VNode | void {
   if (field?.props?.isHidden) return;
-  let stateBlock = fieldsState.value;
+  let stateBlock: FieldsState | keyof FieldsState = fieldsState.value;
   if (field?.stateBlock) {
-    stateBlock = field?.stateBlock?.split(".")?.reduce((p, n) => {
-      return p[n];
-    }, fieldsState.value);
+    stateBlock = field?.stateBlock
+      ?.split(".")
+      ?.reduce((p: FieldsState | keyof FieldsState, n: string) => {
+        return p[n];
+      }, fieldsState.value);
   }
 
   const component = {

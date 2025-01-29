@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import type { DateRangeInputProps } from "@/types/interfaces/props";
 import BaseDateInput from "@/components/base/forms/BaseDateInput.vue";
-import { DateRangeModel } from "@/types";
+import type { DateRangeModel } from "@/types";
 
 // const dateStart = defineModel("dateStart");
 // const dateEnd = defineModel("dateEnd");
@@ -44,7 +44,7 @@ const {
   labelTo = "",
   nameTo = "dateTo",
   nameFrom = "dateFrom",
-  dateRange = {},
+  dateRange = { dateStart: "", dateEnd: "" },
 } = defineProps<DateRangeInputProps>();
 
 if (dateRange && Object.keys(dateRange)?.length > 0) {
