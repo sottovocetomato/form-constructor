@@ -35,7 +35,7 @@ const {
 const model = defineModel();
 
 const ariaInvalid = computed(
-  () => (validated && required && !model.value) || null
+  () => (validated && required && !model.value) || undefined
 );
 
 onMounted(() => {

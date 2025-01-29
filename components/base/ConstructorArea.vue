@@ -15,10 +15,11 @@
         <div
           class="constructor-area__component"
           v-for="(item, index) in formItems"
+          v-if="item?.component"
           :key="`${item}-${index}`"
           :data-index="index"
           :data-name="item.component"
-          :id="item.id"
+          :id="item?.id"
           @drop="onDrop($event)"
           @dragover.capture="onComponentDragOver"
           @click="openSidebar"
@@ -27,7 +28,7 @@
           @drag="onDrag"
         >
           <component
-            :is="componentsMap[item.component]"
+            :is="componentsMap?.[item?.component]"
             v-bind="item.props"
             customWrapClass="constructor-area__component__element"
           />
@@ -123,7 +124,8 @@ import componentsMap from "@/models/components/componentsMap";
 import { elementsMap } from "@/helpers/formSettingsMap";
 import { useFormBuilderState } from "@/composables/useFormBuilderState";
 import { useSavedForms } from "@/composables/useSavedForms";
-import { FieldsState } from "@/types";
+import type { FieldsState, Field } from "@/types";
+import { Ref } from "@vue/reactivity";
 
 const router = useRouter();
 
@@ -144,7 +146,7 @@ const {
   formId: formId.value,
 });
 
-const settingsFieldSet = shallowRef("");
+const settingsFieldSet = shallowRef<null | Field[]>(null);
 const currentFieldId = ref();
 
 const { toggleActive } = useSidebar();
@@ -157,14 +159,14 @@ function openSidebar(e: Event) {
     console.log(e.target.id);
     currentFieldId.value = e.target.id;
   } else {
-    settingsFieldSet.value = "";
+    settingsFieldSet.value = null;
   }
   toggleActive();
 }
 
 console.log(formItems, "formItems");
 
-function onFormSettingsSubmit(state: FieldsState) {
+function onFormSettingsSubmit(state: Ref) {
   const fieldIndex = formItems?.value.findIndex(
     (e) => e.id == currentFieldId.value
   );
@@ -174,17 +176,17 @@ function onFormSettingsSubmit(state: FieldsState) {
     ...state.value,
   };
   fieldItem.fieldName =
-    fieldItem.props.label ||
-    fieldItem.props.placeholder ||
-    fieldItem.props.name;
+    fieldItem?.props?.label ||
+    fieldItem?.props?.placeholder ||
+    fieldItem?.props?.name;
   toggleActive();
 }
-function onFieldDelete(fieldId) {
+function onFieldDelete(fieldId: string | number) {
   const userConfirm = confirm("Are you sure, you want to delete this field?");
   if (userConfirm) return;
   formItems.value = formItems?.value.filter((e) => e.id != fieldId);
   currentFieldId.value = null;
-  settingsFieldSet.value = "";
+  settingsFieldSet.value = null;
   toggleActive();
 }
 function onFormSave() {

@@ -30,7 +30,6 @@ const {
   label = "Radio",
   customWrapClass = "",
   name = "",
-  group = false,
   validated = false,
   required = false,
   radioGroup = [{ label: "Radio", value: "" }],
@@ -40,7 +39,7 @@ if (group) {
   model.value = [];
 }
 const ariaInvalid = computed(
-  () => (validated && required && !model.value) || null
+  () => (validated && required && !model.value) || undefined
 );
 </script>
 

@@ -43,7 +43,7 @@ const {
 
 const model = defineModel({ default: "" });
 const ariaInvalid = computed(
-  () => (validated && required && !model.value) || null
+  () => (validated && required && !model.value) || undefined
 );
 // watch(
 //   () => options,

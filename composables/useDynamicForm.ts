@@ -1,16 +1,9 @@
 import { isArray } from "@/helpers";
 
 import { isArrayOfArrays, prepareModel } from "@/helpers";
-import { Field, FieldsState } from "@/types";
+import type { Field, FieldsState } from "@/types";
 
-export const useDynamicForm = (
-  fields = [],
-  id: string | number
-): {
-  fieldsState: FieldsState;
-  fieldsSet: Field;
-  createStateFields: () => void;
-} => {
+export const useDynamicForm = (fields: Field[] = [], id: string | number) => {
   const fieldsSet = useState<Field[]>(`fieldsSet-${id}`);
 
   if (!fieldsSet.value) {

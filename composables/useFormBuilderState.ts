@@ -1,9 +1,13 @@
-import { Field } from "#build/types";
+import { Field } from "@/types";
 
-export const useFormBuilderState = (id) => {
+export const useFormBuilderState = (id: string | number) => {
   const formItems = useState<Field[]>(`formItems-${id}`, () => []);
 
-  function insertInFromItems(ind, itemID, itemIndex = null) {
+  function insertInFromItems(
+    ind: string | number,
+    itemID: string | number,
+    itemIndex: string | number | null = null
+  ) {
     ind = +ind;
     if (itemIndex) {
       const itemArrIndex = formItems.value.findIndex(
@@ -35,7 +39,7 @@ export const useFormBuilderState = (id) => {
     });
   }
 
-  function addToFormItems(itemID) {
+  function addToFormItems(itemID: string | number) {
     formItems.value.push({
       component: itemID,
       props: {},

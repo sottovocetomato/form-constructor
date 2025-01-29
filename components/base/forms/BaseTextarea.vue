@@ -18,11 +18,11 @@
 </template>
 
 <script setup lang="ts">
-import { FormElementProps } from "@/types/interfaces/props";
+import type { FormElementProps } from "@/types/interfaces/props";
 defineOptions({
   inheritAttrs: false,
 });
-const model = defineModel();
+const model = defineModel<string>();
 
 const {
   customWrapClass = "",
@@ -34,7 +34,7 @@ const {
 } = defineProps<FormElementProps>();
 
 const ariaInvalid = computed(
-  () => (validated && required && !model.value) || null
+  () => (validated && required && !model.value) || undefined
 );
 </script>
 

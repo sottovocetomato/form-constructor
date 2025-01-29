@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { FormElementProps } from "@/types/interfaces/props";
+import type { FormElementProps } from "@/types/interfaces/props";
 defineOptions({
   inheritAttrs: false,
 });
@@ -37,7 +37,7 @@ const {
 } = defineProps<FormElementProps>();
 
 const ariaInvalid = computed(
-  () => (validated && required && !model.value) || null
+  () => (validated && required && !model.value) || undefined
 );
 // onUpdated(() => {
 //   console.log(placeholder, "updated");

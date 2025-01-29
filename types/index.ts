@@ -2,15 +2,10 @@ import type { Component } from "@vue/runtime-core";
 import createCheckboxFields from "#build/models/settings/checkboxFields";
 
 export interface ComponentsMap {
-  BaseInput: Component;
-  Header: Component;
-  BaseTextInput: Component;
-  BaseTextarea: Component;
-  BaseSelect: Component;
-  BaseDateInput: Component;
-  BaseCheckbox: Component;
-  BaseDateRange: Component;
-  BaseRadio: Component;
+  [index: string]: Component;
+}
+export interface ElementsMap {
+  [index: string]: () => Field[];
 }
 
 export interface FieldsState {
@@ -26,6 +21,11 @@ export type onFieldClickFn = (
 export interface Field {
   component?: string;
   displayByField?: { field: string; showValue: boolean };
+  id?: string | number;
+  isGroup?: boolean;
+  groupFields?: Field[];
+  groupName?: string;
+  groupType?: string;
   props?: {
     id?: string | number;
     displayName?: string;
@@ -33,14 +33,20 @@ export interface Field {
     required?: boolean;
     type?: string;
     placeholder?: string;
+    label?: string;
+    name?: string;
+    disabled?: boolean;
   };
   sequenceNumber?: number;
   innerText?: string;
   onClick?: onFieldClickFn;
   fieldName?: string;
+  stateBlock?: string;
   initialValue?: boolean;
   displayCondition?: boolean;
 }
+
+export type DateRangeModel = { dateStart: string; dateEnd: string };
 
 export function needStateField(field: Field): field is Field {
   return (field as Field).fieldName !== undefined;

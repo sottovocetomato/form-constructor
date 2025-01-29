@@ -5,8 +5,9 @@ import createDateInputModel from "@/models/settings/dateInputSettings";
 import createDateRangeModel from "@/models/settings/dateRangeSettings";
 import createCheckboxModel from "@/models/settings/checkboxSettings.js";
 import createRadioModel from "@/models/settings/radioSettings.js";
+import type { ElementsMap } from "@/types";
 
-export const elementsMap = {
+export const elementsMap: ElementsMap = {
   BaseTextInput: createTextInputModel,
   BaseSelect: createSelectModel,
   BaseTextarea: createTextAreaModel,

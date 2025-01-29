@@ -26,11 +26,12 @@
 <script setup lang="ts">
 import type { DateRangeInputProps } from "@/types/interfaces/props";
 import BaseDateInput from "@/components/base/forms/BaseDateInput.vue";
+import { DateRangeModel } from "@/types";
 
 // const dateStart = defineModel("dateStart");
 // const dateEnd = defineModel("dateEnd");
 
-const dateRangeModel = defineModel();
+const dateRangeModel = defineModel<DateRangeModel>();
 
 const {
   validated = false,
@@ -53,7 +54,7 @@ if (dateRange && Object.keys(dateRange)?.length > 0) {
 }
 
 const ariaInvalid = computed(
-  () => (validated && required && !model.value) || null
+  () => (validated && required && !dateRangeModel.value) || null
 );
 </script>
 

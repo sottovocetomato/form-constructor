@@ -56,7 +56,7 @@ if (group) {
   model.value = [];
 }
 const ariaInvalid = computed(
-  () => (validated && required && !model.value) || null
+  () => (validated && required && !model.value) || undefined
 );
 </script>
 

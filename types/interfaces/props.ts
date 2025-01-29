@@ -1,5 +1,7 @@
 // type Modify<T, R> = Omit<T, keyof R> & R;
 
+import { Field } from "@/types";
+
 export interface FormElementProps {
   customWrapClass?: string;
   customClass?: string;
@@ -15,13 +17,13 @@ export interface FormElementProps {
 export interface CheckboxProps extends FormElementProps {
   type?: "checkbox" | "radio";
   group?: boolean;
-  checkboxGroup?: [];
+  checkboxGroup?: HTMLInputElement[];
 }
 export interface RadioProps extends FormElementProps {
-  radioGroup?: [];
+  radioGroup?: HTMLInputElement[];
 }
 export interface SelectInputProps extends FormElementProps {
-  options?: SelectOptions[];
+  options?: HTMLOptionElement[];
 }
 export interface DateInputProps extends FormElementProps {
   type?: "date" | "datetime-local" | "month" | "time";
@@ -37,7 +39,7 @@ export interface DateRangeInputProps extends DateInputProps {
 }
 
 export interface DynamicFormProps {
-  fields: DynamicFormFields[];
+  fields: Field[];
   data?: {}[];
   mainWrapClass?: string;
   noSubmitBtn?: boolean;
@@ -45,21 +47,21 @@ export interface DynamicFormProps {
   formId?: number | string | null | undefined;
 }
 
-export interface DynamicFormFields {
-  component: string;
-  props: {
-    customClass?: string;
-    id?: string;
-    type?: string;
-    placeholder?: string;
-    label?: string;
-    storeField?: string;
-  };
-}
+// export interface DynamicFormFields {
+//   component: string;
+//   props: {
+//     customClass?: string;
+//     id?: string;
+//     type?: string;
+//     placeholder?: string;
+//     label?: string;
+//     storeField?: string;
+//   };
+// }
 
-export interface SelectOptions {
-  selected?: boolean;
-  disabled?: boolean;
-  text?: string;
-  value?: string;
-}
+// export interface SelectOptions {
+//   selected?: boolean;
+//   disabled?: boolean;
+//   text?: string;
+//   value?: string;
+// }

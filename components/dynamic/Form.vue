@@ -24,14 +24,16 @@
 </template>
 
 <script setup lang="ts">
-import { DynamicFormProps } from "@/types/interfaces/props";
+import type { DynamicFormProps } from "@/types/interfaces/props";
 import componentsMap from "@/models/components/componentsMap";
 import { isArrayOfArrays } from "@/helpers";
+import type { FieldsState, Field } from "@/types";
+import type { Component } from "@vue/runtime-core";
 
 const currentFormId = useId();
 
 const emit = defineEmits<{
-  formSubmit: [fieldsState?: {}[]];
+  formSubmit: [fieldsState: FieldsState];
   onDelete: [formId?: string | number];
   "update:modelValue": [e?: Event];
 }>();
@@ -70,7 +72,7 @@ const dynamicComponent = () => {
   return h("div", fieldNodes);
 };
 
-function dynamicFieldsRenderer(entryFields, nodes = []) {
+function dynamicFieldsRenderer(entryFields = [], nodes = []) {
   const arrayOfArrays = isArrayOfArrays(entryFields);
   if (arrayOfArrays) {
     for (const fieldArr of entryFields) {
@@ -86,7 +88,7 @@ function dynamicFieldsRenderer(entryFields, nodes = []) {
   return nodes;
 }
 
-function createComponent(field) {
+function createComponent(field: Field): Component {
   if (field?.props?.isHidden) return;
   let stateBlock = fieldsState.value;
   if (field?.stateBlock) {
@@ -99,29 +101,29 @@ function createComponent(field) {
     ...field.props,
 
     modelValue: stateBlock[field.fieldName],
-    "onUpdate:modelValue": (value) => {
+    "onUpdate:modelValue": (value: any) => {
       if (field.fieldName) {
         stateBlock[field.fieldName] = value;
         emit("update:modelValue", value);
       }
     },
   };
-  if (field.fieldName) {
+  if (field?.fieldName) {
     component.validated = validated.value;
   }
-  if (field.onClick) {
-    component.onClick = (e) => {
+  if (field?.onClick) {
+    component.onClick = (e: Event) => {
       field.onClick(fieldsSet.value, fieldsState.value, e);
       createStateFields();
     };
   }
-  if (field.refreshFieldState) {
-    component.onClick = (e) => {
+  if (field?.refreshFieldState) {
+    component.onClick = (e: Event) => {
       createStateFields();
     };
   }
-  if (field.onInput) {
-    component.onInput = (e) => {
+  if (field?.onInput) {
+    component.onInput = (e: Event) => {
       field.onInput(fieldsSet.value, fieldsState.value, e);
     };
   }
@@ -138,6 +140,7 @@ function logger() {
   console.log(fieldsState, "logger");
 }
 function onFormSubmit() {
+  if (!composedForm.value) return;
   validated.value = true;
   nextTick(() => {
     const hasInvalidFields = composedForm.value.querySelector(
