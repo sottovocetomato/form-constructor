@@ -1,4 +1,4 @@
-import { Field } from "@/types";
+import type { Field, onFieldActionFn, FieldsState } from "@/types";
 
 const createRadioFields = (id: string | number): Field[] => [
   {
@@ -59,13 +59,15 @@ const createRadioFields = (id: string | number): Field[] => [
     displayCondition: id != 1,
     sequenceNumber: 3,
     innerText: "Delete radio",
-    onClick: (fields, state, e) => {
+    onClick: (fields, state, e): onFieldActionFn => {
       if (!fields || !fields.length) return;
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "radioGroup"
       );
-      if (!optionsGroup) return;
-      const removeAtIndex = +e.target.dataset.index - 1;
+      const target = e.target as HTMLElement;
+      if (!optionsGroup || !optionsGroup?.groupFields || !target.dataset.index)
+        return;
+      const removeAtIndex = +target.dataset.index - 1;
       optionsGroup.groupFields.splice(removeAtIndex, 1);
     },
   },

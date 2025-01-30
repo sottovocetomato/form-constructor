@@ -35,11 +35,11 @@ const currentFormId = useId();
 
 const emit = defineEmits<{
   formSubmit: [fieldsState: Ref];
-  onDelete: [formId: string | number];
+  onDelete: [formId: string | number | null];
   "update:modelValue": [e: Event];
 }>();
 
-const composedForm = ref(null);
+const composedForm = ref<HTMLElement | null>(null);
 const validated = ref(false);
 
 const {
@@ -83,9 +83,10 @@ function dynamicFieldsRenderer(
       dynamicFieldsRenderer(fieldArr as Field[], nodes);
     }
   } else {
-    for (const field of entryFields) {
+    for (const field of entryFields as Field[]) {
       if ("displayCondition" in field && !field.displayCondition) continue;
-      const node = createComponent(field as Field);
+
+      const node = createComponent(field);
       if (node) {
         nodes.push(node);
       }
@@ -95,20 +96,19 @@ function dynamicFieldsRenderer(
 }
 
 function createComponent(field: Field): VNode | void {
-  if (field?.props?.isHidden) return;
-  let stateBlock: FieldsState | keyof FieldsState = fieldsState.value;
+  if (field?.props?.isHidden || !field.component) return;
+  let stateBlock = fieldsState.value;
   if (field?.stateBlock) {
-    stateBlock = field?.stateBlock
-      ?.split(".")
-      ?.reduce((p: FieldsState | keyof FieldsState, n: string) => {
-        return p[n];
-      }, fieldsState.value);
+    stateBlock = field?.stateBlock?.split(".")?.reduce((p, n) => {
+      return p[n];
+    }, fieldsState.value);
   }
 
-  const component = {
+  const component: Record<string, any> = {
     ...field.props,
 
-    modelValue: stateBlock[field.fieldName],
+    modelValue:
+      field.fieldName !== undefined ? stateBlock[field.fieldName] : "",
     "onUpdate:modelValue": (value: any) => {
       if (field.fieldName) {
         stateBlock[field.fieldName] = value;
@@ -116,12 +116,12 @@ function createComponent(field: Field): VNode | void {
       }
     },
   };
-  if (field?.fieldName) {
+  if (field.fieldName) {
     component.validated = validated.value;
   }
   if (field?.onClick) {
     component.onClick = (e: Event) => {
-      field.onClick(fieldsSet.value, fieldsState.value, e);
+      field?.onClick?.(fieldsSet.value, fieldsState.value, e);
       createStateFields();
     };
   }
@@ -132,13 +132,12 @@ function createComponent(field: Field): VNode | void {
   }
   if (field?.onInput) {
     component.onInput = (e: Event) => {
-      field.onInput(fieldsSet.value, fieldsState.value, e);
+      field.onInput?.(fieldsSet.value, fieldsState.value, e);
     };
   }
 
-  if (!field?.component) return;
   return h(
-    componentsMap?.[field.component] || field.component,
+    componentsMap?.[field?.component] || field?.component,
     { ...component },
     field.innerText
   );
@@ -151,7 +150,7 @@ function onFormSubmit() {
   if (!composedForm.value) return;
   validated.value = true;
   nextTick(() => {
-    const hasInvalidFields = composedForm.value.querySelector(
+    const hasInvalidFields = composedForm.value?.querySelector(
       "input[aria-invalid='true']"
     );
     if (!!hasInvalidFields) return;

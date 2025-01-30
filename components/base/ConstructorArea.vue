@@ -181,7 +181,7 @@ function onFormSettingsSubmit(state: Ref) {
     fieldItem?.props?.name;
   toggleActive();
 }
-function onFieldDelete(fieldId: string | number) {
+function onFieldDelete(fieldId: string | number | null) {
   const userConfirm = confirm("Are you sure, you want to delete this field?");
   if (userConfirm) return;
   formItems.value = formItems?.value.filter((e) => e.id != fieldId);

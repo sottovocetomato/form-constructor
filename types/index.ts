@@ -1,21 +1,18 @@
 import type { Component } from "@vue/runtime-core";
-import createCheckboxFields from "#build/models/settings/checkboxFields";
 
 export interface ComponentsMap {
   [index: string]: Component;
 }
 export interface ElementsMap {
-  [index: string]: () => Field[];
+  [index: string]: (id?: string | number) => Field[];
 }
 
-export interface FieldsState {
-  [key: string | number | symbol]: string | number | string[] | number[] | {};
-}
+export type FieldsState = Record<string, any>;
 
-export type onFieldClickFn = (
-  fields?: Field[],
-  state?: FieldsState[],
-  e?: Event
+export type onFieldActionFn = (
+  fields: Field[],
+  state: FieldsState,
+  e: Event
 ) => void;
 
 export interface Field {
@@ -23,14 +20,16 @@ export interface Field {
   displayByField?: { field: string; showValue: boolean };
   id?: string;
   isGroup?: boolean;
-  groupFields?: Field[];
+  groupFields?: Field[] | Field[][];
   groupName?: string;
   groupType?: string;
   props?: {
     id?: string | number;
+    "data-index"?: string | number;
     displayName?: string;
     isHidden?: boolean;
     required?: boolean;
+    class?: string;
     type?: string;
     placeholder?: string;
     label?: string;
@@ -39,11 +38,14 @@ export interface Field {
   };
   sequenceNumber?: number;
   innerText?: string;
-  onClick?: onFieldClickFn;
+  onClick?: onFieldActionFn;
+  onInput?: onFieldActionFn;
   fieldName?: string;
   stateBlock?: string;
   initialValue?: boolean;
+  refreshFieldState?: boolean;
   displayCondition?: boolean;
+  notNullable?: boolean;
 }
 export interface CheckBoxElement {
   label: string;

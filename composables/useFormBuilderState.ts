@@ -1,11 +1,11 @@
-import { Field } from "@/types";
+import type { Field } from "@/types";
 
 export const useFormBuilderState = (id: string | number) => {
   const formItems = useState<Field[]>(`formItems-${id}`, () => []);
 
   function insertInFromItems(
     ind: string | number,
-    itemID: string | number,
+    itemID: string,
     itemIndex: string | number | null = null
   ) {
     ind = +ind;
@@ -39,7 +39,7 @@ export const useFormBuilderState = (id: string | number) => {
     });
   }
 
-  function addToFormItems(itemID: string | number) {
+  function addToFormItems(itemID: string) {
     formItems.value.push({
       component: itemID,
       props: {},

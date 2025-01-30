@@ -1,4 +1,4 @@
-import { Field } from "#build/types";
+import type { Field } from "@/types";
 
 const createDateInputModel = (): Field[] => [
   {

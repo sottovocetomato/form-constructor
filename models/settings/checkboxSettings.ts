@@ -1,5 +1,5 @@
 import createCheckboxFields from "./checkboxFields.js";
-import { Field } from "#build/types";
+import type { Field, onFieldActionFn } from "@/types";
 
 const createCheckboxModel = (): Field[] => [
   {
@@ -56,12 +56,12 @@ const createCheckboxModel = (): Field[] => [
     },
     sequenceNumber: 3,
     innerText: "Add checkbox",
-    onClick: (fields) => {
+    onClick: (fields): onFieldActionFn => {
       if (!fields || !fields.length) return;
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "checkboxGroup"
       );
-      if (!optionsGroup) return;
+      if (!optionsGroup || !optionsGroup?.groupFields) return;
       optionsGroup.groupFields.push(
         createCheckboxFields(optionsGroup.groupFields.length + 1)
       );

@@ -1,6 +1,6 @@
 import { isArray } from "@/helpers";
 
-import { isArrayOfArrays, prepareModel } from "@/helpers";
+import { isArrayOfArrays } from "@/helpers";
 import type { Field, FieldsState } from "@/types";
 
 export const useDynamicForm = (fields: Field[] = [], id: string | number) => {
@@ -14,7 +14,7 @@ export const useDynamicForm = (fields: Field[] = [], id: string | number) => {
 
   createStateFields();
 
-  function createGroupObject(type: "ARRAY" | "OBJECT" | undefined) {
+  function createGroupObject(type: string | undefined) {
     if (type === "ARRAY") {
       return [];
     }
@@ -26,7 +26,7 @@ export const useDynamicForm = (fields: Field[] = [], id: string | number) => {
   function createStateFields() {
     console.log(fieldsState.value, "creating state fields");
     for (const field of fieldsSet.value) {
-      if (field.isGroup) {
+      if (field.isGroup && field.groupName && field.groupFields) {
         if (!fieldsState.value[field.groupName]) {
           fieldsState.value[field.groupName] = createGroupObject(
             field.groupType
@@ -52,7 +52,7 @@ export const useDynamicForm = (fields: Field[] = [], id: string | number) => {
   }
 
   function createNestedFields(
-    groupFields: Field | Field[],
+    groupFields: Field | Field[] | Field[][],
     state: FieldsState,
     path = ""
   ) {
@@ -66,8 +66,9 @@ export const useDynamicForm = (fields: Field[] = [], id: string | number) => {
           createNestedFields(groupField, state[index], currentPath);
         }
       } else {
-        for (const groupField: Field of groupFields) {
-          if (state?.[groupField?.fieldName]) continue;
+        for (const groupField of groupFields as Field[]) {
+          if (!groupField?.fieldName || state?.[groupField?.fieldName])
+            continue;
           // state[groupField.fieldName] = groupField.notNullable ? "" : null;
           state[groupField.fieldName] =
             groupField?.initialValue !== null

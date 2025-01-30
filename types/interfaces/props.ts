@@ -1,6 +1,6 @@
 // type Modify<T, R> = Omit<T, keyof R> & R;
 
-import { Field, CheckBoxElement, DateRangeModel } from "@/types";
+import type { Field, CheckBoxElement, DateRangeModel } from "@/types";
 
 export interface FormElementProps {
   customWrapClass?: string;

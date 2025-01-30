@@ -4,7 +4,6 @@
       v-if="formLoaded"
       :fields="currentForm"
       :formId="formId"
-      :key="formId"
       noDeleteBtn
       @formSubmit="onFormSubmit"
     />
@@ -13,13 +12,13 @@
 
 <script setup lang="ts">
 import { useFormBuilderState } from "@/.nuxt/imports";
-import { State } from "@/types";
+import type { FieldsState } from "@/types";
 
 const { getPresavedForm } = useSavedForms();
 
 const route = useRoute();
 const currentForm = ref([]);
-const formId = computed(() => route?.params?.id);
+const formId = computed(() => `${route?.params?.id}`);
 const formLoaded = ref(false);
 
 onMounted(() => {
@@ -29,7 +28,7 @@ onMounted(() => {
   formLoaded.value = true;
 });
 
-function onFormSubmit(state: State) {
+function onFormSubmit(state: FieldsState) {
   console.log(state.value, "ON FORM SUBMIT");
 }
 </script>

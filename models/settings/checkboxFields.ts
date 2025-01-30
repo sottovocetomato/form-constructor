@@ -1,6 +1,9 @@
+import type { Field, FieldsState, onFieldActionFn } from "@/types";
+import type { Ref } from "@vue/reactivity";
+
 const createCheckboxFields = (
-  id: string | number,
-  displayByField: { field: string; showValue: boolean } | {} = {}
+  id?: string | number,
+  displayByField?: { field: string; showValue: boolean }
 ): Field[] => [
   {
     component: "BaseTextInput",
@@ -47,14 +50,17 @@ const createCheckboxFields = (
     displayCondition: id != 1,
     sequenceNumber: 3,
     innerText: "Delete checkbox",
-    onClick: (fields, state, e) => {
-      if (!fields || !fields.length) return;
-      const optionsGroup = fields.find(
-        (el) => el?.isGroup && el.groupName === "checkboxGroup"
-      );
-      if (!optionsGroup) return;
-      const removeAtIndex = +e.target.dataset.index - 1;
-      optionsGroup.groupFields.splice(removeAtIndex, 1);
+    onClick: (fields, state, e): onFieldActionFn => {
+      if (fields && fields.length) {
+        const optionsGroup = fields.find(
+          (el) => el?.isGroup && el.groupName === "checkboxGroup"
+        );
+        const target = e.target as HTMLElement;
+        if (!optionsGroup || !optionsGroup.groupFields || !target.dataset.index)
+          return;
+        const removeAtIndex = +target.dataset.index - 1;
+        optionsGroup.groupFields.splice(removeAtIndex, 1);
+      }
     },
   },
   {

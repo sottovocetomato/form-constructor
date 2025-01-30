@@ -6,7 +6,7 @@ import BaseCheckbox from "@/components/base/forms/BaseCheckbox.vue";
 import BaseDateRange from "@/components/base/forms/BaseDateRange.vue";
 import BaseRadio from "@/components/base/forms/BaseRadio.vue";
 
-import { ComponentsMap } from "@/types";
+import type { ComponentsMap } from "@/types";
 
 const componentsMap: ComponentsMap = {
   BaseTextInput: BaseTextInput,

@@ -2,24 +2,15 @@ function cloneDeep(obj: any) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-function prepareModel(obj: any) {
-  return obj.map((item) => {
-    if (Array.isArray(item)) {
-      prepareModel(item);
-    } else if (typeof item === "object") {
-      return { ...item };
-    } else {
-      return item;
-    }
-  });
-}
-
 function isArray(obj: any) {
   return Array.isArray(obj);
 }
 
-function isArrayOfArrays(obj: any) {
-  return obj.every((e) => isArray(e));
+function isArrayOfArrays(array: Record<string, any>[]): boolean {
+  if (!Array.isArray(array)) {
+    throw new Error("Please provide an array");
+  }
+  return array.every((e) => isArray(e));
 }
 
-export { cloneDeep, isArray, isArrayOfArrays, prepareModel };
+export { cloneDeep, isArray, isArrayOfArrays };

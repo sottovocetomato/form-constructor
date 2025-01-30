@@ -1,7 +1,8 @@
 import createSelectOption from "./selectOption.js";
 import createSelectPlaceholder from "./selectPlaceholder.js";
+import { Field } from "@/types";
 
-const createSelectModel = (id) => [
+const createSelectModel = (id): Field[] => [
   {
     component: "BaseTextInput",
     props: {
@@ -58,7 +59,7 @@ const createSelectModel = (id) => [
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "options"
       );
-      if (!optionsGroup) return;
+      if (!optionsGroup || optionsGroup.groupFields) return;
       optionsGroup.groupFields.push(
         createSelectOption(optionsGroup.groupFields.length + 1)
       );

@@ -1,7 +1,7 @@
 <template>
-  <div class="form-preview">
-    <DynamicForm :fields="fields" />
-  </div>
+  <!--  <div class="form-preview">-->
+  <!--    <DynamicForm :fields="fields" />-->
+  <!--  </div>-->
 </template>
 
 <script setup lang="ts">
@@ -44,21 +44,21 @@
 //     sequenceNumber: 0,
 //   },
 // ];
-const fields = [
-  {
-    component: "BaseDateInput",
-    props: {
-      label: "Birth date",
-      min: null,
-      max: null,
-      required: null,
-      setToday: true,
-      disabled: null,
-    },
-    sequenceNumber: 0,
-    // fieldName: "Birth date",
-  },
-];
+// const fields = [
+//   {
+//     component: "BaseDateInput",
+//     props: {
+//       label: "Birth date",
+//       min: null,
+//       max: null,
+//       required: null,
+//       setToday: true,
+//       disabled: null,
+//     },
+//     sequenceNumber: 0,
+//     // fieldName: "Birth date",
+//   },
+// ];
 </script>
 
 <style scoped></style>

@@ -1,5 +1,5 @@
 import createRadioFields from "./radioFields.js";
-import { Field } from "@/types";
+import type { Field, onFieldActionFn } from "@/types";
 
 const createRadioModel = (): Field[] => [
   {
@@ -39,12 +39,12 @@ const createRadioModel = (): Field[] => [
     },
     sequenceNumber: 4,
     innerText: "Add radio",
-    onClick: (fields) => {
+    onClick: (fields): onFieldActionFn => {
       if (!fields || !fields.length) return;
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "radioGroup"
       );
-      if (!optionsGroup) return;
+      if (!optionsGroup || !optionsGroup?.groupFields) return;
       optionsGroup.groupFields.push(
         createRadioFields(optionsGroup.groupFields.length + 1)
       );

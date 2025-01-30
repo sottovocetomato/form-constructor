@@ -1,6 +1,6 @@
-import { Field } from "@/types";
+import type { Field, onFieldActionFn } from "@/types";
 
-const createSelectOption = (id: string | number): Field => [
+const createSelectOption = (id: string | number): Field[] => [
   {
     component: "BaseTextInput",
     props: {
@@ -97,7 +97,7 @@ const createSelectOption = (id: string | number): Field => [
     },
     sequenceNumber: 3,
     innerText: "Delete option",
-    onClick: (fields, state, e) => {
+    onClick: (fields, state, e): onFieldActionFn => {
       if (!fields || !fields.length) return;
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "options"
