@@ -1,4 +1,4 @@
-import { Field } from "@/types";
+import type { Field } from "@/types";
 
 const createSelectPlaceholder = (id: string | number): Field[] => [
   {

@@ -59,7 +59,7 @@ const createRadioFields = (id: string | number): Field[] => [
     displayCondition: id != 1,
     sequenceNumber: 3,
     innerText: "Delete radio",
-    onClick: (fields, state, e): onFieldActionFn => {
+    onClick: (fields: Field[], state: FieldsState, e: Event) => {
       if (!fields || !fields.length) return;
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "radioGroup"

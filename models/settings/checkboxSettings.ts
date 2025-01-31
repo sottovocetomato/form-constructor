@@ -56,7 +56,7 @@ const createCheckboxModel = (): Field[] => [
     },
     sequenceNumber: 3,
     innerText: "Add checkbox",
-    onClick: (fields): onFieldActionFn => {
+    onClick: (fields: Field[]) => {
       if (!fields || !fields.length) return;
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "checkboxGroup"

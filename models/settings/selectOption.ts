@@ -1,4 +1,4 @@
-import type { Field, onFieldActionFn } from "@/types";
+import type { Field, onFieldActionFn, FieldsState } from "@/types";
 
 const createSelectOption = (id: string | number): Field[] => [
   {
@@ -97,13 +97,15 @@ const createSelectOption = (id: string | number): Field[] => [
     },
     sequenceNumber: 3,
     innerText: "Delete option",
-    onClick: (fields, state, e): onFieldActionFn => {
+    onClick: (fields: Field[], state: FieldsState, e: Event) => {
       if (!fields || !fields.length) return;
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === "options"
       );
-      if (!optionsGroup) return;
-      const removeAtIndex = +e.target.dataset.index - 1;
+      const target = e.target as HTMLElement;
+      if (!optionsGroup || !optionsGroup.groupFields || !target.dataset.index)
+        return;
+      const removeAtIndex = +target.dataset.index - 1;
       optionsGroup.groupFields.splice(removeAtIndex, 1);
     },
   },

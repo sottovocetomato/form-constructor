@@ -50,16 +50,16 @@ const createCheckboxFields = (
     displayCondition: id != 1,
     sequenceNumber: 3,
     innerText: "Delete checkbox",
-    onClick: (fields, state, e): onFieldActionFn => {
+    onClick: (fields: Field[], state: FieldsState, e: Event) => {
       if (fields && fields.length) {
         const optionsGroup = fields.find(
           (el) => el?.isGroup && el.groupName === "checkboxGroup"
         );
         const target = e.target as HTMLElement;
-        if (!optionsGroup || !optionsGroup.groupFields || !target.dataset.index)
-          return;
-        const removeAtIndex = +target.dataset.index - 1;
-        optionsGroup.groupFields.splice(removeAtIndex, 1);
+        if (optionsGroup && optionsGroup.groupFields && target.dataset.index) {
+          const removeAtIndex = +target.dataset.index - 1;
+          optionsGroup.groupFields.splice(removeAtIndex, 1);
+        }
       }
     },
   },

@@ -35,6 +35,7 @@ export interface Field {
     label?: string;
     name?: string;
     disabled?: boolean;
+    selected?: boolean;
   };
   sequenceNumber?: number;
   innerText?: string;
@@ -42,7 +43,7 @@ export interface Field {
   onInput?: onFieldActionFn;
   fieldName?: string;
   stateBlock?: string;
-  initialValue?: boolean;
+  initialValue?: boolean | string | number | object | string[] | number[];
   refreshFieldState?: boolean;
   displayCondition?: boolean;
   notNullable?: boolean;
