@@ -6,7 +6,10 @@ import type { Field, FieldsState } from "@/types";
 export const useDynamicForm = (fields: Field[] = [], id: string | number) => {
   const fieldsSet = useState<Field[]>(`fieldsSet-${id}`);
 
-  if (!fieldsSet.value) {
+  if (
+    !fieldsSet.value ||
+    (fieldsSet.value && fieldsSet.value.length !== fields.length)
+  ) {
     fieldsSet.value = fields;
   }
 

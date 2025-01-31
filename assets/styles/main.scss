@@ -180,7 +180,7 @@ aside {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: calc(90vh - $footer-height - $header-height);
+  height: calc(90vh - $footer-height - $header-height);
 
   &__content {
     &__group {
@@ -204,6 +204,7 @@ aside {
   background-color: white;
   box-shadow: -2px 3px 10px #b2b0b0;
   padding: $gap * 2;
+  overflow-y: auto;
 }
 
 .date-range {
@@ -234,6 +235,7 @@ aside {
 .form-controls {
   display: flex;
   flex-direction: column;
+  margin-top: $padding;
   button {
     margin-bottom: $padding;
   }

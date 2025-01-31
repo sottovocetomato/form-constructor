@@ -44,6 +44,7 @@ export interface DynamicFormProps {
   mainWrapClass?: string;
   noSubmitBtn?: boolean;
   noDeleteBtn?: boolean;
+  resetFields?: boolean;
   formId?: number | string | null | undefined;
 }
 

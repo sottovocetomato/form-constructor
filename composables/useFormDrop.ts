@@ -30,7 +30,6 @@ export const useFormDrop = ({
       constructorAreaForm = document.querySelector(".constructor-area_form");
     }
   }
-  setConstructorArea();
 
   function getDropMarker() {
     if (process.client) {
@@ -63,6 +62,10 @@ export const useFormDrop = ({
     // console.log(e.target, "e.target onDrag");
     // console.log(e.clientX, "onDrag");
     // console.log(e.clientY, "onDrag");
+
+    if (!constructorAreaForm) {
+      setConstructorArea();
+    }
     if (!constructorAreaForm?.getBoundingClientRect()) return;
     const { bottom, top, left, right } =
       constructorAreaForm?.getBoundingClientRect();
@@ -220,5 +223,6 @@ export const useFormDrop = ({
     onConstructorAreaDragEnter,
     onConstructorAreaDragLeave,
     onDrag,
+    setConstructorArea,
   };
 };

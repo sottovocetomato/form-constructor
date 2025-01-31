@@ -1,4 +1,5 @@
 import type { Field } from "@/types";
+import { generateUID } from "@/helpers";
 
 export const useFormBuilderState = (id: string | number) => {
   const formItems = useState<Field[]>(`formItems-${id}`, () => []);
@@ -35,7 +36,7 @@ export const useFormBuilderState = (id: string | number) => {
     }
     formItems.value.forEach((el, ind) => {
       el.sequenceNumber = ind;
-      el.id = `${el.component}-${ind}`;
+      el.id = el.id ? el.id : `${el.component}-${generateUID()}`;
     });
   }
 
@@ -44,7 +45,7 @@ export const useFormBuilderState = (id: string | number) => {
       component: itemID,
       props: {},
       sequenceNumber: formItems.value.length,
-      id: `${itemID}-${formItems.value.length}`,
+      id: `${itemID}-${generateUID()}`,
     });
   }
 

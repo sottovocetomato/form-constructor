@@ -141,11 +141,12 @@ const {
   onConstructorAreaDragEnter,
   onConstructorAreaDragLeave,
   onDrag,
+  setConstructorArea,
 } = useFormDrop({
   constructorAreaSelector: "#constructor-free-drop",
   formId: formId.value,
 });
-
+setConstructorArea();
 const settingsFieldSet = shallowRef<null | Field[]>(null);
 const currentFieldId = ref();
 
