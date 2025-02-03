@@ -40,7 +40,7 @@ const createCheckboxModel = (): Field[] => [
     displayByField: { field: "group", showValue: true },
     groupType: "ARRAY",
     groupName: "checkboxGroup",
-    groupFields: [createCheckboxFields(1)],
+    groupFields: [createCheckboxFields(1, { field: "group", showValue: true })],
     sequenceNumber: 2,
   },
   {
@@ -63,9 +63,17 @@ const createCheckboxModel = (): Field[] => [
       );
       if (!optionsGroup || !optionsGroup?.groupFields) return;
       optionsGroup.groupFields.push(
-        createCheckboxFields(optionsGroup.groupFields.length + 1)
+        createCheckboxFields(optionsGroup.groupFields.length + 1, {
+          field: "group",
+          showValue: true,
+        })
       );
     },
+  },
+
+  {
+    component: "hr",
+    sequenceNumber: 4,
   },
   {
     component: "BaseCheckbox",

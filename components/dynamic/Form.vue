@@ -66,7 +66,7 @@ const dynamicComponent = () => {
     if ("displayCondition" in field && !field.displayCondition) continue;
     if (field?.isGroup) {
       const nodes = dynamicFieldsRenderer(field.groupFields, []);
-      fieldNodes.push(h("div", nodes));
+      fieldNodes.push(h("div", { ...field.props }, nodes));
     }
     fieldNodes.push(createComponent(field));
   }
@@ -84,18 +84,27 @@ function dynamicFieldsRenderer(
     }
   } else {
     for (const field of entryFields as Field[]) {
+      let node;
       if ("displayCondition" in field && !field.displayCondition) continue;
+      if (field?.groupFields) {
+        const nodes = dynamicFieldsRenderer(field.groupFields, []);
+        console.log(nodes, "nodes");
+        node = h("div", { ...field.props }, nodes);
+      } else {
+        node = createComponent(field);
+      }
 
-      const node = createComponent(field);
       if (node) {
         nodes.push(node);
       }
     }
   }
+  // console.log(nodes, "nodes");
   return nodes;
 }
 
 function createComponent(field: Field): VNode | void {
+  if (!field) return;
   if (field?.props?.isHidden || !field.component) return;
   let stateBlock = fieldsState.value;
   if (field?.stateBlock) {
@@ -106,18 +115,14 @@ function createComponent(field: Field): VNode | void {
 
   const component: Record<string, any> = {
     ...field.props,
-
-    modelValue:
-      field.fieldName !== undefined ? stateBlock[field.fieldName] : "",
-    "onUpdate:modelValue": (value: any) => {
-      if (field.fieldName) {
-        stateBlock[field.fieldName] = value;
-        emit("update:modelValue", value);
-      }
-    },
   };
   if (field.fieldName) {
     component.validated = validated.value;
+    component.modelValue = stateBlock[field.fieldName];
+    component["onUpdate:modelValue"] = (value: any) => {
+      stateBlock[field.fieldName!] = value;
+      emit("update:modelValue", value);
+    };
   }
   if (field?.onClick) {
     component.onClick = (e: Event) => {

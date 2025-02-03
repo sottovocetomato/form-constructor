@@ -2,6 +2,57 @@ import type { Field, onFieldActionFn, FieldsState } from "@/types";
 
 const createSelectOption = (id: string | number): Field[] => [
   {
+    component: "hr",
+    displayCondition: id === 2,
+  },
+  {
+    isGroup: true,
+    groupType: "ARRAY",
+    groupName: "optionsLabel",
+    props: {
+      class: "field-settings__option-label-group",
+    },
+    groupFields: [
+      {
+        component: "h6",
+        props: {
+          innerText: `Option ${+id - 1}`,
+        },
+      },
+      {
+        component: "button",
+        props: {
+          id: "delete-row",
+          "data-index": id,
+          displayName: "",
+          class: "btn-danger",
+          isHidden: false,
+          required: false,
+          type: "button",
+          placeholder: "Delete row",
+        },
+        displayCondition: id != 2,
+        sequenceNumber: 3,
+        innerText: "Delete option",
+        onClick: (fields: Field[], state: FieldsState, e: Event) => {
+          if (!fields || !fields.length) return;
+          const optionsGroup = fields.find(
+            (el) => el?.isGroup && el.groupName === "options"
+          );
+          const target = e.target as HTMLElement;
+          if (
+            !optionsGroup ||
+            !optionsGroup.groupFields ||
+            !target.dataset.index
+          )
+            return;
+          const removeAtIndex = +target.dataset.index - 1;
+          optionsGroup.groupFields.splice(removeAtIndex, 1);
+        },
+      },
+    ],
+  } as Field,
+  {
     component: "BaseTextInput",
     props: {
       id: `option-name-${id}`,
@@ -83,32 +134,7 @@ const createSelectOption = (id: string | number): Field[] => [
     sequenceNumber: 4,
     fieldName: "disabled",
   },
-  {
-    component: "button",
-    props: {
-      id: "delete-row",
-      "data-index": id,
-      displayName: "",
-      class: "btn-danger",
-      isHidden: false,
-      required: false,
-      type: "button",
-      placeholder: "Delete row",
-    },
-    sequenceNumber: 3,
-    innerText: "Delete option",
-    onClick: (fields: Field[], state: FieldsState, e: Event) => {
-      if (!fields || !fields.length) return;
-      const optionsGroup = fields.find(
-        (el) => el?.isGroup && el.groupName === "options"
-      );
-      const target = e.target as HTMLElement;
-      if (!optionsGroup || !optionsGroup.groupFields || !target.dataset.index)
-        return;
-      const removeAtIndex = +target.dataset.index - 1;
-      optionsGroup.groupFields.splice(removeAtIndex, 1);
-    },
-  },
+
   {
     component: "hr",
     sequenceNumber: 5,

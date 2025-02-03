@@ -37,6 +37,7 @@ export interface Field {
     disabled?: boolean;
     selected?: boolean;
   };
+  children?: Field[];
   sequenceNumber?: number;
   innerText?: string;
   onClick?: onFieldActionFn;

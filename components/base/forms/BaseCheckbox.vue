@@ -21,7 +21,7 @@
             v-model="model"
             :id="`${checkbox.label}-${ind}`"
             :type="type"
-            :value="checkbox.label"
+            :value="checkbox.value || checkbox.label"
             :disabled="checkbox.disabled"
             :aria-invalid="ariaInvalid"
           />

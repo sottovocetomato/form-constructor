@@ -186,6 +186,25 @@ aside {
     &__group {
       margin: $padding 0;
     }
+
+    .field-settings {
+      &__option-label-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        h5,
+        h6 {
+          font-weight: 600;
+        }
+        #delete-row {
+          width: 200px;
+          padding: 0;
+          height: 45px;
+          margin-top: 0;
+        }
+      }
+    }
   }
   #add-row {
     margin: $padding 0;
