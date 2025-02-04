@@ -54,15 +54,12 @@ const createSelectModel = (): Field[] => [
     },
     sequenceNumber: 3,
     innerText: "Add option",
-    onClick: (fields) => {
-      if (!fields || !fields.length) return;
-      const optionsGroup = fields.find(
-        (el) => el?.isGroup && el.groupName === "options"
-      );
-      if (!optionsGroup || !optionsGroup.groupFields) return;
-      optionsGroup.groupFields.push(
-        createSelectOption(optionsGroup.groupFields.length + 1)
-      );
+    onClick: {
+      eventName: "addRowEvent",
+      params: {
+        groupName: "options",
+        modelCreateFnName: "createSelectOption",
+      },
     },
   },
 ];

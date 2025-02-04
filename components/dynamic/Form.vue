@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import type { DynamicFormProps } from "@/types/interfaces/props";
 import componentsMap from "@/models/components/componentsMap";
+import fieldEvents from "@/models/settings/fieldEvents";
 import { isArrayOfArrays } from "@/helpers";
 import type { FieldsState, Field } from "@/types";
 import type { Component, VNodeArrayChildren, VNode } from "@vue/runtime-core";
@@ -126,8 +127,14 @@ function createComponent(field: Field): VNode | void {
     };
   }
   if (field?.onClick) {
+    const onClickFn = fieldEvents[field.onClick?.eventName];
     component.onClick = (e: Event) => {
-      field?.onClick?.(fieldsSet.value, fieldsState.value, e);
+      onClickFn?.({
+        fields: fieldsSet.value,
+        state: fieldsState.value,
+        event: e,
+        ...field.onClick.params,
+      });
       createStateFields();
     };
   }
