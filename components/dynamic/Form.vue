@@ -34,7 +34,7 @@ import type { Ref } from "@vue/reactivity";
 const currentFormId = useId();
 
 const emit = defineEmits<{
-  formSubmit: [fieldsState: Ref];
+  formSubmit: [fieldsState: Ref, fieldsSet: Ref];
   onDelete: [formId: string | number | null];
   "update:modelValue": [e: Event];
 }>();
@@ -160,7 +160,7 @@ function onFormSubmit() {
       "input[aria-invalid='true']"
     );
     if (!!hasInvalidFields) return;
-    emit("formSubmit", fieldsState);
+    emit("formSubmit", fieldsState, fieldsSet);
   });
 }
 function onDelete() {

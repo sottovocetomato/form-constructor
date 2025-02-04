@@ -172,12 +172,15 @@ const { toggleActive } = useSidebar();
 function openSidebar(e: Event) {
   if (!(e.target instanceof HTMLElement)) return;
   const dataName = e.target.dataset?.name;
+  const loadedForm =
+    loadedItems?.find((f) => f.id === e.target.id) || undefined;
   if (dataName && dataName in elementsMap) {
-    settingsFieldSet.value = elementsMap?.[dataName]?.();
-    console.log(e.target.id);
     currentFieldId.value = e.target.id;
-    if (loadedItems?.length) {
-      loadedState.value = loadedItems.find((f) => f.id === e.target.id)?.props;
+    if (loadedForm) {
+      settingsFieldSet.value = [...loadedForm.settingsFields];
+      loadedState.value = loadedForm?.props;
+    } else {
+      settingsFieldSet.value = elementsMap?.[dataName]?.();
     }
   } else {
     settingsFieldSet.value = null;
@@ -187,7 +190,7 @@ function openSidebar(e: Event) {
 
 console.log(formItems, "formItems");
 
-function onFormSettingsSubmit(state: Ref) {
+function onFormSettingsSubmit(state: Ref, fieldsSet: Ref) {
   const fieldIndex = formItems?.value.findIndex(
     (e) => e.id == currentFieldId.value
   );
@@ -200,6 +203,8 @@ function onFormSettingsSubmit(state: Ref) {
     fieldItem?.props?.label ||
     fieldItem?.props?.placeholder ||
     fieldItem?.props?.name;
+
+  fieldItem.settingsFields = fieldsSet;
   toggleActive();
 }
 function onFieldDelete(fieldId: string | number | null) {

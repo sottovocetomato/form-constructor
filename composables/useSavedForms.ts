@@ -24,7 +24,16 @@ export const useSavedForms = () => {
   function setSavedForms(data: FieldsState) {
     if (import.meta.client) {
       const savedForms = getSavedForms();
-      localStorage.setItem("savedForm", JSON.stringify([...savedForms, data]));
+      const existsIndex = savedForms.findIndex((el) => el.id == data.id);
+      if (existsIndex > -1) {
+        savedForms[existsIndex] = data;
+        localStorage.setItem("savedForm", JSON.stringify([...savedForms]));
+      } else {
+        localStorage.setItem(
+          "savedForm",
+          JSON.stringify([...savedForms, data])
+        );
+      }
     }
   }
 
