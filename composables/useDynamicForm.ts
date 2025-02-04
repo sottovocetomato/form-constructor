@@ -2,8 +2,13 @@ import { isArray } from "@/helpers";
 
 import { isArrayOfArrays } from "@/helpers";
 import type { Field, FieldsState } from "@/types";
+import { onMounted } from "@vue/runtime-core";
 
-export const useDynamicForm = (fields: Field[] = [], id: string | number) => {
+export const useDynamicForm = (
+  fields: Field[] = [],
+  id: string | number,
+  loadedState?: FieldsState
+) => {
   const fieldsSet = useState<Field[]>(`fieldsSet-${id}`);
 
   if (
@@ -14,6 +19,10 @@ export const useDynamicForm = (fields: Field[] = [], id: string | number) => {
   }
 
   const fieldsState = useState<FieldsState>(`fieldsState-${id}`, () => ({}));
+
+  if (loadedState && !Object.keys(fieldsState.value)?.length) {
+    fieldsState.value = { ...loadedState };
+  }
 
   createStateFields();
 

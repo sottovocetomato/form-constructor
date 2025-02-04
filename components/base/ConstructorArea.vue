@@ -7,6 +7,7 @@
       :key="currentFieldId"
       @formSubmit="onFormSettingsSubmit"
       @onDelete="onFieldDelete"
+      :loadedState="loadedState"
     />
   </BaseSideBar>
   <div class="constructor-area-wrap">
@@ -114,6 +115,7 @@
       <button @click="onFormPreview" class="secondary">Preview</button>
 
       <button @click="onFormSave">Save form</button>
+      <button @click="onFormLoad">Load saved form</button>
     </div>
   </aside>
 </template>
@@ -128,11 +130,26 @@ import type { FieldsState, Field } from "@/types";
 import type { Ref } from "@vue/reactivity";
 
 const router = useRouter();
+const route = useRoute();
 
-const { getLastFormId, setSavedForms, setPresavedForm } = useSavedForms();
+const {
+  getLastFormId,
+  setSavedForms,
+  setPresavedForm,
+  getSavedForms,
+  getSavedFormById,
+} = useSavedForms();
 
 const formId = ref<number | string>(getLastFormId() + 1);
-const { formItems } = useFormBuilderState(formId.value);
+let loadedItems = [];
+const loadedState = ref<FieldsState | undefined>();
+if (route.params.id) {
+  formId.value = route.params.id;
+  loadedItems = getSavedFormById(formId.value)?.form;
+  console.log(loadedItems, "loadedItems");
+}
+
+const { formItems } = useFormBuilderState(formId.value, loadedItems);
 const {
   startDrag,
   onDrop,
@@ -159,6 +176,9 @@ function openSidebar(e: Event) {
     settingsFieldSet.value = elementsMap?.[dataName]?.();
     console.log(e.target.id);
     currentFieldId.value = e.target.id;
+    if (loadedItems?.length) {
+      loadedState.value = loadedItems.find((f) => f.id === e.target.id)?.props;
+    }
   } else {
     settingsFieldSet.value = null;
   }
@@ -192,6 +212,11 @@ function onFieldDelete(fieldId: string | number | null) {
 }
 function onFormSave() {
   setSavedForms({ id: formId.value, form: [...formItems.value] });
+}
+function onFormLoad() {
+  const savedForm = getSavedForms()?.[0];
+  console.log(savedForm, "savedForm");
+  router.push(`/edit/${savedForm.id}`);
 }
 function onFormPreview() {
   setPresavedForm({ id: formId.value, form: [...formItems.value] });

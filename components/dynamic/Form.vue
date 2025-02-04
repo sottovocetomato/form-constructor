@@ -38,7 +38,6 @@ const emit = defineEmits<{
   onDelete: [formId: string | number | null];
   "update:modelValue": [e: Event];
 }>();
-
 const composedForm = ref<HTMLElement | null>(null);
 const validated = ref(false);
 
@@ -49,11 +48,13 @@ const {
   formId = null,
   noSubmitBtn = false,
   noDeleteBtn = false,
+  loadedState = undefined,
 } = defineProps<DynamicFormProps>();
 
 const { fieldsState, fieldsSet, createStateFields } = useDynamicForm(
   fields,
-  formId ?? currentFormId
+  formId ?? currentFormId,
+  loadedState
 );
 
 const dynamicComponent = () => {

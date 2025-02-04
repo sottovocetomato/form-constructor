@@ -1,6 +1,7 @@
 // type Modify<T, R> = Omit<T, keyof R> & R;
 
 import type { Field, CheckBoxElement, DateRangeModel } from "@/types";
+import { FieldsState } from "#build/types";
 
 export interface FormElementProps {
   customWrapClass?: string;
@@ -46,6 +47,7 @@ export interface DynamicFormProps {
   noDeleteBtn?: boolean;
   resetFields?: boolean;
   formId?: number | string | null | undefined;
+  loadedState?: FieldsState;
 }
 
 // export interface DynamicFormFields {

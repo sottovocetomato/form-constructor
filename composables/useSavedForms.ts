@@ -6,6 +6,15 @@ export const useSavedForms = () => {
       return JSON.parse(localStorage.getItem("savedForm") as string) || [];
     }
   }
+
+  function getSavedFormById(id) {
+    if (import.meta.client) {
+      const savedForms = getSavedForms();
+      console.log(savedForms, "savedForms");
+      return savedForms.find((form) => form.id == id);
+    }
+  }
+
   function getPresavedForm() {
     if (import.meta.client) {
       return JSON.parse(localStorage.getItem("preSavedForm") as string) || {};
@@ -37,5 +46,6 @@ export const useSavedForms = () => {
     getPresavedForm,
     setPresavedForm,
     setSavedForms,
+    getSavedFormById,
   };
 };

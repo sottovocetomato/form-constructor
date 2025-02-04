@@ -1,8 +1,18 @@
 import type { Field } from "@/types";
 import { generateUID } from "@/helpers";
+import { onMounted } from "@vue/runtime-core";
 
-export const useFormBuilderState = (id: string | number) => {
+export const useFormBuilderState = (
+  id: string | number,
+  loadedItems: Field[] = []
+) => {
   const formItems = useState<Field[]>(`formItems-${id}`, () => []);
+
+  onMounted(() => {
+    if (loadedItems.length) {
+      formItems.value = [...loadedItems];
+    }
+  });
 
   function insertInFromItems(
     ind: string | number,
