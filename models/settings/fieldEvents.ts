@@ -1,11 +1,12 @@
 import { createFieldModelsFnMap } from "../../helpers/formSettingsMap";
+import type { FieldEventArgs } from "@/types";
 
 const fieldEvents: { [index: string]: any } = {
   addRowEvent: ({
     fields,
     groupName,
     modelCreateFn: { name = "", params = {} },
-  }) => {
+  }: FieldEventArgs) => {
     if (!fields || !fields.length) return;
     const optionsGroup = fields.find(
       (el) => el?.isGroup && el.groupName === groupName
@@ -24,8 +25,8 @@ const fieldEvents: { [index: string]: any } = {
     fieldsState: { state, setStateField },
     e,
     groupName,
-  }) => {
-    if (fields && fields.length) {
+  }: FieldEventArgs) => {
+    if (fields && fields.length && e) {
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === groupName
       );

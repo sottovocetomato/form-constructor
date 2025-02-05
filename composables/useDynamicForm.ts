@@ -1,7 +1,7 @@
 import { isArray } from "@/helpers";
 
 import { isArrayOfArrays } from "@/helpers";
-import type { Field, FieldsState } from "@/types";
+import type { Field, FieldsState, FieldStateData } from "@/types";
 import { onMounted } from "@vue/runtime-core";
 
 export const useDynamicForm = (
@@ -33,10 +33,10 @@ export const useDynamicForm = (
     } else return "";
   }
 
-  function setState(data: object | []) {
+  function setState(data: FieldsState) {
     fieldsState.value = data;
   }
-  function setStateField(fieldName: string, data: object | []) {
+  function setStateField(fieldName: string, data: FieldStateData) {
     fieldsState.value[fieldName] = data;
   }
 

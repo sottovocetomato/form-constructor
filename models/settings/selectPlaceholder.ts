@@ -1,6 +1,6 @@
 import type { Field } from "@/types";
 
-const createSelectPlaceholder = (id: string | number): Field[] => [
+const createSelectPlaceholder = ({ id }: { id: string | number }): Field[] => [
   {
     component: "BaseTextInput",
     props: {

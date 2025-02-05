@@ -39,7 +39,10 @@ const createSelectModel = (): Field[] => [
     isGroup: true,
     groupType: "ARRAY",
     groupName: "options",
-    groupFields: [createSelectPlaceholder(1), createSelectOption(2)],
+    groupFields: [
+      createSelectPlaceholder({ id: 1 }),
+      createSelectOption({ id: 2 }),
+    ],
     sequenceNumber: 2,
   },
   {

@@ -4,23 +4,47 @@ export interface ComponentsMap {
   [index: string]: Component;
 }
 export interface ElementsMap {
-  [index: string]: (id?: string | number) => Field[];
+  [index: string]: () => Field[];
 }
 
 export type FieldsState = Record<string, any>;
+export interface FieldModelsFnMap {
+  [index: string]: ({
+    id,
+    displayByField,
+  }: {
+    id: string | number;
+    displayByField?: { field: string; showValue: boolean };
+  }) => Field[];
+}
 
-export type onFieldActionFn = (
-  fields: Field[],
-  state: FieldsState,
-  e: Event
-) => void;
+export type FieldStateData =
+  | boolean
+  | string
+  | number
+  | object
+  | string[]
+  | number[]
+  | undefined
+  | null;
 
-export interface fieldEvent {
+export interface FieldEvent {
   eventName: string;
   params: {
     groupName: string;
-    modelCreateFn: { name: string; params: Record<string, any> };
+    modelCreateFn?: { name: string; params: Record<string, any> };
   };
+}
+
+export interface FieldEventArgs {
+  fields: Field[];
+  groupName: string;
+  fieldsState: {
+    state: FieldsState;
+    setStateField: (fieldName: string, data: FieldStateData) => void;
+  };
+  e?: Event;
+  modelCreateFn: { name: string; params: Record<string, any> };
 }
 
 export interface Field {
@@ -48,11 +72,11 @@ export interface Field {
   children?: Field[];
   sequenceNumber?: number;
   innerText?: string;
-  onClick?: fieldEvent;
-  onInput?: fieldEvent;
+  onClick?: FieldEvent;
+  onInput?: FieldEvent;
   fieldName?: string;
   stateBlock?: string;
-  initialValue?: boolean | string | number | object | string[] | number[];
+  initialValue?: FieldStateData;
   refreshFieldState?: boolean;
   displayCondition?: boolean;
   notNullable?: boolean;
@@ -64,6 +88,12 @@ export interface CheckBoxElement {
   disabled?: boolean;
   readonly?: boolean;
 }
+
+export interface SavedForm {
+  id: string | number;
+  form: Field[];
+}
+
 export type DateRangeModel = { dateStart: string; dateEnd: string };
 
 export function needStateField(field: Field): field is Field {

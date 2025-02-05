@@ -1,4 +1,4 @@
-import type { FieldsState } from "@/types";
+import type { FieldsState, SavedForm } from "@/types";
 
 export const useSavedForms = () => {
   function getSavedForms() {
@@ -7,9 +7,9 @@ export const useSavedForms = () => {
     }
   }
 
-  function getSavedFormById(id) {
+  function getSavedFormById(id: number | string) {
     if (import.meta.client) {
-      const savedForms = getSavedForms();
+      const savedForms: SavedForm[] = getSavedForms();
       console.log(savedForms, "savedForms");
       return savedForms.find((form) => form.id == id);
     }
@@ -21,9 +21,9 @@ export const useSavedForms = () => {
     }
   }
 
-  function setSavedForms(data: FieldsState) {
+  function setSavedForms(data: SavedForm) {
     if (import.meta.client) {
-      const savedForms = getSavedForms();
+      const savedForms: SavedForm[] = getSavedForms();
       const existsIndex = savedForms.findIndex((el) => el.id == data.id);
       if (existsIndex > -1) {
         savedForms[existsIndex] = data;

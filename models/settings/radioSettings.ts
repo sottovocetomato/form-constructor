@@ -1,5 +1,5 @@
 import createRadioFields from "./radioFields.js";
-import type { Field, onFieldActionFn } from "@/types";
+import type { Field } from "@/types";
 
 const createRadioModel = (): Field[] => [
   {
@@ -24,7 +24,7 @@ const createRadioModel = (): Field[] => [
     isGroup: true,
     groupType: "ARRAY",
     groupName: "radioGroup",
-    groupFields: [createRadioFields(1)],
+    groupFields: [createRadioFields({ id: 1 })],
     sequenceNumber: 3,
   },
   {

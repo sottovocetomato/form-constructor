@@ -1,5 +1,5 @@
 import createCheckboxFields from "./checkboxFields.js";
-import type { Field, onFieldActionFn } from "@/types";
+import type { Field } from "@/types";
 
 const createCheckboxModel = (): Field[] => [
   {

@@ -1,11 +1,11 @@
-import type { Field, FieldsState, onFieldActionFn } from "@/types";
+import type { Field, FieldsState } from "@/types";
 import type { Ref } from "@vue/reactivity";
 
 const createCheckboxFields = ({
   id,
   displayByField,
 }: {
-  id?: string | number;
+  id: string | number;
   displayByField?: { field: string; showValue: boolean };
 }) => [
   {

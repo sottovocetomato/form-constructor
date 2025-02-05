@@ -1,4 +1,4 @@
-import type { Field, onFieldActionFn, FieldsState } from "@/types";
+import type { Field, FieldsState } from "@/types";
 
 const createSelectOption = ({ id }: { id: string | number }): Field[] => [
   {

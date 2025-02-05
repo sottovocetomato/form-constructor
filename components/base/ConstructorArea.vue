@@ -141,8 +141,8 @@ const {
 } = useSavedForms();
 
 const formId = ref<number | string>(getLastFormId() + 1);
-let loadedItems: Field[] | [] = [];
-const loadedState = ref<FieldsState | undefined>();
+let loadedItems: Field[] | undefined;
+const loadedState = ref<FieldsState>();
 if (route.params.id) {
   formId.value = +route.params.id;
   loadedItems = getSavedFormById(formId.value)?.form;
@@ -172,10 +172,10 @@ const { toggleActive } = useSidebar();
 function openSidebar(e: Event) {
   const target = e.target as HTMLElement;
   const dataName = target.dataset?.name;
-  const loadedForm = loadedItems?.find((f) => f.id === target.id) || undefined;
+  const loadedForm = loadedItems?.find((f) => f.id === target.id);
   if (dataName && dataName in elementsMap) {
     currentFieldId.value = target.id;
-    if (loadedForm) {
+    if (loadedForm && Array.isArray(loadedForm?.settingsFields)) {
       settingsFieldSet.value = [...loadedForm.settingsFields];
       loadedState.value = loadedForm?.props;
     } else {
