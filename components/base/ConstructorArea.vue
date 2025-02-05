@@ -141,10 +141,10 @@ const {
 } = useSavedForms();
 
 const formId = ref<number | string>(getLastFormId() + 1);
-let loadedItems = [];
+let loadedItems: Field[] | [] = [];
 const loadedState = ref<FieldsState | undefined>();
 if (route.params.id) {
-  formId.value = route.params.id;
+  formId.value = +route.params.id;
   loadedItems = getSavedFormById(formId.value)?.form;
   console.log(loadedItems, "loadedItems");
 }
@@ -170,12 +170,11 @@ const currentFieldId = ref();
 const { toggleActive } = useSidebar();
 
 function openSidebar(e: Event) {
-  if (!(e.target instanceof HTMLElement)) return;
-  const dataName = e.target.dataset?.name;
-  const loadedForm =
-    loadedItems?.find((f) => f.id === e.target.id) || undefined;
+  const target = e.target as HTMLElement;
+  const dataName = target.dataset?.name;
+  const loadedForm = loadedItems?.find((f) => f.id === target.id) || undefined;
   if (dataName && dataName in elementsMap) {
-    currentFieldId.value = e.target.id;
+    currentFieldId.value = target.id;
     if (loadedForm) {
       settingsFieldSet.value = [...loadedForm.settingsFields];
       loadedState.value = loadedForm?.props;
@@ -204,7 +203,7 @@ function onFormSettingsSubmit(state: Ref, fieldsSet: Ref) {
     fieldItem?.props?.placeholder ||
     fieldItem?.props?.name;
 
-  fieldItem.settingsFields = fieldsSet;
+  fieldItem.settingsFields = fieldsSet.value;
   toggleActive();
 }
 function onFieldDelete(fieldId: string | number | null) {

@@ -56,6 +56,7 @@ export interface Field {
   refreshFieldState?: boolean;
   displayCondition?: boolean;
   notNullable?: boolean;
+  settingsFields?: [];
 }
 export interface CheckBoxElement {
   label: string;

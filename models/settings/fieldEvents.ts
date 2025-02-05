@@ -1,6 +1,6 @@
 import { createFieldModelsFnMap } from "../../helpers/formSettingsMap";
 
-const fieldEvents = {
+const fieldEvents: { [index: string]: any } = {
   addRowEvent: ({
     fields,
     groupName,
@@ -12,11 +12,19 @@ const fieldEvents = {
     );
     if (!optionsGroup || !optionsGroup.groupFields) return;
     optionsGroup.groupFields.push(
-      createFieldModelsFnMap[name](optionsGroup.groupFields.length + 1, params)
+      createFieldModelsFnMap[name]({
+        id: optionsGroup.groupFields.length + 1,
+        ...params,
+      })
     );
   },
 
-  deleteRowEvent: ({ fields, state, e, groupName }) => {
+  deleteRowEvent: ({
+    fields,
+    fieldsState: { state, setStateField },
+    e,
+    groupName,
+  }) => {
     if (fields && fields.length) {
       const optionsGroup = fields.find(
         (el) => el?.isGroup && el.groupName === groupName
@@ -24,7 +32,11 @@ const fieldEvents = {
       const target = e.target as HTMLElement;
       if (optionsGroup && optionsGroup.groupFields && target.dataset.index) {
         const removeAtIndex = +target.dataset.index - 1;
+        console.log(removeAtIndex, "removeAtIndex");
         optionsGroup.groupFields.splice(removeAtIndex, 1);
+        const data = [...state[groupName]];
+        data?.splice(removeAtIndex, 1);
+        setStateField(groupName, data);
       }
     }
   },

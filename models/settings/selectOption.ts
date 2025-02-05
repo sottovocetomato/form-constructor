@@ -1,6 +1,6 @@
 import type { Field, onFieldActionFn, FieldsState } from "@/types";
 
-const createSelectOption = (id: string | number, ...rest): Field[] => [
+const createSelectOption = ({ id }: { id: string | number }): Field[] => [
   {
     component: "hr",
     displayCondition: id === 2,

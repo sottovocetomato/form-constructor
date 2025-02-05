@@ -10,18 +10,16 @@ export const useDynamicForm = (
   loadedState?: FieldsState
 ) => {
   const fieldsSet = useState<Field[]>(`fieldsSet-${id}`);
-
   if (
     !fieldsSet.value ||
     (fieldsSet.value && fieldsSet.value.length !== fields.length)
   ) {
     fieldsSet.value = fields;
   }
-
   const fieldsState = useState<FieldsState>(`fieldsState-${id}`, () => ({}));
 
   if (loadedState && !Object.keys(fieldsState.value)?.length) {
-    fieldsState.value = { ...loadedState };
+    setState({ ...loadedState });
   }
 
   createStateFields();
@@ -35,16 +33,23 @@ export const useDynamicForm = (
     } else return "";
   }
 
+  function setState(data: object | []) {
+    fieldsState.value = data;
+  }
+  function setStateField(fieldName: string, data: object | []) {
+    fieldsState.value[fieldName] = data;
+  }
+
   function createStateFields() {
     console.log(fieldsState.value, "creating state fields");
+    console.log(fields, "fields creating state fields");
+    console.log(fieldsSet.value, "fieldsSet.value creating state fields");
     for (const field of fieldsSet.value) {
       if (field.isGroup && field.groupName && field.groupFields) {
         if (!fieldsState.value[field.groupName]) {
-          fieldsState.value[field.groupName] = createGroupObject(
-            field.groupType
-          );
+          const data = createGroupObject(field.groupType);
+          setStateField(field.groupName, data);
         }
-
         createNestedFields(
           field.groupFields,
           fieldsState.value[field.groupName],
@@ -52,12 +57,14 @@ export const useDynamicForm = (
         );
       } else if (field.fieldName) {
         if (!fieldsState.value[field.fieldName]) {
-          fieldsState.value[field.fieldName] =
+          const data =
             field?.initialValue !== null
               ? field.initialValue
               : field.notNullable
               ? ""
               : null;
+
+          setStateField(field.fieldName, data);
         }
       }
     }
@@ -93,5 +100,5 @@ export const useDynamicForm = (
       }
     }
   }
-  return { fieldsState, fieldsSet, createStateFields };
+  return { fieldsState, fieldsSet, createStateFields, setState, setStateField };
 };

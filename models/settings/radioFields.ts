@@ -1,6 +1,6 @@
 import type { Field, onFieldActionFn, FieldsState } from "@/types";
 
-const createRadioFields = (id: string | number) => [
+const createRadioFields = ({ id }: { id: string | number }) => [
   {
     isGroup: true,
     groupType: "ARRAY",

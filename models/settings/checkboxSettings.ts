@@ -34,13 +34,21 @@ const createCheckboxModel = (): Field[] => [
     fieldName: "name",
   },
 
-  ...createCheckboxFields(1, { field: "group", showValue: false }),
+  ...createCheckboxFields({
+    id: 1,
+    displayByField: { field: "group", showValue: false },
+  }),
   {
     isGroup: true,
     displayByField: { field: "group", showValue: true },
     groupType: "ARRAY",
     groupName: "checkboxGroup",
-    groupFields: [createCheckboxFields(1, { field: "group", showValue: true })],
+    groupFields: [
+      createCheckboxFields({
+        id: 1,
+        displayByField: { field: "group", showValue: true },
+      }),
+    ],
     sequenceNumber: 2,
   },
   {

@@ -52,11 +52,8 @@ const {
   loadedState = undefined,
 } = defineProps<DynamicFormProps>();
 
-const { fieldsState, fieldsSet, createStateFields } = useDynamicForm(
-  fields,
-  formId ?? currentFormId,
-  loadedState
-);
+const { fieldsState, fieldsSet, createStateFields, setStateField } =
+  useDynamicForm(fields, formId ?? currentFormId, loadedState);
 
 const dynamicComponent = () => {
   const fieldNodes = [];
@@ -127,14 +124,14 @@ function createComponent(field: Field): VNode | void {
     };
   }
   if (field?.onClick) {
-    const onClickFn = fieldEvents[field.onClick?.eventName];
-    console.log(field.onClick.params, "field.onClick.params");
+    const onClickFn = fieldEvents[field?.onClick?.eventName];
+    console.log(field?.onClick.params, "field.onClick.params");
     component.onClick = (e: Event) => {
       onClickFn?.({
         fields: fieldsSet.value,
-        state: fieldsState.value,
+        fieldsState: { state: fieldsState.value, setStateField },
         e,
-        ...field.onClick.params,
+        ...field?.onClick?.params,
       });
       createStateFields();
     };
@@ -145,8 +142,15 @@ function createComponent(field: Field): VNode | void {
     };
   }
   if (field?.onInput) {
+    const onInputFn = fieldEvents[field?.onInput?.eventName];
     component.onInput = (e: Event) => {
-      field.onInput?.(fieldsSet.value, fieldsState.value, e);
+      onInputFn?.({
+        fields: fieldsSet.value,
+        fieldsState: { state: fieldsState.value, setStateField },
+        e,
+        ...field?.onInput?.params,
+      });
+      createStateFields();
     };
   }
 
