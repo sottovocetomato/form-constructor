@@ -1,28 +1,25 @@
 import { createFieldModelsFnMap } from "../../helpers/formSettingsMap";
 
 const fieldEvents = {
-  addRowEvent: ({ fields, groupName, modelCreateFnName }) => {
+  addRowEvent: ({
+    fields,
+    groupName,
+    modelCreateFn: { name = "", params = {} },
+  }) => {
     if (!fields || !fields.length) return;
     const optionsGroup = fields.find(
       (el) => el?.isGroup && el.groupName === groupName
     );
-    console.log(optionsGroup, "optionsGroup");
-    console.log(
-      createFieldModelsFnMap[modelCreateFnName],
-      "createFieldModelsFnMap[modelCreateFnName]"
-    );
     if (!optionsGroup || !optionsGroup.groupFields) return;
     optionsGroup.groupFields.push(
-      createFieldModelsFnMap[modelCreateFnName]?.(
-        optionsGroup.groupFields.length + 1
-      )
+      createFieldModelsFnMap[name](optionsGroup.groupFields.length + 1, params)
     );
   },
 
-  deleteRowEvent: (fields: Field[], state: FieldsState, e: Event) => {
+  deleteRowEvent: ({ fields, state, e, groupName }) => {
     if (fields && fields.length) {
       const optionsGroup = fields.find(
-        (el) => el?.isGroup && el.groupName === "checkboxGroup"
+        (el) => el?.isGroup && el.groupName === groupName
       );
       const target = e.target as HTMLElement;
       if (optionsGroup && optionsGroup.groupFields && target.dataset.index) {

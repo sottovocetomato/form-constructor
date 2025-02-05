@@ -1,6 +1,6 @@
 import type { Field, onFieldActionFn, FieldsState } from "@/types";
 
-const createSelectOption = (id: string | number): Field[] => [
+const createSelectOption = (id: string | number, ...rest): Field[] => [
   {
     component: "hr",
     displayCondition: id === 2,
@@ -34,20 +34,27 @@ const createSelectOption = (id: string | number): Field[] => [
         displayCondition: id != 2,
         sequenceNumber: 3,
         innerText: "Delete option",
-        onClick: (fields: Field[], state: FieldsState, e: Event) => {
-          if (!fields || !fields.length) return;
-          const optionsGroup = fields.find(
-            (el) => el?.isGroup && el.groupName === "options"
-          );
-          const target = e.target as HTMLElement;
-          if (
-            !optionsGroup ||
-            !optionsGroup.groupFields ||
-            !target.dataset.index
-          )
-            return;
-          const removeAtIndex = +target.dataset.index - 1;
-          optionsGroup.groupFields.splice(removeAtIndex, 1);
+
+        // onClick: (fields: Field[], state: FieldsState, e: Event) => {
+        //   if (!fields || !fields.length) return;
+        //   const optionsGroup = fields.find(
+        //     (el) => el?.isGroup && el.groupName === "options"
+        //   );
+        //   const target = e.target as HTMLElement;
+        //   if (
+        //     !optionsGroup ||
+        //     !optionsGroup.groupFields ||
+        //     !target.dataset.index
+        //   )
+        //     return;
+        //   const removeAtIndex = +target.dataset.index - 1;
+        //   optionsGroup.groupFields.splice(removeAtIndex, 1);
+        // },
+        onClick: {
+          eventName: "deleteRowEvent",
+          params: {
+            groupName: "options",
+          },
         },
       },
     ],

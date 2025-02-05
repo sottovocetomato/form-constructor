@@ -128,11 +128,12 @@ function createComponent(field: Field): VNode | void {
   }
   if (field?.onClick) {
     const onClickFn = fieldEvents[field.onClick?.eventName];
+    console.log(field.onClick.params, "field.onClick.params");
     component.onClick = (e: Event) => {
       onClickFn?.({
         fields: fieldsSet.value,
         state: fieldsState.value,
-        event: e,
+        e,
         ...field.onClick.params,
       });
       createStateFields();

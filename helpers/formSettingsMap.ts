@@ -8,6 +8,8 @@ import createRadioModel from "@/models/settings/radioSettings";
 import createSelectOption from "@/models/settings/selectOption";
 import createSelectPlaceholder from "@/models/settings/selectPlaceholder";
 import type { ElementsMap } from "@/types";
+import createCheckboxFields from "@/models/settings/checkboxFields";
+import createRadioFields from "@/models/settings/radioFields";
 
 export const elementsMap: ElementsMap = {
   BaseTextInput: createTextInputModel,
@@ -29,4 +31,6 @@ export const createFieldModelsFnMap: ElementsMap = {
   createRadioModel,
   createSelectOption,
   createSelectPlaceholder,
+  createCheckboxFields,
+  createRadioFields,
 };

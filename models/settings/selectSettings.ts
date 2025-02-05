@@ -58,7 +58,7 @@ const createSelectModel = (): Field[] => [
       eventName: "addRowEvent",
       params: {
         groupName: "options",
-        modelCreateFnName: "createSelectOption",
+        modelCreateFn: { name: "createSelectOption", params: {} },
       },
     },
   },

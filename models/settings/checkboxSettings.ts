@@ -56,18 +56,20 @@ const createCheckboxModel = (): Field[] => [
     },
     sequenceNumber: 3,
     innerText: "Add checkbox",
-    onClick: (fields: Field[]) => {
-      if (!fields || !fields.length) return;
-      const optionsGroup = fields.find(
-        (el) => el?.isGroup && el.groupName === "checkboxGroup"
-      );
-      if (!optionsGroup || !optionsGroup?.groupFields) return;
-      optionsGroup.groupFields.push(
-        createCheckboxFields(optionsGroup.groupFields.length + 1, {
-          field: "group",
-          showValue: true,
-        })
-      );
+    onClick: {
+      eventName: "addRowEvent",
+      params: {
+        groupName: "checkboxGroup",
+        modelCreateFn: {
+          name: "createCheckboxFields",
+          params: {
+            displayByField: {
+              field: "group",
+              showValue: true,
+            },
+          },
+        },
+      },
     },
   },
 

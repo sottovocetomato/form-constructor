@@ -15,6 +15,14 @@ export type onFieldActionFn = (
   e: Event
 ) => void;
 
+export interface fieldEvent {
+  eventName: string;
+  params: {
+    groupName: string;
+    modelCreateFn: { name: string; params: Record<string, any> };
+  };
+}
+
 export interface Field {
   component?: string;
   displayByField?: { field: string; showValue: boolean };
@@ -40,8 +48,8 @@ export interface Field {
   children?: Field[];
   sequenceNumber?: number;
   innerText?: string;
-  onClick?: onFieldActionFn;
-  onInput?: onFieldActionFn;
+  onClick?: fieldEvent;
+  onInput?: fieldEvent;
   fieldName?: string;
   stateBlock?: string;
   initialValue?: boolean | string | number | object | string[] | number[];

@@ -39,15 +39,12 @@ const createRadioModel = (): Field[] => [
     },
     sequenceNumber: 4,
     innerText: "Add radio",
-    onClick: (fields: Field[]) => {
-      if (!fields || !fields.length) return;
-      const optionsGroup = fields.find(
-        (el) => el?.isGroup && el.groupName === "radioGroup"
-      );
-      if (!optionsGroup || !optionsGroup?.groupFields) return;
-      optionsGroup.groupFields.push(
-        createRadioFields(optionsGroup.groupFields.length + 1)
-      );
+    onClick: {
+      eventName: "addRowEvent",
+      params: {
+        groupName: "radioGroup",
+        modelCreateFn: { name: "createRadioFields", params: {} },
+      },
     },
   },
   {
