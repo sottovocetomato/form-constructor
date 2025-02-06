@@ -8,7 +8,7 @@ const createRadioModel = (): Field[] => [
       id: "nameInput",
       displayName: "",
       isHidden: false,
-      required: false,
+      required: true,
       type: "text",
       label: "Name",
       placeholder: "Label for radio group section...",

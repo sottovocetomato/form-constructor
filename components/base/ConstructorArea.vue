@@ -172,7 +172,9 @@ const { toggleActive } = useSidebar();
 function openSidebar(e: Event) {
   const target = e.target as HTMLElement;
   const dataName = target.dataset?.name;
-  const loadedForm = loadedItems?.find((f) => f.id === target.id);
+  const loadedForm = loadedItems
+    ? loadedItems?.find((f) => f.id === target.id)
+    : null;
   if (dataName && dataName in elementsMap) {
     currentFieldId.value = target.id;
     if (loadedForm && Array.isArray(loadedForm?.settingsFields)) {
