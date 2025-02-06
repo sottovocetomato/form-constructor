@@ -10,12 +10,11 @@ export const useDynamicForm = (
   loadedState?: FieldsState
 ) => {
   const fieldsSet = useState<Field[]>(`fieldsSet-${id}`);
-  if (
-    !fieldsSet.value ||
-    (fieldsSet.value && fieldsSet.value.length !== fields.length)
-  ) {
+  console.log(fieldsSet, "fieldsSet");
+  if (!fieldsSet.value) {
     fieldsSet.value = fields;
   }
+
   const fieldsState = useState<FieldsState>(`fieldsState-${id}`, () => ({}));
 
   if (loadedState && !Object.keys(fieldsState.value)?.length) {
@@ -41,9 +40,6 @@ export const useDynamicForm = (
   }
 
   function createStateFields() {
-    console.log(fieldsState.value, "creating state fields");
-    console.log(fields, "fields creating state fields");
-    console.log(fieldsSet.value, "fieldsSet.value creating state fields");
     for (const field of fieldsSet.value) {
       if (field.isGroup && field.groupName && field.groupFields) {
         if (!fieldsState.value[field.groupName]) {
@@ -79,15 +75,21 @@ export const useDynamicForm = (
       const arrayOfArrays = isArrayOfArrays(groupFields);
       if (arrayOfArrays) {
         for (const [index, groupField] of Object.entries(groupFields)) {
-          if (state?.[index]) continue;
-          state[index] = {};
+          if (!state?.[index]) {
+            state[index] = {};
+          }
           const currentPath = `${path}.${index}`;
           createNestedFields(groupField, state[index], currentPath);
         }
       } else {
         for (const groupField of groupFields as Field[]) {
-          if (!groupField?.fieldName || state?.[groupField?.fieldName])
+          if (!groupField?.fieldName) continue;
+          if (!groupField["stateBlock"]) {
+            groupField["stateBlock"] = `${path}`;
+          }
+          if (state?.[groupField?.fieldName]) {
             continue;
+          }
           // state[groupField.fieldName] = groupField.notNullable ? "" : null;
           state[groupField.fieldName] =
             groupField?.initialValue !== null
@@ -95,7 +97,6 @@ export const useDynamicForm = (
               : groupField.notNullable
               ? ""
               : null;
-          groupField["stateBlock"] = `${path}`;
         }
       }
     }

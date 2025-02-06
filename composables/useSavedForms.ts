@@ -23,6 +23,7 @@ export const useSavedForms = () => {
 
   function setSavedForms(data: SavedForm) {
     if (import.meta.client) {
+      console.log(data, "data");
       const savedForms: SavedForm[] = getSavedForms();
       const existsIndex = savedForms.findIndex((el) => el.id == data.id);
       if (existsIndex > -1) {

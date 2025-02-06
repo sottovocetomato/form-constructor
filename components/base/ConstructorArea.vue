@@ -195,11 +195,18 @@ function onFormSettingsSubmit(state: Ref, fieldsSet: Ref) {
   const fieldIndex = formItems?.value.findIndex(
     (e) => e.id == currentFieldId.value
   );
+  console.log(state.value, "state");
   const fieldItem = formItems.value[fieldIndex];
+  console.log(
+    formItems?.value[fieldIndex]?.props,
+    "formItems?.value[fieldIndex]?.props"
+  );
   fieldItem.props = {
     ...formItems?.value[fieldIndex]?.props,
     ...state.value,
   };
+  console.log(fieldItem.props, "fieldItem.props");
+  console.log(formItems.value, "formItems.value");
   fieldItem.fieldName =
     fieldItem?.props?.label ||
     fieldItem?.props?.placeholder ||

@@ -116,6 +116,9 @@ function createComponent(field: Field): VNode | void {
     ...field.props,
   };
   if (field.fieldName) {
+    // console.log(stateBlock[field.fieldName], "stateBlock[field.fieldName]");
+    // console.log(field.fieldName, "field.fieldName");
+    // console.log(stateBlock, "stateBlock");
     component.validated = validated.value;
     component.modelValue = stateBlock[field.fieldName];
     component["onUpdate:modelValue"] = (value: any) => {
