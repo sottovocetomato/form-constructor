@@ -50,6 +50,7 @@ export interface DynamicFormProps {
   noSubmitBtn?: boolean;
   noDeleteBtn?: boolean;
   resetFields?: boolean;
+  clearOnUnmount?: boolean;
   formId?: number | string | null | undefined;
   loadedState?: FieldsState;
 }

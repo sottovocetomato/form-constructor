@@ -5,6 +5,7 @@
       :fields="currentForm"
       :formId="formId"
       noDeleteBtn
+      clearOnUnmount
       @formSubmit="onFormSubmit"
     />
   </div>

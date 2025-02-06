@@ -32,6 +32,10 @@ export const useDynamicForm = (
     } else return "";
   }
 
+  function clearFieldsSet() {
+    fieldsSet.value = undefined;
+  }
+
   function setState(data: FieldsState) {
     fieldsState.value = data;
   }
@@ -101,5 +105,12 @@ export const useDynamicForm = (
       }
     }
   }
-  return { fieldsState, fieldsSet, createStateFields, setState, setStateField };
+  return {
+    fieldsState,
+    fieldsSet,
+    createStateFields,
+    setState,
+    setStateField,
+    clearFieldsSet,
+  };
 };

@@ -49,11 +49,23 @@ const {
   formId = null,
   noSubmitBtn = false,
   noDeleteBtn = false,
+  clearOnUnmount = false,
   loadedState = undefined,
 } = defineProps<DynamicFormProps>();
 
-const { fieldsState, fieldsSet, createStateFields, setStateField } =
-  useDynamicForm(fields, formId ?? currentFormId, loadedState);
+const {
+  fieldsState,
+  fieldsSet,
+  createStateFields,
+  setStateField,
+  clearFieldsSet,
+} = useDynamicForm(fields, formId ?? currentFormId, loadedState);
+
+onBeforeUnmount(() => {
+  if (clearOnUnmount) {
+    clearFieldsSet();
+  }
+});
 
 const dynamicComponent = () => {
   const fieldNodes = [];
@@ -128,7 +140,6 @@ function createComponent(field: Field): VNode | void {
   }
   if (field?.onClick) {
     const onClickFn = fieldEvents[field?.onClick?.eventName];
-    console.log(field?.onClick.params, "field.onClick.params");
     component.onClick = (e: Event) => {
       onClickFn?.({
         fields: fieldsSet.value,
