@@ -9,7 +9,7 @@ export const useDynamicForm = (
   id: string | number,
   loadedState?: FieldsState
 ) => {
-  const fieldsSet = useState<Field[]>(`fieldsSet-${id}`);
+  const fieldsSet = useState<Field[] | null>(`fieldsSet-${id}`);
   console.log(fieldsSet, "fieldsSet");
   if (!fieldsSet.value) {
     fieldsSet.value = fields;
@@ -33,7 +33,7 @@ export const useDynamicForm = (
   }
 
   function clearFieldsSet() {
-    fieldsSet.value = undefined;
+    fieldsSet.value = null;
   }
 
   function setState(data: FieldsState) {
@@ -44,6 +44,7 @@ export const useDynamicForm = (
   }
 
   function createStateFields() {
+    if (!fieldsSet.value) return;
     for (const field of fieldsSet.value) {
       if (field.isGroup && field.groupName && field.groupFields) {
         if (!fieldsState.value[field.groupName]) {

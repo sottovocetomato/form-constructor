@@ -7,6 +7,14 @@ export const useSavedForms = () => {
     }
   }
 
+  function checkFormExistsByName(name: string) {
+    if (!name) return false;
+    const savedForms: SavedForm[] = getSavedForms();
+    return savedForms.find(
+      (form) => form.name?.toLowerCase() == name?.toLowerCase()
+    );
+  }
+
   function getSavedFormById(id: number | string) {
     if (import.meta.client) {
       const savedForms: SavedForm[] = getSavedForms();
@@ -15,6 +23,14 @@ export const useSavedForms = () => {
     }
   }
 
+  function deleteSavedForm(id: number | string) {
+    if (import.meta.client) {
+      if (!id) return;
+      let savedForms: SavedForm[] = getSavedForms();
+      savedForms = savedForms.filter((form) => form.id !== id);
+      localStorage.setItem("savedForm", JSON.stringify([...savedForms]));
+    }
+  }
   function getPresavedForm() {
     if (import.meta.client) {
       return JSON.parse(localStorage.getItem("preSavedForm") as string) || {};
@@ -57,5 +73,7 @@ export const useSavedForms = () => {
     setPresavedForm,
     setSavedForms,
     getSavedFormById,
+    checkFormExistsByName,
+    deleteSavedForm,
   };
 };

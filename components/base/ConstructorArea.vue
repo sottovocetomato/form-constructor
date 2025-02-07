@@ -115,7 +115,9 @@
       <button @click="onFormPreview" class="secondary">Preview</button>
 
       <button @click="onFormSave">Save form</button>
-      <button @click="onFormLoad">Load saved form</button>
+      <button class="btn-danger" @click="onFormDelete" v-if="editMode">
+        Delete form
+      </button>
     </div>
   </aside>
 </template>
@@ -138,12 +140,17 @@ const {
   setPresavedForm,
   getSavedForms,
   getSavedFormById,
+  checkFormExistsByName,
+  deleteSavedForm,
 } = useSavedForms();
 
 const formId = ref<number | string>(getLastFormId() + 1);
 let loadedItems: Field[] | undefined;
 const loadedState = ref<FieldsState>();
-if (route.params.id) {
+
+const editMode = computed(() => !!route?.params?.id);
+
+if (editMode) {
   formId.value = +route.params.id;
   loadedItems = getSavedFormById(formId.value)?.form;
   console.log(loadedItems, "loadedItems");
@@ -217,19 +224,40 @@ function onFormSettingsSubmit(state: Ref, fieldsSet: Ref) {
 }
 function onFieldDelete(fieldId: string | number | null) {
   const userConfirm = confirm("Are you sure, you want to delete this field?");
-  if (userConfirm) return;
+  if (!userConfirm) return;
   formItems.value = formItems?.value.filter((e) => e.id != fieldId);
   currentFieldId.value = null;
   settingsFieldSet.value = null;
   toggleActive();
 }
 function onFormSave() {
-  setSavedForms({ id: formId.value, form: [...formItems.value] });
+  let name = prompt("Enter form's name");
+  if (!name) {
+    alert("No valid name was provided!");
+    onFormSave();
+  }
+
+  const exists = checkFormExistsByName(name as string);
+  if (exists) {
+    alert("Form with this name already exists, please select different name!");
+    onFormSave();
+  }
+  setSavedForms({
+    id: formId.value,
+    name: name as string,
+    form: [...formItems.value],
+  });
 }
 function onFormLoad() {
   const savedForm = getSavedForms()?.[0];
   console.log(savedForm, "savedForm");
   router.push(`/edit/${savedForm.id}`);
+}
+function onFormDelete() {
+  const userConfirm = confirm("Are you sure you want to delete this form?");
+  if (!userConfirm) return;
+  deleteSavedForm(formId.value);
+  router.push("/saved-forms");
 }
 function onFormPreview() {
   setPresavedForm({ id: formId.value, form: [...formItems.value] });

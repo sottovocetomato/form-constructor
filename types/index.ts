@@ -91,6 +91,7 @@ export interface CheckBoxElement {
 
 export interface SavedForm {
   id: string | number;
+  name: string;
   form: Field[];
 }
 

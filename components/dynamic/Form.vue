@@ -2,7 +2,7 @@
   <form
     :class="[mainWrapClass ? mainWrapClass : 'composed-form']"
     @submit.prevent
-    v-if="fieldsSet.length"
+    v-if="fieldsSet?.length"
   >
     <div class="composed-form__content" ref="composedForm">
       <dynamicComponent />
@@ -69,6 +69,7 @@ onBeforeUnmount(() => {
 
 const dynamicComponent = () => {
   const fieldNodes = [];
+  if (!fieldsSet.value) return;
   for (const field of fieldsSet.value) {
     if (field?.displayByField?.field) {
       const watchOnFieldVal = fieldsState.value[field?.displayByField?.field];
