@@ -12,7 +12,7 @@
   </BaseSideBar>
   <div class="constructor-area-wrap">
     <div class="constructor-area">
-      <div class="constructor-area_form">
+      <div class="constructor-area_form" :aria-busy="loading">
         <div
           class="constructor-area__component"
           v-for="(item, index) in formItems"
@@ -46,7 +46,7 @@
     </div>
   </div>
   <aside>
-    <div class="form-components">
+    <div :class="`form-components ${loading ? 'non-active' : ''}`">
       <div
         class="dragable-object"
         @dragstart="startDrag($event)"
@@ -133,6 +133,11 @@ import type { Ref } from "@vue/reactivity";
 
 const router = useRouter();
 const route = useRoute();
+const loading = ref(true);
+
+onMounted(() => {
+  loading.value = false;
+});
 
 const {
   getLastFormId,
@@ -150,10 +155,9 @@ const loadedState = ref<FieldsState>();
 
 const editMode = computed(() => !!route?.params?.id);
 
-if (editMode) {
+if (editMode.value) {
   formId.value = +route.params.id;
   loadedItems = getSavedFormById(formId.value)?.form;
-  console.log(loadedItems, "loadedItems");
 }
 
 const { formItems } = useFormBuilderState(formId.value, loadedItems);
@@ -242,17 +246,14 @@ function onFormSave() {
     alert("Form with this name already exists, please select different name!");
     onFormSave();
   }
+  console.log(formId.value, "formId.value");
   setSavedForms({
     id: formId.value,
     name: name as string,
     form: [...formItems.value],
   });
 }
-function onFormLoad() {
-  const savedForm = getSavedForms()?.[0];
-  console.log(savedForm, "savedForm");
-  router.push(`/edit/${savedForm.id}`);
-}
+
 function onFormDelete() {
   const userConfirm = confirm("Are you sure you want to delete this form?");
   if (!userConfirm) return;

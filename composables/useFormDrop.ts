@@ -62,7 +62,6 @@ export const useFormDrop = ({
     // console.log(e.target, "e.target onDrag");
     // console.log(e.clientX, "onDrag");
     // console.log(e.clientY, "onDrag");
-
     if (!constructorAreaForm) {
       setConstructorArea();
     }
@@ -81,7 +80,9 @@ export const useFormDrop = ({
     }
   }
   function startDrag(evt: DragEvent): void {
+    console.log(evt.target, "evt.target");
     if (!evt.dataTransfer || !evt.target) return;
+
     dragged = evt.target as HTMLElement;
     evt.dataTransfer.dropEffect = "move";
     evt.dataTransfer.effectAllowed = "move";
@@ -92,11 +93,13 @@ export const useFormDrop = ({
   }
   function onDrop(e: Event): void {
     e.stopImmediatePropagation();
+
     if (!constructorAreaForm || !constructorFreeDropZone) return;
     // const itemID = e.dataTransfer.getData("itemID");
     // const itemIndex = e.dataTransfer.getData("dataIndex");
     const itemID = dragged?.id || "";
     const itemIndex = dragged?.dataset?.index || null;
+    console.log(itemID, dragged?.id, dragged, "itemID");
     // console.log(e.target.id, "e.target.id");
     // console.log(itemIndex, "itemIndex");
     getDropMarker();

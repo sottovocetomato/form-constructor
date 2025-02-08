@@ -51,6 +51,7 @@ export const useFormBuilderState = (
   }
 
   function addToFormItems(itemID: string) {
+    if (!itemID) return;
     formItems.value.push({
       component: itemID,
       props: {},

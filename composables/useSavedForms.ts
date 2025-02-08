@@ -62,8 +62,7 @@ export const useSavedForms = () => {
   }
   function getLastFormId() {
     const savedForms = getSavedForms();
-    console.log(savedForms);
-    return savedForms?.[savedForms?.length - 1]?.id || 0;
+    return savedForms?.[savedForms?.length - 1]?.id ?? 0;
   }
 
   return {
