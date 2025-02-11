@@ -3,31 +3,29 @@ import { useFormBuilderState } from "@/composables/useFormBuilderState";
 export const useFormDrop = ({
   constructorAreaSelector = "",
   customMarkerSelector = "",
+  formId,
 }: {
-  constructorAreaSelector: string;
-  customMarkerSelector: string;
+  constructorAreaSelector?: string;
+  customMarkerSelector?: string;
+  formId: string | number;
 }) => {
   const dropMarkerSelector = customMarkerSelector || "drop-insert-marker";
-  let constructorFreeDropZone;
+  let constructorFreeDropZone: Element | HTMLElement | undefined | null;
 
-  let constructorAreaForm;
+  let constructorAreaForm: Element | HTMLElement | undefined | null;
 
   let dropMarker: HTMLElement | null = null;
+  let dragged: HTMLElement | null = null;
 
-  const { insertInFromItems, addToFormItems } = useFormBuilderState();
+  const { insertInFromItems, addToFormItems } = useFormBuilderState(formId);
 
   function setConstructorArea() {
     if (process.client) {
       constructorFreeDropZone = document.querySelector(constructorAreaSelector);
-      console.log(
-        constructorFreeDropZone,
-        constructorAreaSelector,
-        "setting constrArea"
-      );
+
       constructorAreaForm = document.querySelector(".constructor-area_form");
     }
   }
-  setConstructorArea();
 
   function getDropMarker() {
     if (process.client) {
@@ -55,12 +53,15 @@ export const useFormDrop = ({
       }
     }
   }
-  function onDrag(e): void {
+  function onDrag(e: DragEvent): void {
     // console.log(constructorFreeDropZone, "constructorArea");
     // console.log(e.target, "e.target onDrag");
     // console.log(e.clientX, "onDrag");
     // console.log(e.clientY, "onDrag");
-
+    if (!constructorAreaForm) {
+      setConstructorArea();
+    }
+    if (!constructorAreaForm?.getBoundingClientRect()) return;
     const { bottom, top, left, right } =
       constructorAreaForm?.getBoundingClientRect();
     const isOutOfBounds =
@@ -74,50 +75,68 @@ export const useFormDrop = ({
       removeDropMarker();
     }
   }
-  function startDrag(evt): void {
+  function startDrag(evt: DragEvent): void {
+    if (!evt.dataTransfer || !evt.target) return;
+
+    dragged = evt.target as HTMLElement;
     evt.dataTransfer.dropEffect = "move";
     evt.dataTransfer.effectAllowed = "move";
-    evt.dataTransfer.setData("itemID", evt.target?.id);
+    evt.dataTransfer.setData("itemID", dragged.id);
+    if (dragged.dataset?.index) {
+      evt.dataTransfer.setData("dataIndex", dragged.dataset?.index);
+    }
   }
-  function onDrop(e): void {
+  function onDrop(e: Event): void {
     e.stopImmediatePropagation();
-    const itemID = e.dataTransfer.getData("itemID");
-    console.log(e.target.id, "e.target.id");
+
+    if (!constructorAreaForm || !constructorFreeDropZone) return;
+    // const itemID = e.dataTransfer.getData("itemID");
+    // const itemIndex = e.dataTransfer.getData("dataIndex");
+    const itemID = dragged?.id || "";
+    const itemIndex = dragged?.dataset?.index || null;
+
+    // console.log(e.target.id, "e.target.id");
+    // console.log(itemIndex, "itemIndex");
     getDropMarker();
     const siblingElement = dropMarker?.nextElementSibling;
     if (siblingElement instanceof HTMLElement) {
-      const ind = siblingElement?.dataset?.index;
-      console.log(ind);
+      const ind =
+        siblingElement?.dataset?.index || constructorAreaForm.children.length;
       removeDropMarker();
-      insertInFromItems(ind, itemID);
+      insertInFromItems(ind, itemID, itemIndex);
+    } else if (itemIndex) {
+      const ind = constructorAreaForm.children.length;
+      removeDropMarker();
+      insertInFromItems(ind, itemID, itemIndex);
     } else {
       addToFormItems(itemID);
       constructorFreeDropZone.classList.remove("active");
     }
   }
-  function onConstructorAreaDragEnter(e): void {
+  function onConstructorAreaDragEnter(e: Event): void {
+    if (!(e.target instanceof HTMLElement)) return;
     getDropMarker();
     if (dropMarker) return;
     e.target.classList.add("active");
   }
 
-  function onConstructorAreaDragLeave(evt): void {
+  function onConstructorAreaDragLeave(evt: Event): void {
     // let prependZone = document.querySelector("#drop-insert-place");
     // if (prependZone) prependZone.remove();
-    evt.target.classList.remove("active");
+    (evt.target as HTMLElement).classList.remove("active");
   }
 
-  function onComponentDragEnter(e): void {
+  function onComponentDragEnter(e: Event): void {
     if (process.client) {
       e.preventDefault();
       getDropMarker();
       if (!dropMarker) {
         createDropMarker();
-        constructorFreeDropZone?.insertBefore(
-          dropMarker as HTMLElement,
-          e.target
-        );
       }
+      constructorFreeDropZone?.insertBefore(
+        dropMarker as HTMLElement,
+        e.target as HTMLElement
+      );
     }
   }
   // function onComponentDragLeave(e): void {
@@ -134,48 +153,55 @@ export const useFormDrop = ({
   //     prependZone.remove();
   //   }
   // }
-  function onComponentDragOver(e): void {
-    console.log(e.target, "onComponentDragOver");
+  function onComponentDragOver(e: DragEvent): void {
+    // console.log(e.target, "onComponentDragOver");
     e.preventDefault();
+    const itemID = dragged?.id || "";
+    const itemIndex = dragged?.dataset?.index || null;
+    const target = e.target as HTMLElement;
     //смотрим, куда прёт курсор: если ниже, отвязываем, если выше, то даём управление добавленному элементу
-    if (!e.target.classList.contains("constructor-area__component")) return;
+    if (!target.classList.contains("constructor-area__component")) return;
     if (process.client) {
       const checkDirectionVertical =
-        e.target.getBoundingClientRect().bottom -
-          e.target.getBoundingClientRect().height / 2 >
+        target.getBoundingClientRect().bottom -
+          target.getBoundingClientRect().height / 2 >
         e.clientY
           ? "up"
           : "down";
       const isOutHotizontally =
-        e.target.getBoundingClientRect().left > e.clientX ||
-        e.target.getBoundingClientRect().right < e.clientX;
+        target.getBoundingClientRect().left > e.clientX ||
+        target.getBoundingClientRect().right < e.clientX;
 
       // console.log(e.clientY);
-      console.log(e.target, "onComponentDragOver");
-      console.log(e.target.getBoundingClientRect());
-      console.log(e.clientX);
+      // console.log(e.target, "onComponentDragOver");
+      // console.log(e.target.getBoundingClientRect());
+      // console.log(e.clientX);
       getDropMarker();
-      console.log(dropMarker, "dropMarker");
+      // console.log(dropMarker, "dropMarker");
       if (!dropMarker) {
         createDropMarker();
       }
+
       if (isOutHotizontally) {
         removeDropMarker();
         return;
       }
       if (checkDirectionVertical === "down") {
-        console.log(e.target.nextElementSibling, "e.target.nextSibling");
+        // console.log(e.target.nextElementSibling, "e.target.nextSibling");
         if (
-          e.target.nextElementSibling &&
-          e.target.nextElementSibling.classList?.contains(
+          target.nextElementSibling &&
+          target.nextElementSibling.classList?.contains(
             "constructor-area__component"
-          )
+          ) &&
+          dropMarker
         ) {
           constructorAreaForm?.insertBefore(
             dropMarker,
-            e.target.nextElementSibling
+            target.nextElementSibling
           );
-        } else if (!e.target.nextElementSibling) {
+        } else if (itemIndex && !target.nextElementSibling) {
+          constructorAreaForm?.appendChild(dropMarker as HTMLElement);
+        } else if (!target.nextElementSibling) {
           removeDropMarker();
           constructorFreeDropZone?.classList.add("active");
         }
@@ -183,7 +209,7 @@ export const useFormDrop = ({
         if (constructorFreeDropZone?.classList.contains("active")) {
           constructorFreeDropZone?.classList.remove("active");
         }
-        constructorAreaForm?.insertBefore(dropMarker, e.target);
+        constructorAreaForm?.insertBefore(dropMarker as HTMLElement, target);
       }
     }
   }
@@ -195,5 +221,6 @@ export const useFormDrop = ({
     onConstructorAreaDragEnter,
     onConstructorAreaDragLeave,
     onDrag,
+    setConstructorArea,
   };
 };

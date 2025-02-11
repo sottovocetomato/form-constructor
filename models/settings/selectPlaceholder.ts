@@ -1,13 +1,17 @@
-const selectOptionModel = [
+import type { Field } from "@/types";
+
+const createSelectPlaceholder = ({ id }: { id: string | number }): Field[] => [
   {
     component: "BaseTextInput",
     props: {
-      id: `option-name`,
+      id: `option-name-${id}`,
+      "data-index": id,
       displayName: "",
       isHidden: false,
       required: false,
       type: "text",
-      placeholder: "Option Name",
+      label: "Placeholder",
+      placeholder: "Text that will be shown in select field by default...",
       selected: false,
     },
     sequenceNumber: 1,
@@ -17,9 +21,10 @@ const selectOptionModel = [
   {
     component: "BaseTextInput",
     props: {
-      id: `option-value`,
+      id: `option-value-${id}`,
+      "data-index": id,
       displayName: "",
-      isHidden: false,
+      isHidden: true,
       required: false,
       type: "text",
       placeholder: "Option Value",
@@ -28,31 +33,23 @@ const selectOptionModel = [
     sequenceNumber: 2,
     isGroup: true,
     fieldName: "value",
+    notNullable: true,
+    initialValue: "",
   },
   {
     component: "BaseCheckbox",
     props: {
-      id: "option-required-checkbox",
+      id: `option-disabled-checkbox-${id}`,
+      "data-index": id,
       displayName: "",
-      isHidden: false,
-      required: false,
-      label: "Required",
-    },
-    sequenceNumber: 3,
-    fieldName: "selected",
-  },
-  {
-    component: "BaseCheckbox",
-    props: {
-      id: "option-disabled-checkbox",
-      displayName: "",
-      isHidden: false,
+      isHidden: true,
       required: false,
       label: "Disabled",
     },
-    sequenceNumber: 4,
+    sequenceNumber: 3,
     fieldName: "disabled",
+    initialValue: true,
   },
 ];
 
-export default selectOptionModel;
+export default createSelectPlaceholder;

@@ -1,83 +1,195 @@
 <template>
-  <form :class="mainWrapClass" @submit.prevent>
-    <div
-      class=""
-      v-for="(field, index) in fieldsSet"
-      :key="`${field}-${index}`"
-      :data-index="index"
-    >
-      <component
-        v-if="field.isGroup"
-        v-for="groupField in field.groupFields"
-        :is="componentsMap[groupField?.component] || groupField?.component"
-        v-bind="groupField.props"
-        v-model="groupField.stateBlock[groupField.fieldName]"
-        @click="
-          groupField?.onClick ? groupField?.onClick(fieldsSet, $event) : null
-        "
-        >{{ groupField.innerText }}</component
-      >
-      <component
-        v-else-if="!field.isGroup && field?.component"
-        :is="componentsMap[field?.component] || field?.component"
-        v-bind="field.props"
-        v-model="field.stateBlock[field.fieldName]"
-        @click="field?.onClick ? field?.onClick(fieldsSet, $event) : null"
-        >{{ field.innerText }}</component
-      >
+  <form
+    :class="[mainWrapClass ? mainWrapClass : 'composed-form']"
+    @submit.prevent
+    v-if="fieldsSet?.length"
+  >
+    <div class="composed-form__content" ref="composedForm">
+      <dynamicComponent />
     </div>
-    <button type="submit" @click="onFormSubmit">Сохранить</button>
+    <div class="form-controls">
+      <button
+        v-if="!noDeleteBtn"
+        type="submit"
+        @click="onDelete"
+        class="btn-danger"
+      >
+        Delete
+      </button>
+      <button v-if="!noSubmitBtn" type="submit" @click="onFormSubmit">
+        Save
+      </button>
+    </div>
   </form>
 </template>
 
 <script setup lang="ts">
-import { DynamicFormProps } from "@/types/interfaces/props";
-import BaseTextInput from "../base/forms/BaseTextInput.vue";
-import BaseCheckbox from "../base/forms/BaseCheckbox.vue";
-import BaseSelect from "../base/forms/BaseSelect.vue";
-import BaseTextarea from "../base/forms/BaseTextarea.vue";
-import BaseDateInput from "../base/forms/BaseDateInput.vue";
+import type { DynamicFormProps } from "@/types/interfaces/props";
+import componentsMap from "@/models/components/componentsMap";
+import fieldEvents from "@/models/settings/fieldEvents";
+import { isArrayOfArrays } from "@/helpers";
+import type { FieldsState, Field } from "@/types";
+import type { Component, VNodeArrayChildren, VNode } from "@vue/runtime-core";
+import type { Ref } from "@vue/reactivity";
 
-import { ComponentsMap } from "@/types";
 const currentFormId = useId();
 
 const emit = defineEmits<{
-  formSubmit: [fieldsState?: {}[]];
-  "update:modelValue": [e?: Event];
+  formSubmit: [fieldsState: Ref, fieldsSet: Ref];
+  onDelete: [formId: string | number | null];
+  "update:modelValue": [e: Event];
 }>();
+const composedForm = ref<HTMLElement | null>(null);
+const validated = ref(false);
 
 const {
   fields = [],
   data = [],
   mainWrapClass = "",
   formId = null,
+  noSubmitBtn = false,
+  noDeleteBtn = false,
+  clearOnUnmount = false,
+  loadedState = undefined,
 } = defineProps<DynamicFormProps>();
 
-const { fieldsState, fieldsSet } = useDynamicForm(
-  fields,
-  formId ?? currentFormId
-);
+const {
+  fieldsState,
+  fieldsSet,
+  createStateFields,
+  setStateField,
+  clearFieldsSet,
+} = useDynamicForm(fields, formId ?? currentFormId, loadedState);
 
-console.log(fields, "fields");
+onBeforeUnmount(() => {
+  if (clearOnUnmount) {
+    clearFieldsSet();
+  }
+});
 
-console.log(fieldsState);
-console.log(fieldsSet, "fieldsSet");
-
-function logger() {
-  console.log(fieldsState, "logger");
-}
-function onFormSubmit() {
-  console.log(fieldsState, "fieldsState");
-  emit("formSubmit", fieldsState);
-}
-
-const componentsMap: ComponentsMap = {
-  BaseTextInput: BaseTextInput,
-  BaseTextarea: BaseTextarea,
-  BaseSelect: BaseSelect,
-  BaseDateInput: BaseDateInput,
-  BaseCheckbox: BaseCheckbox,
+const dynamicComponent = () => {
+  const fieldNodes = [];
+  if (!fieldsSet.value) return;
+  for (const field of fieldsSet.value) {
+    if (field?.displayByField?.field) {
+      const watchOnFieldVal = fieldsState.value[field?.displayByField?.field];
+      if (watchOnFieldVal != field?.displayByField?.showValue) continue;
+    }
+    if ("displayCondition" in field && !field.displayCondition) continue;
+    if (field?.isGroup) {
+      const nodes = dynamicFieldsRenderer(field.groupFields, []);
+      fieldNodes.push(h("div", { ...field.props }, nodes));
+    }
+    fieldNodes.push(createComponent(field));
+  }
+  return h("div", fieldNodes as VNodeArrayChildren);
 };
+
+function dynamicFieldsRenderer(
+  entryFields: Field[][] | Field[] = [],
+  nodes: VNode[] = []
+) {
+  const arrayOfArrays = isArrayOfArrays(entryFields);
+  if (arrayOfArrays) {
+    for (const fieldArr of entryFields) {
+      dynamicFieldsRenderer(fieldArr as Field[], nodes);
+    }
+  } else {
+    for (const field of entryFields as Field[]) {
+      let node;
+      if ("displayCondition" in field && !field.displayCondition) continue;
+      if (field?.groupFields) {
+        const nodes = dynamicFieldsRenderer(field.groupFields, []);
+
+        node = h("div", { ...field.props }, nodes);
+      } else {
+        node = createComponent(field);
+      }
+
+      if (node) {
+        nodes.push(node);
+      }
+    }
+  }
+  // console.log(nodes, "nodes");
+  return nodes;
+}
+
+function createComponent(field: Field): VNode | void {
+  if (!field) return;
+  if (field?.props?.isHidden || !field.component) return;
+  let stateBlock = fieldsState.value;
+  if (field?.stateBlock) {
+    stateBlock = field?.stateBlock?.split(".")?.reduce((p, n) => {
+      return p[n];
+    }, fieldsState.value);
+  }
+
+  const component: Record<string, any> = {
+    ...field.props,
+  };
+  if (field.fieldName) {
+    // console.log(stateBlock[field.fieldName], "stateBlock[field.fieldName]");
+    // console.log(field.fieldName, "field.fieldName");
+    // console.log(stateBlock, "stateBlock");
+    component.validated = validated.value;
+    component.modelValue = stateBlock[field.fieldName];
+    component["onUpdate:modelValue"] = (value: any) => {
+      stateBlock[field.fieldName!] = value;
+      emit("update:modelValue", value);
+    };
+  }
+  if (field?.onClick) {
+    const onClickFn = fieldEvents[field?.onClick?.eventName];
+    component.onClick = (e: Event) => {
+      onClickFn?.({
+        fields: fieldsSet.value,
+        fieldsState: { state: fieldsState.value, setStateField },
+        e,
+        ...field?.onClick?.params,
+      });
+      createStateFields();
+    };
+  }
+  if (field?.refreshFieldState) {
+    component.onClick = (e: Event) => {
+      createStateFields();
+    };
+  }
+  if (field?.onInput) {
+    const onInputFn = fieldEvents[field?.onInput?.eventName];
+    component.onInput = (e: Event) => {
+      onInputFn?.({
+        fields: fieldsSet.value,
+        fieldsState: { state: fieldsState.value, setStateField },
+        e,
+        ...field?.onInput?.params,
+      });
+      createStateFields();
+    };
+  }
+
+  return h(
+    componentsMap?.[field?.component] || field?.component,
+    { ...component },
+    field.innerText
+  );
+}
+
+function onFormSubmit() {
+  if (!composedForm.value) return;
+  validated.value = true;
+  nextTick(() => {
+    const hasInvalidFields = composedForm.value?.querySelector(
+      "[aria-invalid='true']"
+    );
+    if (!!hasInvalidFields) return;
+    emit("formSubmit", fieldsState, fieldsSet);
+  });
+}
+function onDelete() {
+  emit("onDelete", formId);
+}
 </script>
 
 <style scoped></style>

@@ -1,23 +1,60 @@
 <template>
   <div :class="customWrapClass">
-    <input v-bind="$attrs" v-model="model" :type="type" />
-    <small v-if="ariaInvalid" id="invalid-helper">Not valid input</small>
+    <label> {{ label }}<sup v-if="required"> * </sup> </label>
+    <input
+      v-bind="$attrs"
+      v-model="model"
+      :type="type"
+      :aria-invalid="ariaInvalid"
+    />
+
+    <small v-if="ariaInvalid" id="invalid-helper"
+      >Field {{ label }} shouldn't be empty</small
+    >
   </div>
 </template>
 
 <script setup lang="ts">
-import { DateInputProps } from "@/types/interfaces/props";
+import type { DateInputProps } from "@/types/interfaces/props";
+
 defineOptions({
   inheritAttrs: false,
 });
+const emit = defineEmits(["update:modelValue"]);
+const { today: currentDay } = useDate();
+
+const {
+  validated = false,
+  required = false,
+  customWrapClass = "",
+  label = "",
+  type = "date",
+  setToday = false,
+} = defineProps<DateInputProps>();
 
 const model = defineModel();
 
-const {
-  ariaInvalid = undefined,
-  customWrapClass = "",
-  type = "date",
-} = defineProps<DateInputProps>();
+const ariaInvalid = computed(
+  () => (validated && required && !model.value) || undefined
+);
+
+onMounted(() => {
+  if (setToday) {
+    model.value = currentDay;
+  }
+});
+
+watch(
+  () => setToday,
+  (newVal, oldVal) => {
+    if (!newVal) {
+      model.value = "";
+    } else {
+      model.value = currentDay;
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped></style>

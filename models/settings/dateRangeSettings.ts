@@ -1,55 +1,47 @@
-const textInputSettingsModel = [
+import type { Field } from "@/types";
+
+const createDateRangeModel = (): Field[] => [
   {
     component: "BaseTextInput",
     props: {
-      id: "placeholderInput",
+      id: "labelInput",
       displayName: "",
       isHidden: false,
-      required: false,
+      required: true,
       type: "text",
-      placeholder: "Placeholder",
+      label: "Label",
+      placeholder: "Type text for input label...",
     },
     sequenceNumber: 1,
-    fieldName: "placeholder",
+    fieldName: "label",
   },
   {
     component: "BaseTextInput",
     props: {
-      id: "IdInput",
+      id: "labelFromInput",
       displayName: "",
       isHidden: false,
       required: false,
       type: "text",
-      placeholder: "Input Id",
+      label: "Date from",
+      placeholder: "Label From",
     },
     sequenceNumber: 2,
-    fieldName: "id",
+    fieldName: "labelFrom",
   },
   {
     component: "BaseTextInput",
     props: {
-      id: "minLength",
+      id: "labelToInput",
       displayName: "",
       isHidden: false,
       required: false,
-      type: "number",
-      placeholder: "Min char length",
+      type: "text",
+      label: "Date to",
+      placeholder: "Label To",
     },
     sequenceNumber: 3,
-    fieldName: "min",
-  },
-  {
-    component: "BaseTextInput",
-    props: {
-      id: "maxLength",
-      displayName: "",
-      isHidden: false,
-      required: false,
-      type: "number",
-      placeholder: "Max char length",
-    },
-    sequenceNumber: 4,
-    fieldName: "max",
+    fieldName: "labelTo",
   },
 
   {
@@ -61,9 +53,10 @@ const textInputSettingsModel = [
       required: false,
       label: "Required",
     },
-    sequenceNumber: 5,
+    sequenceNumber: 4,
     fieldName: "required",
   },
+
   {
     component: "BaseCheckbox",
     props: {
@@ -73,9 +66,9 @@ const textInputSettingsModel = [
       required: false,
       label: "Disabled",
     },
-    sequenceNumber: 6,
+    sequenceNumber: 5,
     fieldName: "disabled",
   },
 ];
 
-export default textInputSettingsModel;
+export default createDateRangeModel;
