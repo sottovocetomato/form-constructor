@@ -33,7 +33,7 @@ const fieldEvents: { [index: string]: any } = {
       const target = e.target as HTMLElement;
       if (optionsGroup && optionsGroup.groupFields && target.dataset.index) {
         const removeAtIndex = +target.dataset.index - 1;
-        console.log(removeAtIndex, "removeAtIndex");
+
         optionsGroup.groupFields.splice(removeAtIndex, 1);
         const data = [...state[groupName]];
         data?.splice(removeAtIndex, 1);

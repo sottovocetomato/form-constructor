@@ -200,24 +200,18 @@ function openSidebar(e: Event) {
   toggleActive();
 }
 
-console.log(formItems, "formItems");
-
 function onFormSettingsSubmit(state: Ref, fieldsSet: Ref) {
   const fieldIndex = formItems?.value.findIndex(
     (e) => e.id == currentFieldId.value
   );
-  console.log(state.value, "state");
+
   const fieldItem = formItems.value[fieldIndex];
-  console.log(
-    formItems?.value[fieldIndex]?.props,
-    "formItems?.value[fieldIndex]?.props"
-  );
+
   fieldItem.props = {
     ...formItems?.value[fieldIndex]?.props,
     ...state.value,
   };
-  console.log(fieldItem.props, "fieldItem.props");
-  console.log(formItems.value, "formItems.value");
+
   fieldItem.fieldName =
     fieldItem?.props?.label ||
     fieldItem?.props?.placeholder ||
@@ -242,16 +236,23 @@ function onFormSave() {
   }
 
   const exists = checkFormExistsByName(name as string);
-  if (exists) {
-    alert("Form with this name already exists, please select different name!");
-    onFormSave();
+  try {
+    if (exists) {
+      alert(
+        "Form with this name already exists, please select different name!"
+      );
+      onFormSave();
+    }
+
+    setSavedForms({
+      id: formId.value,
+      name: name as string,
+      form: [...formItems.value],
+    });
+    alert("Form is saved!");
+  } catch (e) {
+    console.error(e);
   }
-  console.log(formId.value, "formId.value");
-  setSavedForms({
-    id: formId.value,
-    name: name as string,
-    form: [...formItems.value],
-  });
 }
 
 function onFormDelete() {

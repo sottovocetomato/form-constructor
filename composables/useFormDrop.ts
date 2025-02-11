@@ -22,11 +22,7 @@ export const useFormDrop = ({
   function setConstructorArea() {
     if (process.client) {
       constructorFreeDropZone = document.querySelector(constructorAreaSelector);
-      console.log(
-        constructorFreeDropZone,
-        constructorAreaSelector,
-        "setting constrArea"
-      );
+
       constructorAreaForm = document.querySelector(".constructor-area_form");
     }
   }
@@ -80,7 +76,6 @@ export const useFormDrop = ({
     }
   }
   function startDrag(evt: DragEvent): void {
-    console.log(evt.target, "evt.target");
     if (!evt.dataTransfer || !evt.target) return;
 
     dragged = evt.target as HTMLElement;
@@ -99,7 +94,7 @@ export const useFormDrop = ({
     // const itemIndex = e.dataTransfer.getData("dataIndex");
     const itemID = dragged?.id || "";
     const itemIndex = dragged?.dataset?.index || null;
-    console.log(itemID, dragged?.id, dragged, "itemID");
+
     // console.log(e.target.id, "e.target.id");
     // console.log(itemIndex, "itemIndex");
     getDropMarker();

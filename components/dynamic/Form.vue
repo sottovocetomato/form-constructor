@@ -100,7 +100,7 @@ function dynamicFieldsRenderer(
       if ("displayCondition" in field && !field.displayCondition) continue;
       if (field?.groupFields) {
         const nodes = dynamicFieldsRenderer(field.groupFields, []);
-        console.log(nodes, "nodes");
+
         node = h("div", { ...field.props }, nodes);
       } else {
         node = createComponent(field);
@@ -176,9 +176,6 @@ function createComponent(field: Field): VNode | void {
   );
 }
 
-function logger() {
-  console.log(fieldsState, "logger");
-}
 function onFormSubmit() {
   if (!composedForm.value) return;
   validated.value = true;

@@ -10,7 +10,6 @@ export const useDynamicForm = (
   loadedState?: FieldsState
 ) => {
   const fieldsSet = useState<Field[] | null>(`fieldsSet-${id}`);
-  console.log(fieldsSet, "fieldsSet");
   if (!fieldsSet.value) {
     fieldsSet.value = fields;
   }

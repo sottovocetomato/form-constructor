@@ -47,7 +47,6 @@ onMounted(() => {
 watch(
   () => setToday,
   (newVal, oldVal) => {
-    console.log(newVal, "watching");
     if (!newVal) {
       model.value = "";
     } else {

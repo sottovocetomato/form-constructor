@@ -23,15 +23,14 @@ const formId = computed(() => `${route?.params?.id}`);
 const formLoaded = ref(false);
 
 onMounted(() => {
-  console.log("mounted");
   const preSavedForm = getPresavedForm();
   currentForm.value = preSavedForm?.form;
-  console.log(currentForm.value, "currentForm.value");
   formLoaded.value = true;
 });
 
 function onFormSubmit(state: FieldsState) {
   console.log(state.value, "ON FORM SUBMIT");
+  alert("Form is validated and submitted!");
 }
 </script>
 

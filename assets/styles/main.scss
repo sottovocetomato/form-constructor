@@ -324,3 +324,9 @@ header {
     text-align: right;
   }
 }
+
+@media (max-width: 1280px) {
+  .constructor-area {
+    width: 55vw;
+  }
+}
