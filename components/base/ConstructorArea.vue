@@ -112,7 +112,13 @@
       </div>
     </div>
     <div class="form-controls">
-      <button @click="onFormPreview" class="secondary">Preview</button>
+      <button
+        @click="onFormPreview"
+        class="secondary"
+        :disabled="!formItems.length"
+      >
+        Preview
+      </button>
 
       <button @click="onFormSave">Save form</button>
       <button class="btn-danger" @click="onFormDelete" v-if="editMode">

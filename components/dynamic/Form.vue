@@ -181,7 +181,7 @@ function onFormSubmit() {
   validated.value = true;
   nextTick(() => {
     const hasInvalidFields = composedForm.value?.querySelector(
-      "input[aria-invalid='true']"
+      "[aria-invalid='true']"
     );
     if (!!hasInvalidFields) return;
     emit("formSubmit", fieldsState, fieldsSet);
